@@ -7,6 +7,9 @@ import org.gradle.api.tasks.*
 import org.gradle.process.ExecOperations
 import java.io.File
 import java.io.PrintWriter
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
 import java.util.*
 import javax.inject.Inject
 
@@ -61,6 +64,7 @@ abstract class ProjectGraphBuilder : DefaultTask() {
             templated = templated.replace("{{IMAGES}}", projects.map { project ->
                 """        <img id="project-graph-$project.png" src="project-graph-$project.png">"""
             }.joinToString("\n"))
+            templated = templated.replace("{{GENERATED}}", DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM).format(LocalDateTime.now()))
             File(outputDir, "index.html").writer().use {
                 it.write(templated)
             }

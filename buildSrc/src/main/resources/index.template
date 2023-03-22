@@ -20,6 +20,17 @@
             height: 90px
         }
 
+        .right {
+            display: block;
+            float: right;
+            line-height: calc(90px - 2em);
+            vertical-align: middle;
+        }
+
+        .right a {
+            color: white;
+        }
+
         .row {
             display: flex;
             height: calc(100% - 90px);
@@ -35,17 +46,20 @@
 
         li {
             list-style-type: none;
+            border-radius: 16px 3px;
             padding: 12px;
             font-size: 1.2em;
             width: 100%;
             cursor: pointer;
+            margin: 3px;
+            transition: background-color 0.5s ease;
         }
+
         li:hover {
             background-color: #ddd;
         }
 
         li.active {
-            display: inline-block;
             background-color: #4CAF50;
             color: white;
         }
@@ -65,6 +79,7 @@
 <body>
 <div class="header">
     <img src="https://micronaut.io/wp-content/uploads/2020/11/MIcronautLogo_Horizontal.svg">
+    <div class="right">Generated at {{GENERATED}} <a href="build-order.txt">view build order</a></div>
 </div>
 <div class="row">
     <nav>
