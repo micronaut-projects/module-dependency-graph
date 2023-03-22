@@ -7,6 +7,9 @@ import org.gradle.api.tasks.*
 import org.gradle.process.ExecOperations
 import java.io.File
 import java.io.PrintWriter
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
 import java.util.*
 import javax.inject.Inject
 
@@ -51,6 +54,22 @@ abstract class ProjectGraphBuilder : DefaultTask() {
             val dependencies = project.transitiveDeps(projectToDependencies)
             generateDependencyGraphImage(projectToDependencies.filterKeys { it in dependencies }, outputDir, "project-graph-$project")
         }
+
+        // Generate the HTML
+        this::class.java.getResourceAsStream("/index.template")?.bufferedReader()?.readText()?.apply {
+            val projects = projectToDependencies.keys.sorted()
+            var templated = replace("{{ITEMS}}", projects.map { project ->
+                """        <li class="item" onclick="showImage(this, 'project-graph-$project.png')">$project</li>"""
+            }.joinToString("\n"))
+            templated = templated.replace("{{IMAGES}}", projects.map { project ->
+                """        <img id="project-graph-$project.png" src="project-graph-$project.png">"""
+            }.joinToString("\n"))
+            templated = templated.replace("{{GENERATED}}", DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM).format(LocalDateTime.now()))
+            File(outputDir, "index.html").writer().use {
+                it.write(templated)
+            }
+        }
+
         // Now generate a text file describing in which order we should build the projects
         val buildOrderFile = File(outputDir, "build-order.txt")
         val warnings = mutableSetOf<String>()
