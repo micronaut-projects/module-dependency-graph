@@ -8,19 +8,23 @@
             padding: 0;
             font-family: Arial, Helvetica, sans-serif;
         }
+
         * {
             box-sizing: border-box;
         }
+
         .header {
             background-color: #333;
             color: white;
             padding: 1rem;
             height: 90px
         }
+
         .row {
             display: flex;
             height: calc(100% - 90px);
         }
+
         nav {
             flex: 0 100 auto;
             padding: 1rem;
@@ -28,7 +32,7 @@
             color: #EEE;
             overflow-y: scroll;
         }
-        /* Style for the list items */
+
         li {
             list-style-type: none;
             padding: 12px;
@@ -40,20 +44,17 @@
             background-color: #ddd;
         }
 
-        /* Style for the selected list item */
         li.active {
             display: inline-block;
             background-color: #4CAF50;
             color: white;
         }
 
-        /* Style for the image container */
         .image-container {
             flex: 1;
             padding: 1rem;
         }
 
-        /* Style for the image */
         img {
             margin: auto;
             max-width: 100%;
@@ -62,7 +63,6 @@
     </style>
 </head>
 <body>
-<!-- List on the left side -->
 <div class="header">
     <img src="https://micronaut.io/wp-content/uploads/2020/11/MIcronautLogo_Horizontal.svg">
 </div>
