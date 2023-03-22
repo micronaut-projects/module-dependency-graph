@@ -45,6 +45,12 @@ abstract class GenerateReport : DefaultTask() {
         } catch (e: Exception) {
             // We intentionally ignore the status of the build result
             System.err.println(e.message)
+            File(reportDirectory.asFile.get(), "ERROR").printWriter().use { out ->
+                out.println("---")
+                out.println(e.message)
+                e.printStackTrace(out)
+                out.println("---")
+            }
         }
     }
 }

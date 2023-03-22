@@ -90,6 +90,12 @@ abstract class ProjectGraphBuilder : DefaultTask() {
             if (aggregate.isNotEmpty()) {
                 writer.println("  - ${aggregate.joinToString(", ")}")
             }
+            val errors = collectErrors(reportsDir)
+            if (errors.isNotEmpty()) {
+                writer.println()
+                writer.println("--------------------------------------")
+                errors.forEach(writer::println)
+            }
         }
     }
 
@@ -108,6 +114,27 @@ abstract class ProjectGraphBuilder : DefaultTask() {
             }
         }
         return projectToDependencies
+    }
+
+    private fun collectErrors(reportsDir: File): MutableSet<String> {
+        val errors = mutableSetOf<String>()
+        reportsDir.listFiles().forEach { projectDir ->
+            var project: String? = null
+            var error: String? = null
+            projectDir.listFiles().forEach { dependencyFile ->
+                val dependencies = mutableSetOf<String>()
+                if (dependencyFile.name.endsWith(".txt")) {
+                    project = dependencyFile.name.substringBeforeLast(".txt").toProjectName()
+                } else if (dependencyFile.name == "ERROR") {
+                    error = dependencyFile.readText(charset("UTF-8"))
+                }
+            }
+            if (error != null && project != null) {
+                errors.add("""Project $project has an error: 
+                    |$error""".trimMargin())
+            }
+        }
+        return errors
     }
 
     private fun generateDependencyGraphImage(
