@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        * {
+            box-sizing: border-box;
+        }
+        .header {
+            background-color: #333;
+            color: white;
+            padding: 1rem;
+            height: 90px
+        }
+        .row {
+            display: flex;
+            height: calc(100% - 90px);
+        }
+        nav {
+            flex: 0 100 auto;
+            padding: 1rem;
+            background-color: #333;
+            color: #EEE;
+            overflow-y: scroll;
+        }
+        /* Style for the list items */
+        li {
+            list-style-type: none;
+            padding: 12px;
+            font-size: 1.2em;
+            width: 100%;
+            cursor: pointer;
+        }
+        li:hover {
+            background-color: #ddd;
+        }
+
+        /* Style for the selected list item */
+        li.active {
+            display: inline-block;
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        /* Style for the image container */
+        .image-container {
+            flex: 1;
+            padding: 1rem;
+        }
+
+        /* Style for the image */
+        img {
+            margin: auto;
+            max-width: 100%;
+            max-height: 100%;
+        }
+    </style>
+</head>
+<body>
+<!-- List on the left side -->
+<div class="header">
+    <img src="https://micronaut.io/wp-content/uploads/2020/11/MIcronautLogo_Horizontal.svg">
+</div>
+<div class="row">
+    <nav>
+        <li class="item" onclick="showImage(this, 'project-graph.png')">project-graph</li>
+{{ITEMS}}
+    </nav>
+    <div class="image-container">
+        <img id="project-graph.png" src="project-graph.png">
+{{IMAGES}}
+    </div>
+</div>
+<script>
+    function showImage(clicked, imageId) {
+        Array.from(document.getElementsByClassName("item")).forEach(i => i.className = "item");
+        clicked.className += " active";
+        var images = Array.from(document.getElementsByClassName("image-container")[0].getElementsByTagName("img")).forEach(i => i.style.display = "none");
+        document.getElementById(imageId).style.display = "block";
+    }
+    showImage(document.getElementsByClassName("item")[0], "project-graph.png");
+</script>
+</body>
+</html>
