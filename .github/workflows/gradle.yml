@@ -37,7 +37,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
             name: report
-            paths:
-              - build/graph/build-order.txt
-              - build/graph/dependency-graph.png
-              - build/graph/dependency-graph-filtered.png
+            path: |
+              build/graph/build-order.txt
+              build/graph/dependency-graph.png
+              build/graph/dependency-graph-filtered.png
