@@ -1,0 +1,84 @@
+import org.gradle.api.services.BuildService
+import org.gradle.api.services.BuildServiceParameters
+
+initscript {
+    repositories {
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+        mavenCentral()
+    }
+    dependencies {
+        classpath "org.apache.groovy:groovy-xml:4.0.10"
+        classpath "org.apache.groovy:groovy-json:4.0.10"
+    }
+}
+
+rootProject {
+    def collectingService = gradle.sharedServices.registerIfAbsent("micronautDependenciesService", MicronautDependenciesService) {
+        it.getParameters().getOutputDir().set(file(providers.systemProperty("reportDir").get()))
+    }
+    allprojects {
+        pluginManager.withPlugin('maven-publish') {
+            tasks.register("extractMicronautDependencies", ExtractMicronautDependencies) { t ->
+                service.set(collectingService)
+                usesService(collectingService)
+                groupId = providers.gradleProperty("projectGroup").orElse(providers.provider { String.valueOf(project.group) })
+                ['apiElements', 'runtimeElements'].each {
+                    def conf = configurations.findByName(it)
+                    if (conf != null) {
+                        t.dependencies.addAll(providers.provider {
+                            conf.allDependencies.findAll { it instanceof ExternalModuleDependency }
+                                    .collect { (ExternalModuleDependency) it }
+                                    .findAll { it.group.startsWith('io.micronaut') }
+                                    .collect { "${it.group}".toString() }
+                        })
+                    }
+                }
+            }
+        }
+    }
+}
+
+abstract class ExtractMicronautDependencies extends DefaultTask {
+    @Input
+    abstract Property<String> getGroupId()
+
+    @Input
+    abstract SetProperty<String> getDependencies()
+
+    @Input
+    abstract Property<MicronautDependenciesService> getService()
+
+    @TaskAction
+    void extract() {
+        service.get().groupId.set(groupId.get())
+        service.get().addDependencies(dependencies.get())
+    }
+}
+
+abstract class MicronautDependenciesService implements BuildService<Params>, AutoCloseable {
+    interface Params extends BuildServiceParameters {
+        DirectoryProperty getOutputDir()
+    }
+
+    abstract SetProperty<String> getDependencies()
+
+    abstract Property<String> getGroupId()
+
+    void addDependencies(Set<String> dependencies) {
+        this.dependencies.addAll(dependencies)
+    }
+
+    void close() {
+        def outputFile = new File(parameters.outputDir.asFile.get(), groupId.get() + ".txt")
+        outputFile.withWriter("UTF-8") { writer ->
+            dependencies.get()
+                .sort()
+                .each {
+                    writer.println(it)
+                }
+            }
+        println("Found ${dependencies.get().size()} Micronaut dependencies. Wrote report at ${outputFile}")
+    }
+}
