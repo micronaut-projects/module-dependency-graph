@@ -6,6 +6,7 @@ import org.gradle.api.provider.SetProperty
 import org.gradle.api.tasks.*
 import org.gradle.process.ExecOperations
 import java.io.File
+import java.io.PrintWriter
 import java.util.*
 import javax.inject.Inject
 
@@ -45,6 +46,11 @@ abstract class ProjectGraphBuilder : DefaultTask() {
             }
             .toMap()
         generateDependencyGraphImage(filteredProjectToDependencies, outputDir, "project-graph-filtered")
+        // and generate one graph per project with just their transitive dependencies
+        projectToDependencies.keys.forEach { project ->
+            val dependencies = project.transitiveDeps(projectToDependencies)
+            generateDependencyGraphImage(projectToDependencies.filterKeys { it in dependencies }, outputDir, "project-graph-$project")
+        }
         // Now generate a text file describing in which order we should build the projects
         val buildOrderFile = File(outputDir, "build-order.txt")
         val warnings = mutableSetOf<String>()
@@ -74,28 +80,36 @@ abstract class ProjectGraphBuilder : DefaultTask() {
                 System.err.println(it)
                 writer.println(it)
             }
-            writer.println("Projects should be buildable in the following order, if tests are not executed:")
-            val aggregate = mutableListOf<String>()
-            projects.forEach { project ->
-                if (aggregate.isEmpty()) {
-                    aggregate.add(project)
-                } else if (aggregate.all { comparator(it, project) == 0 }) {
-                    aggregate.add(project)
-                } else {
-                    writer.println("  - ${aggregate.joinToString(", ")}")
-                    aggregate.clear()
-                    aggregate.add(project)
-                }
-            }
-            if (aggregate.isNotEmpty()) {
+            writeBuildOrderFile(writer, projects, comparator)
+            writeBuildErrors(reportsDir, writer)
+        }
+    }
+
+    private fun writeBuildErrors(reportsDir: File, writer: PrintWriter) {
+        val errors = collectErrors(reportsDir)
+        if (errors.isNotEmpty()) {
+            writer.println()
+            writer.println("--------------------------------------")
+            errors.forEach(writer::println)
+        }
+    }
+
+    private fun writeBuildOrderFile(writer: PrintWriter, projects: List<String>, comparator: (o1: String, o2: String) -> Int) {
+        writer.println("Projects should be buildable in the following order, if tests are not executed:")
+        val aggregate = mutableListOf<String>()
+        projects.forEach { project ->
+            if (aggregate.isEmpty()) {
+                aggregate.add(project)
+            } else if (aggregate.all { comparator(it, project) == 0 }) {
+                aggregate.add(project)
+            } else {
                 writer.println("  - ${aggregate.joinToString(", ")}")
+                aggregate.clear()
+                aggregate.add(project)
             }
-            val errors = collectErrors(reportsDir)
-            if (errors.isNotEmpty()) {
-                writer.println()
-                writer.println("--------------------------------------")
-                errors.forEach(writer::println)
-            }
+        }
+        if (aggregate.isNotEmpty()) {
+            writer.println("  - ${aggregate.joinToString(", ")}")
         }
     }
 

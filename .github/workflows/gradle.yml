@@ -43,5 +43,4 @@ jobs:
             name: report
             path: |
               build/graph/build-order.txt
-              build/graph/project-graph.png
-              build/graph/project-graph-filtered.png
+              build/graph/*.png
