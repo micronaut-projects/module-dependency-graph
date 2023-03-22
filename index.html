@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        .header {
+            background-color: #333;
+            color: white;
+            padding: 1rem;
+            height: 90px
+        }
+
+        .right {
+            display: block;
+            float: right;
+            line-height: calc(90px - 2em);
+            vertical-align: middle;
+        }
+
+        .right a {
+            color: white;
+        }
+
+        .row {
+            display: flex;
+            height: calc(100% - 90px);
+        }
+
+        nav {
+            flex: 0 100 auto;
+            padding: 1rem;
+            background-color: #333;
+            color: #EEE;
+            overflow-y: scroll;
+        }
+
+        li {
+            list-style-type: none;
+            border-radius: 16px 3px;
+            padding: 12px;
+            font-size: 1.2em;
+            width: 100%;
+            cursor: pointer;
+            margin: 3px;
+            transition: background-color 0.5s ease;
+        }
+
+        li:hover {
+            background-color: #ddd;
+        }
+
+        li.active {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .image-container {
+            flex: 1;
+            padding: 1rem;
+        }
+
+        img {
+            margin: auto;
+            max-width: 100%;
+            max-height: 100%;
+        }
+    </style>
+</head>
+<body>
+<div class="header">
+    <img src="https://micronaut.io/wp-content/uploads/2020/11/MIcronautLogo_Horizontal.svg">
+    <div class="right">Generated at Mar 22, 2023, 11:33:02 PM <a href="build-order.txt">view build order</a></div>
+</div>
+<div class="row">
+    <nav>
+        <li class="item" onclick="showImage(this, 'project-graph.png')">project-graph</li>
+        <li class="item" onclick="showImage(this, 'project-graph-acme.png')">acme</li>
+        <li class="item" onclick="showImage(this, 'project-graph-aot.png')">aot</li>
+        <li class="item" onclick="showImage(this, 'project-graph-aws.png')">aws</li>
+        <li class="item" onclick="showImage(this, 'project-graph-azure.png')">azure</li>
+        <li class="item" onclick="showImage(this, 'project-graph-beanvalidation.png')">beanvalidation</li>
+        <li class="item" onclick="showImage(this, 'project-graph-build.png')">build</li>
+        <li class="item" onclick="showImage(this, 'project-graph-cache.png')">cache</li>
+        <li class="item" onclick="showImage(this, 'project-graph-cassandra.png')">cassandra</li>
+        <li class="item" onclick="showImage(this, 'project-graph-coherence.png')">coherence</li>
+        <li class="item" onclick="showImage(this, 'project-graph-core.png')">core</li>
+        <li class="item" onclick="showImage(this, 'project-graph-data.png')">data</li>
+        <li class="item" onclick="showImage(this, 'project-graph-discovery.png')">discovery</li>
+        <li class="item" onclick="showImage(this, 'project-graph-elasticsearch.png')">elasticsearch</li>
+        <li class="item" onclick="showImage(this, 'project-graph-gcp.png')">gcp</li>
+        <li class="item" onclick="showImage(this, 'project-graph-gradle.png')">gradle</li>
+        <li class="item" onclick="showImage(this, 'project-graph-graphql.png')">graphql</li>
+        <li class="item" onclick="showImage(this, 'project-graph-groovy.png')">groovy</li>
+        <li class="item" onclick="showImage(this, 'project-graph-grpc.png')">grpc</li>
+        <li class="item" onclick="showImage(this, 'project-graph-jms.png')">jms</li>
+        <li class="item" onclick="showImage(this, 'project-graph-jmx.png')">jmx</li>
+        <li class="item" onclick="showImage(this, 'project-graph-kafka.png')">kafka</li>
+        <li class="item" onclick="showImage(this, 'project-graph-kotlin.png')">kotlin</li>
+        <li class="item" onclick="showImage(this, 'project-graph-kubernetes.png')">kubernetes</li>
+        <li class="item" onclick="showImage(this, 'project-graph-liquibase.png')">liquibase</li>
+        <li class="item" onclick="showImage(this, 'project-graph-micrometer.png')">micrometer</li>
+        <li class="item" onclick="showImage(this, 'project-graph-mongodb.png')">mongodb</li>
+        <li class="item" onclick="showImage(this, 'project-graph-multitenancy.png')">multitenancy</li>
+        <li class="item" onclick="showImage(this, 'project-graph-nats.png')">nats</li>
+        <li class="item" onclick="showImage(this, 'project-graph-neo4j.png')">neo4j</li>
+        <li class="item" onclick="showImage(this, 'project-graph-openapi.png')">openapi</li>
+        <li class="item" onclick="showImage(this, 'project-graph-oraclecloud.png')">oraclecloud</li>
+        <li class="item" onclick="showImage(this, 'project-graph-picocli.png')">picocli</li>
+        <li class="item" onclick="showImage(this, 'project-graph-platform.png')">platform</li>
+        <li class="item" onclick="showImage(this, 'project-graph-problem.png')">problem</li>
+        <li class="item" onclick="showImage(this, 'project-graph-pulsar.png')">pulsar</li>
+        <li class="item" onclick="showImage(this, 'project-graph-rabbitmq.png')">rabbitmq</li>
+        <li class="item" onclick="showImage(this, 'project-graph-reactor.png')">reactor</li>
+        <li class="item" onclick="showImage(this, 'project-graph-redis.png')">redis</li>
+        <li class="item" onclick="showImage(this, 'project-graph-rss.png')">rss</li>
+        <li class="item" onclick="showImage(this, 'project-graph-rxjava2.png')">rxjava2</li>
+        <li class="item" onclick="showImage(this, 'project-graph-rxjava3.png')">rxjava3</li>
+        <li class="item" onclick="showImage(this, 'project-graph-security.png')">security</li>
+        <li class="item" onclick="showImage(this, 'project-graph-serde.png')">serde</li>
+        <li class="item" onclick="showImage(this, 'project-graph-servlet.png')">servlet</li>
+        <li class="item" onclick="showImage(this, 'project-graph-spring.png')">spring</li>
+        <li class="item" onclick="showImage(this, 'project-graph-sql.png')">sql</li>
+        <li class="item" onclick="showImage(this, 'project-graph-test.png')">test</li>
+        <li class="item" onclick="showImage(this, 'project-graph-testresources.png')">testresources</li>
+        <li class="item" onclick="showImage(this, 'project-graph-toml.png')">toml</li>
+        <li class="item" onclick="showImage(this, 'project-graph-validation.png')">validation</li>
+        <li class="item" onclick="showImage(this, 'project-graph-views.png')">views</li>
+        <li class="item" onclick="showImage(this, 'project-graph-xml.png')">xml</li>
+    </nav>
+    <div class="image-container">
+        <img id="project-graph.png" src="project-graph.png">
+        <img id="project-graph-acme.png" src="project-graph-acme.png">
+        <img id="project-graph-aot.png" src="project-graph-aot.png">
+        <img id="project-graph-aws.png" src="project-graph-aws.png">
+        <img id="project-graph-azure.png" src="project-graph-azure.png">
+        <img id="project-graph-beanvalidation.png" src="project-graph-beanvalidation.png">
+        <img id="project-graph-build.png" src="project-graph-build.png">
+        <img id="project-graph-cache.png" src="project-graph-cache.png">
+        <img id="project-graph-cassandra.png" src="project-graph-cassandra.png">
+        <img id="project-graph-coherence.png" src="project-graph-coherence.png">
+        <img id="project-graph-core.png" src="project-graph-core.png">
+        <img id="project-graph-data.png" src="project-graph-data.png">
+        <img id="project-graph-discovery.png" src="project-graph-discovery.png">
+        <img id="project-graph-elasticsearch.png" src="project-graph-elasticsearch.png">
+        <img id="project-graph-gcp.png" src="project-graph-gcp.png">
+        <img id="project-graph-gradle.png" src="project-graph-gradle.png">
+        <img id="project-graph-graphql.png" src="project-graph-graphql.png">
+        <img id="project-graph-groovy.png" src="project-graph-groovy.png">
+        <img id="project-graph-grpc.png" src="project-graph-grpc.png">
+        <img id="project-graph-jms.png" src="project-graph-jms.png">
+        <img id="project-graph-jmx.png" src="project-graph-jmx.png">
+        <img id="project-graph-kafka.png" src="project-graph-kafka.png">
+        <img id="project-graph-kotlin.png" src="project-graph-kotlin.png">
+        <img id="project-graph-kubernetes.png" src="project-graph-kubernetes.png">
+        <img id="project-graph-liquibase.png" src="project-graph-liquibase.png">
+        <img id="project-graph-micrometer.png" src="project-graph-micrometer.png">
+        <img id="project-graph-mongodb.png" src="project-graph-mongodb.png">
+        <img id="project-graph-multitenancy.png" src="project-graph-multitenancy.png">
+        <img id="project-graph-nats.png" src="project-graph-nats.png">
+        <img id="project-graph-neo4j.png" src="project-graph-neo4j.png">
+        <img id="project-graph-openapi.png" src="project-graph-openapi.png">
+        <img id="project-graph-oraclecloud.png" src="project-graph-oraclecloud.png">
+        <img id="project-graph-picocli.png" src="project-graph-picocli.png">
+        <img id="project-graph-platform.png" src="project-graph-platform.png">
+        <img id="project-graph-problem.png" src="project-graph-problem.png">
+        <img id="project-graph-pulsar.png" src="project-graph-pulsar.png">
+        <img id="project-graph-rabbitmq.png" src="project-graph-rabbitmq.png">
+        <img id="project-graph-reactor.png" src="project-graph-reactor.png">
+        <img id="project-graph-redis.png" src="project-graph-redis.png">
+        <img id="project-graph-rss.png" src="project-graph-rss.png">
+        <img id="project-graph-rxjava2.png" src="project-graph-rxjava2.png">
+        <img id="project-graph-rxjava3.png" src="project-graph-rxjava3.png">
+        <img id="project-graph-security.png" src="project-graph-security.png">
+        <img id="project-graph-serde.png" src="project-graph-serde.png">
+        <img id="project-graph-servlet.png" src="project-graph-servlet.png">
+        <img id="project-graph-spring.png" src="project-graph-spring.png">
+        <img id="project-graph-sql.png" src="project-graph-sql.png">
+        <img id="project-graph-test.png" src="project-graph-test.png">
+        <img id="project-graph-testresources.png" src="project-graph-testresources.png">
+        <img id="project-graph-toml.png" src="project-graph-toml.png">
+        <img id="project-graph-validation.png" src="project-graph-validation.png">
+        <img id="project-graph-views.png" src="project-graph-views.png">
+        <img id="project-graph-xml.png" src="project-graph-xml.png">
+    </div>
+</div>
+<script>
+    function showImage(clicked, imageId) {
+        Array.from(document.getElementsByClassName("item")).forEach(i => i.className = "item");
+        clicked.className += " active";
+        var images = Array.from(document.getElementsByClassName("image-container")[0].getElementsByTagName("img")).forEach(i => i.style.display = "none");
+        document.getElementById(imageId).style.display = "block";
+    }
+    showImage(document.getElementsByClassName("item")[0], "project-graph.png");
+</script>
+</body>
+</html>
