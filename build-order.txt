@@ -1,20 +1,37 @@
-[WARNING] The following modules are not included in the platform: [logging, acme, pulsar, xml, rabbitmq, jms, jmx]
+[WARNING] The following modules are not included in the platform: [logging, acme, pulsar, xml, rabbitmq, chatbots, jms, jmx]
 [WARNING] Circular dependency between platform and testresources
+[WARNING] Circular dependency between objectstorage and platform
 [WARNING] Circular dependency between sql and data
+[WARNING] Circular dependency between starter and testresources
+[WARNING] Circular dependency between starter and objectstorage
+[WARNING] Circular dependency between aws and tracing
+[WARNING] Circular dependency between gcp and aws
+[WARNING] Circular dependency between email and gcp
+[WARNING] Circular dependency between starter and email
+[WARNING] Circular dependency between email and objectstorage
+[WARNING] Circular dependency between gcp and objectstorage
+[WARNING] Circular dependency between aws and objectstorage
+[WARNING] Circular dependency between tracing and objectstorage
 Projects should be buildable in the following order, if tests are not executed:
-  - logging, core, build
+  - logging, core
   - toml, elasticsearch, test, groovy, rxjava2, openapi, aot, xml, graphql, crac, kafka, cassandra, reactor, picocli, serde, grpc, rxjava3, views, jmx, micrometer
   - rabbitmq, servlet, validation, kotlin
-  - nats, multitenancy, acme, cache, neo4j, discovery, rss, azure, beanvalidation
+  - nats, multitenancy, acme, cache, neo4j, discovery, rss, r2dbc, azure, beanvalidation
   - mongodb, redis, session, problem, spring, kubernetes
-  - pulsar
+  - pulsar, microstream
   - oraclecloud
-  - security, aws, gcp
-  - jms
+  - security
+  - jaxrs
   - data
   - sql
-  - liquibase
-  - objectstorage, coherence
+  - flyway, liquibase
+  - coherence
   - testresources
   - platform
-  - gradle
+  - objectstorage
+  - tracing
+  - aws
+  - gcp
+  - email
+  - starter
+  - chatbots, jms, gradle
