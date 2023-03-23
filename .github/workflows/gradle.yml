@@ -44,7 +44,10 @@ jobs:
               }
             }
           }' --template '{{range .data.search.nodes}}{{.name}}{{"@"}}{{.defaultBranchRef.name}}{{","}}{{end}}')
+          echo "Fetched modules: $MODULES"
           echo "MICRONAUT_MODULES=$MODULES" >> $GITHUB_OUTPUT
+        env:
+          GH_TOKEN: ${{ github.token }}
 
       - name: Execute Gradle build
         run: ./gradlew allReports graphBuilder
