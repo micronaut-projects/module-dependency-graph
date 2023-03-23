@@ -14,7 +14,7 @@ Projects should be buildable in the following order, if tests are not executed:
   - data
   - sql
   - liquibase
-  - coherence
+  - objectstorage, coherence
   - testresources
   - platform
   - gradle
