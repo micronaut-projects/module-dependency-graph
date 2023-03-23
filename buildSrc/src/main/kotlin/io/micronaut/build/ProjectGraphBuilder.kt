@@ -39,25 +39,25 @@ abstract class ProjectGraphBuilder : DefaultTask() {
         // it depends on.
         // 2. We build the dependency graph by reconciling the dependencies of each
         // project with the dependencies of the projects it depends on.
-        val projectToDependencies = buildProjectDependenciesMap(reportsDir)
+        val projectToMetadata = buildProjectMetadataMap(reportsDir)
         // Build a first graph will all modules
-        generateDependencyGraphImage(projectToDependencies, outputDir, "project-graph")
+        generateDependencyGraphImage(projectToMetadata, outputDir, "project-graph")
         // And a second one filtering out "core"
-        val filteredProjectToDependencies = projectToDependencies.filterKeys { it != "core" }
-            .mapValuesTo(mutableMapOf()) { (_, dependencies) ->
-                dependencies.filter { it != "core" }.toMutableSet()
+        val filteredProjectToDependencies = projectToMetadata.filterKeys { it != "core" }
+            .mapValuesTo(mutableMapOf()) { (_, metadata) ->
+                metadata.copy(dependencies = metadata.dependencies.filter { it != "core" }.toList())
             }
             .toMap()
         generateDependencyGraphImage(filteredProjectToDependencies, outputDir, "project-graph-filtered")
         // and generate one graph per project with just their transitive dependencies
-        projectToDependencies.keys.forEach { project ->
-            val dependencies = project.transitiveDeps(projectToDependencies)
-            generateDependencyGraphImage(projectToDependencies.filterKeys { it in dependencies }, outputDir, "project-graph-$project")
+        projectToMetadata.keys.forEach { project ->
+            val dependencies = project.transitiveDeps(projectToMetadata)
+            generateDependencyGraphImage(projectToMetadata.filterKeys { it in dependencies }, outputDir, "project-graph-$project")
         }
 
         // Generate the HTML
         this::class.java.getResourceAsStream("/index.template")?.bufferedReader()?.readText()?.apply {
-            val projects = projectToDependencies.keys.sorted()
+            val projects = projectToMetadata.keys.sorted()
             var templated = replace("{{ITEMS}}", projects.map { project ->
                 """        <li class="item" onclick="showImage(this, 'project-graph-$project.png')">$project</li>"""
             }.joinToString("\n"))
@@ -73,16 +73,16 @@ abstract class ProjectGraphBuilder : DefaultTask() {
         // Now generate a text file describing in which order we should build the projects
         val buildOrderFile = File(outputDir, "build-order.txt")
         val warnings = mutableSetOf<String>()
-        val platformDependencies = "platform".transitiveDeps(projectToDependencies)
-        val allModules = projectToDependencies.keys - "platform" - projectsExcludedFromPlatform.getOrElse(Collections.emptySet())
+        val platformDependencies = "platform".transitiveDeps(projectToMetadata)
+        val allModules = projectToMetadata.keys - "platform" - projectsExcludedFromPlatform.getOrElse(Collections.emptySet())
         val missingPlatformDependencies = allModules.filter { it !in platformDependencies }
         if (missingPlatformDependencies.isNotEmpty()) {
             warnings.add("[WARNING] The following modules are not included in the platform: $missingPlatformDependencies")
         }
         val cycles = mutableSetOf<Pair<String, String>>()
         val comparator: (o1: String, o2: String) -> Int = { p1, p2 ->
-            val deps1 = p1.transitiveDeps(projectToDependencies)
-            val deps2 = p2.transitiveDeps(projectToDependencies)
+            val deps1 = p1.transitiveDeps(projectToMetadata)
+            val deps2 = p2.transitiveDeps(projectToMetadata)
             if (deps1.contains(p2) && deps2.contains(p1)) {
                 warnings.add("[WARNING] Circular dependency between $p1 and $p2")
                 cycles.add(Pair(p1, p2))
@@ -96,14 +96,14 @@ abstract class ProjectGraphBuilder : DefaultTask() {
             }
         }
         buildOrderFile.printWriter(charset("UTF-8")).use { txtWriter ->
-            val projects = projectToDependencies.keys.sortedWith(comparator)
+            val projects = projectToMetadata.keys.sortedWith(comparator)
             warnings.forEach {
                 System.err.println(it)
                 txtWriter.println(it)
             }
             File(temporaryDir, "build-order-graph.dot").also {
                 it.printWriter(charset("UTF-8")).use { dotWriter ->
-                    writeBuildOrder(txtWriter, dotWriter, projects, comparator, cycles)
+                    writeBuildOrder(txtWriter, dotWriter, projects, comparator, cycles, projectToMetadata)
                 }
                 invokeGraphviz(outputDir, "build-order", it)
 //                it.delete()
@@ -126,14 +126,15 @@ abstract class ProjectGraphBuilder : DefaultTask() {
         dotFile: PrintWriter,
         projects: List<String>,
         comparator: (o1: String, o2: String) -> Int,
-        cycles: Set<Pair<String, String>>
+        cycles: Set<Pair<String, String>>,
+        projectToMetadata: MutableMap<String, ModuleMetadata>
     ) {
         textFile.println("Projects should be buildable in the following order, if tests are not executed:")
         dotFile.println("digraph build_order {")
         dotFile.println("  compound=true;")
         dotFile.println("  label = \"Projects should be buildable in the following order, if tests are not executed\";")
         dotFile.println("  labelloc = \"t\";")
-        dotFile.println("  node [fontsize=14 fontname=\"Verdana\"];")
+        dotFile.println("  node [fontsize=14 fontname=\"Verdana\" style=filled shape=box];")
         val cluster = mutableListOf<String>()
         var previous: String? = null
         var previousNode: String? = null
@@ -143,7 +144,7 @@ abstract class ProjectGraphBuilder : DefaultTask() {
             } else if (cluster.all { comparator(it, project) == 0 }) {
                 cluster.add(project)
             } else {
-                val id = writeCluster(cluster, dotFile)
+                val id = writeCluster(cluster, dotFile, projectToMetadata)
                 val middle = cluster[cluster.size / 2]
                 if (previous != null) {
                     val head = if (id.startsWith("cluster_")) "lhead=$id" else ""
@@ -160,7 +161,7 @@ abstract class ProjectGraphBuilder : DefaultTask() {
             }
         }
         if (cluster.isNotEmpty()) {
-            val id = writeCluster(cluster, dotFile)
+            val id = writeCluster(cluster, dotFile, projectToMetadata)
             val middle = cluster[cluster.size / 2]
             if (previous != null) {
                 val head = if (id.startsWith("cluster_")) "lhead=$id" else ""
@@ -178,38 +179,64 @@ abstract class ProjectGraphBuilder : DefaultTask() {
         dotFile.println("}")
     }
 
-    private fun writeCluster(cluster: MutableList<String>, dotFile: PrintWriter): String {
+    private fun writeCluster(cluster: MutableList<String>, dotFile: PrintWriter, projectToMetadata: MutableMap<String, ModuleMetadata>): String {
         val id: String
         if (cluster.size > 1) {
             id = "cluster_${cluster.first()}"
             dotFile.println("  subgraph $id {")
-            dotFile.println("    label = \"\"")
-            cluster.forEach { dotFile.println("    \"$it\";") }
+            dotFile.println("    label = \"\";")
+            cluster.forEach {
+                val moduleMetadata = projectToMetadata[it]
+                val color = moduleMetadata.color()
+                dotFile.println("    \"$it\" [style=filled fillcolor=$color label=<${moduleMetadata?.asHtml()}>];")
+            }
             dotFile.println("    color=blue;")
             dotFile.println("  }")
         } else {
             id = cluster.first()
-            dotFile.println("  \"${id}\";")
+            val moduleMetadata = projectToMetadata[id]
+            val color = moduleMetadata.color()
+            dotFile.println("    \"$id\" [style=filled fillcolor=$color label=<${moduleMetadata?.asHtml()}>];")
         }
         return id
     }
 
-    private fun buildProjectDependenciesMap(reportsDir: File): MutableMap<String, MutableSet<String>> {
-        val projectToDependencies = mutableMapOf<String, MutableSet<String>>()
+    private fun ModuleMetadata?.color() = when (this?.status) {
+        "SNAPSHOT" -> "white"
+        "RELEASE" -> "aquamarine"
+        else -> "aquamarine2"
+    }
+
+    private fun buildProjectMetadataMap(reportsDir: File): MutableMap<String, ModuleMetadata> {
+        val projectToMetadata = mutableMapOf<String, ModuleMetadata>()
         reportsDir.listFiles().forEach { projectDir ->
-            println("Processing ${projectDir.name}")
             projectDir.listFiles().forEach { dependencyFile ->
-                val dependencies = mutableSetOf<String>()
-                if (dependencyFile.name.endsWith(".txt")) {
-                    val groupId = dependencyFile.name.substringBeforeLast(".txt").toProjectName()
-                    dependencyFile.readLines(charset("UTF-8")).forEach { dependency ->
+                if (dependencyFile.name.endsWith(".properties")) {
+                    val dependencies = mutableSetOf<String>()
+                    val props = Properties()
+                    dependencyFile.inputStream().use { props.load(it) }
+                    val groupId = props.get("groupId").toString()
+                    val name = groupId.toProjectName()
+                    props.get("dependencies").toString().split(",").forEach { dependency ->
                         dependencies.add(dependency.toProjectName())
                     }
-                    projectToDependencies[groupId] = dependencies
+                    if (projectToMetadata.containsKey(name)) {
+                        throw IllegalStateException("Duplicate project name: $name, also found in $dependencyFile")
+                    }
+                    projectToMetadata[name] = ModuleMetadata(
+                        name,
+                        groupId,
+                        props.get("status").toString(),
+                        props.get("githubSlug").toString(),
+                        props.get("gradleVersion").toString(),
+                        props.get("settingsPluginVersion").toString(),
+                        props.get("build-status")?.toString(),
+                        dependencies.toList()
+                    )
                 }
             }
         }
-        return projectToDependencies
+        return projectToMetadata
     }
 
     private fun collectErrors(reportsDir: File): MutableSet<String> {
@@ -218,7 +245,6 @@ abstract class ProjectGraphBuilder : DefaultTask() {
             var project: String? = null
             var error: String? = null
             projectDir.listFiles().forEach { dependencyFile ->
-                val dependencies = mutableSetOf<String>()
                 if (dependencyFile.name.endsWith(".txt")) {
                     project = dependencyFile.name.substringBeforeLast(".txt").toProjectName()
                 } else if (dependencyFile.name == "ERROR") {
@@ -236,7 +262,7 @@ abstract class ProjectGraphBuilder : DefaultTask() {
     }
 
     private fun generateDependencyGraphImage(
-        projectToDependencies: Map<String, Set<String>>,
+        projectToDependencies: Map<String, ModuleMetadata>,
         outputDir: File,
         graphName: String
     ) {
@@ -244,8 +270,8 @@ abstract class ProjectGraphBuilder : DefaultTask() {
         val dotFile = File(temporaryDir, "${graphName}.dot")
         dotFile.printWriter(charset("UTF-8")).use { writer ->
             writer.println("digraph project_graph {")
-            projectToDependencies.forEach { (project, dependencies) ->
-                dependencies.forEach { dependency ->
+            projectToDependencies.forEach { (project, metadata) ->
+                metadata.dependencies.forEach { dependency ->
                     writer.println("  \"$project\" -> \"$dependency\";")
                 }
             }
@@ -273,18 +299,48 @@ abstract class ProjectGraphBuilder : DefaultTask() {
         return name
     }
 
-    fun String.transitiveDeps(deps: Map<String, Set<String>>): Set<String> {
+    fun String.transitiveDeps(deps: Map<String, ModuleMetadata>): Set<String> {
         val transitive = mutableSetOf<String>()
         this.transitiveDeps(deps, transitive)
         return transitive
     }
 
-    private fun String.transitiveDeps(deps: Map<String, Set<String>>, visited: MutableSet<String>): Unit {
-        val dependencies = deps[this] ?: emptySet()
+    private fun String.transitiveDeps(deps: Map<String, ModuleMetadata>, visited: MutableSet<String>): Unit {
+        val dependencies = deps[this]?.dependencies ?: emptySet()
         if (visited.add(this)) {
             dependencies.forEach {
                 it.transitiveDeps(deps, visited)
             }
+        }
+    }
+
+    data class ModuleMetadata(
+        val name: String,
+        val group: String,
+        val status: String,
+        val githubSlug: String,
+        val gradleVersion: String,
+        val settingsPluginVersion: String,
+        val buildStatus: String?,
+        val dependencies: List<String>
+    ) {
+        fun asHtml() = """<TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+        |<TR><TD><B>$name</B></TD></TR>
+            |<TR><TD>Status: $status</TD></TR>
+            |<TR><TD>Gradle: $gradleVersion</TD></TR>
+            |<TR><TD>Settings: $settingsPluginVersion</TD></TR>
+            |${if (buildStatus != null) """<TR><TD>${buildStatusHtml}</TD></TR>""" else ""}
+            |</TABLE>""".trimMargin()
+
+        val buildStatusHtml = if (buildStatus != null) {
+            val color = when (buildStatus) {
+                "passing" -> "darkgreen"
+                "failing" -> "red"
+                else -> "yellow"
+            }
+            """<B>Build: <FONT COLOR="$color">${buildStatus.uppercase(Locale.ENGLISH)}</FONT></B>"""
+        } else {
+            ""
         }
     }
 }
