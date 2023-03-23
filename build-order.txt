@@ -1,4 +1,4 @@
-[WARNING] The following modules are not included in the platform: [acme, pulsar, xml, rabbitmq, jms, beanvalidation, jmx]
+[WARNING] The following modules are not included in the platform: [acme, pulsar, xml, rabbitmq, jms, jmx]
 [WARNING] Circular dependency between platform and testresources
 [WARNING] Circular dependency between sql and data
 Projects should be buildable in the following order, if tests are not executed:
