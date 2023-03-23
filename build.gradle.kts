@@ -58,12 +58,12 @@ micronautProjects {
         "micronaut-cassandra",
         "micronaut-couchbase",
         "micronaut-acme",
-        "micronaut-maven-plugin",
         "micronaut-camel",
         "micronaut-test-resources",
         "micronaut-toml",
         "micronaut-validation",
-        "micronaut-platform"
+        "micronaut-platform",
+        "micronaut-object-storage"
     ).map {
         val (name, branch) = if (it.contains('@')) {
             it.split('@')
