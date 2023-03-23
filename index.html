@@ -79,11 +79,12 @@
 <body>
 <div class="header">
     <img src="https://micronaut.io/wp-content/uploads/2020/11/MIcronautLogo_Horizontal.svg">
-    <div class="right">Generated at Mar 23, 2023, 9:04:21 AM <a href="build-order.txt">view build order</a></div>
+    <div class="right">Generated at Mar 23, 2023, 9:04:31 AM <a href="build-order.txt">view build order</a></div>
 </div>
 <div class="row">
     <nav>
-        <li class="item" onclick="showImage(this, 'project-graph.png')">project-graph</li>
+        <li class="item" onclick="showImage(this, 'build-order.png')">Build Order</li>
+        <li class="item" onclick="showImage(this, 'project-graph.png')">Project graph</li>
         <li class="item" onclick="showImage(this, 'project-graph-acme.png')">acme</li>
         <li class="item" onclick="showImage(this, 'project-graph-aot.png')">aot</li>
         <li class="item" onclick="showImage(this, 'project-graph-aws.png')">aws</li>
@@ -138,6 +139,7 @@
         <li class="item" onclick="showImage(this, 'project-graph-xml.png')">xml</li>
     </nav>
     <div class="image-container">
+        <img id="build-order.png" src="build-order.png">
         <img id="project-graph.png" src="project-graph.png">
         <img id="project-graph-acme.png" src="project-graph-acme.png">
         <img id="project-graph-aot.png" src="project-graph-aot.png">
@@ -200,7 +202,7 @@
         var images = Array.from(document.getElementsByClassName("image-container")[0].getElementsByTagName("img")).forEach(i => i.style.display = "none");
         document.getElementById(imageId).style.display = "block";
     }
-    showImage(document.getElementsByClassName("item")[0], "project-graph.png");
+    showImage(document.getElementsByClassName("item")[0], "build-order.png");
 </script>
 </body>
 </html>
