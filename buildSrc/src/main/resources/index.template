@@ -83,10 +83,12 @@
 </div>
 <div class="row">
     <nav>
-        <li class="item" onclick="showImage(this, 'project-graph.png')">project-graph</li>
+        <li class="item" onclick="showImage(this, 'build-order.png')">Build Order</li>
+        <li class="item" onclick="showImage(this, 'project-graph.png')">Project graph</li>
 {{ITEMS}}
     </nav>
     <div class="image-container">
+        <img id="build-order.png" src="build-order.png">
         <img id="project-graph.png" src="project-graph.png">
 {{IMAGES}}
     </div>
@@ -98,7 +100,7 @@
         var images = Array.from(document.getElementsByClassName("image-container")[0].getElementsByTagName("img")).forEach(i => i.style.display = "none");
         document.getElementById(imageId).style.display = "block";
     }
-    showImage(document.getElementsByClassName("item")[0], "project-graph.png");
+    showImage(document.getElementsByClassName("item")[0], "build-order.png");
 </script>
 </body>
 </html>
