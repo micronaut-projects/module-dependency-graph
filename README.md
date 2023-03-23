@@ -6,6 +6,8 @@ For example, if `micronaut-foo` depends on `micronaut-bar` and `micronaut-core`,
 
 The report tool is capable of determining cycles between projects, which will prevent from releasing.
 
+We also generate a webpage for viewing the outputs, the latest of which can be seen at https://micronaut-projects.github.io/module-dependency-graph/
+
 The output of this project will be found in the `build/graph` directory.
 It consists of:
 
