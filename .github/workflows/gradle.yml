@@ -29,9 +29,27 @@ jobs:
       - name: Setup Gradle
         uses: gradle/gradle-build-action@v2
 
+      - name: Fetch all micronaut-projects modules
+        id: module-fetch
+        run: |
+          MODULES=$(gh api graphql --paginate -f query='query {
+            search(query: "user:micronaut-projects archived:false", type: REPOSITORY, first: 100) {
+              nodes {
+                ... on Repository {
+                  name
+                  defaultBranchRef {
+                    name
+                  }
+                }
+              }
+            }
+          }' --template '{{range .data.search.nodes}}{{.name}}{{"@"}}{{.defaultBranchRef.name}}{{","}}{{end}}')
+          echo "MICRONAUT_MODULES=$MODULES" >> $GITHUB_OUTPUT
+
       - name: Execute Gradle build
         run: ./gradlew allReports graphBuilder
         env:
+          MICRONAUT_MODULES: ${{ steps.module-fetch.outputs.MICRONAUT_MODULES }}
           GH_TOKEN_PUBLIC_REPOS_READONLY: ${{ secrets.GH_TOKEN_PUBLIC_REPOS_READONLY }}
           GH_USERNAME: ${{ secrets.GH_USERNAME }}
           GRADLE_ENTERPRISE_ACCESS_KEY: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
