@@ -75,11 +75,12 @@
             max-height: 100%;
         }
     </style>
+    <script src="https://unpkg.com/js-image-zoom@0.7.0/js-image-zoom.js" type="application/javascript"></script>
 </head>
 <body>
 <div class="header">
     <img src="https://micronaut.io/wp-content/uploads/2020/11/MIcronautLogo_Horizontal.svg">
-    <div class="right">Generated at Mar 23, 2023, 6:11:03 PM <a href="build-order.txt">view build order</a></div>
+    <div class="right">Generated at Mar 23, 2023, 8:20:31 PM <a href="build-order.txt">view build order</a></div>
 </div>
 <div class="row">
     <nav>
@@ -150,81 +151,221 @@
         <li class="item" onclick="showImage(this, 'project-graph-xml.png')">xml</li>
     </nav>
     <div class="image-container">
-        <img id="build-order.png" src="build-order.png">
-        <img id="project-graph.png" src="project-graph.png">
-        <img id="project-graph-acme.png" src="project-graph-acme.png">
-        <img id="project-graph-aot.png" src="project-graph-aot.png">
-        <img id="project-graph-aws.png" src="project-graph-aws.png">
-        <img id="project-graph-azure.png" src="project-graph-azure.png">
-        <img id="project-graph-beanvalidation.png" src="project-graph-beanvalidation.png">
-        <img id="project-graph-cache.png" src="project-graph-cache.png">
-        <img id="project-graph-cassandra.png" src="project-graph-cassandra.png">
-        <img id="project-graph-chatbots.png" src="project-graph-chatbots.png">
-        <img id="project-graph-coherence.png" src="project-graph-coherence.png">
-        <img id="project-graph-core.png" src="project-graph-core.png">
-        <img id="project-graph-crac.png" src="project-graph-crac.png">
-        <img id="project-graph-data.png" src="project-graph-data.png">
-        <img id="project-graph-discovery.png" src="project-graph-discovery.png">
-        <img id="project-graph-elasticsearch.png" src="project-graph-elasticsearch.png">
-        <img id="project-graph-email.png" src="project-graph-email.png">
-        <img id="project-graph-flyway.png" src="project-graph-flyway.png">
-        <img id="project-graph-gcp.png" src="project-graph-gcp.png">
-        <img id="project-graph-gradle.png" src="project-graph-gradle.png">
-        <img id="project-graph-graphql.png" src="project-graph-graphql.png">
-        <img id="project-graph-groovy.png" src="project-graph-groovy.png">
-        <img id="project-graph-grpc.png" src="project-graph-grpc.png">
-        <img id="project-graph-jaxrs.png" src="project-graph-jaxrs.png">
-        <img id="project-graph-jms.png" src="project-graph-jms.png">
-        <img id="project-graph-jmx.png" src="project-graph-jmx.png">
-        <img id="project-graph-kafka.png" src="project-graph-kafka.png">
-        <img id="project-graph-kotlin.png" src="project-graph-kotlin.png">
-        <img id="project-graph-kubernetes.png" src="project-graph-kubernetes.png">
-        <img id="project-graph-liquibase.png" src="project-graph-liquibase.png">
-        <img id="project-graph-logging.png" src="project-graph-logging.png">
-        <img id="project-graph-micrometer.png" src="project-graph-micrometer.png">
-        <img id="project-graph-microstream.png" src="project-graph-microstream.png">
-        <img id="project-graph-mongodb.png" src="project-graph-mongodb.png">
-        <img id="project-graph-multitenancy.png" src="project-graph-multitenancy.png">
-        <img id="project-graph-nats.png" src="project-graph-nats.png">
-        <img id="project-graph-neo4j.png" src="project-graph-neo4j.png">
-        <img id="project-graph-objectstorage.png" src="project-graph-objectstorage.png">
-        <img id="project-graph-openapi.png" src="project-graph-openapi.png">
-        <img id="project-graph-oraclecloud.png" src="project-graph-oraclecloud.png">
-        <img id="project-graph-picocli.png" src="project-graph-picocli.png">
-        <img id="project-graph-platform.png" src="project-graph-platform.png">
-        <img id="project-graph-problem.png" src="project-graph-problem.png">
-        <img id="project-graph-pulsar.png" src="project-graph-pulsar.png">
-        <img id="project-graph-r2dbc.png" src="project-graph-r2dbc.png">
-        <img id="project-graph-rabbitmq.png" src="project-graph-rabbitmq.png">
-        <img id="project-graph-reactor.png" src="project-graph-reactor.png">
-        <img id="project-graph-redis.png" src="project-graph-redis.png">
-        <img id="project-graph-rss.png" src="project-graph-rss.png">
-        <img id="project-graph-rxjava2.png" src="project-graph-rxjava2.png">
-        <img id="project-graph-rxjava3.png" src="project-graph-rxjava3.png">
-        <img id="project-graph-security.png" src="project-graph-security.png">
-        <img id="project-graph-serde.png" src="project-graph-serde.png">
-        <img id="project-graph-servlet.png" src="project-graph-servlet.png">
-        <img id="project-graph-session.png" src="project-graph-session.png">
-        <img id="project-graph-spring.png" src="project-graph-spring.png">
-        <img id="project-graph-sql.png" src="project-graph-sql.png">
-        <img id="project-graph-starter.png" src="project-graph-starter.png">
-        <img id="project-graph-test.png" src="project-graph-test.png">
-        <img id="project-graph-testresources.png" src="project-graph-testresources.png">
-        <img id="project-graph-toml.png" src="project-graph-toml.png">
-        <img id="project-graph-tracing.png" src="project-graph-tracing.png">
-        <img id="project-graph-validation.png" src="project-graph-validation.png">
-        <img id="project-graph-views.png" src="project-graph-views.png">
-        <img id="project-graph-xml.png" src="project-graph-xml.png">
+        <div class="graph">
+            <img id="build-order.png" src="build-order.png">
+        </div>
+        <div class="graph">
+            <img id="project-graph.png" src="project-graph.png">
+        </div>
+<div class="graph">       
+                       <img id="project-graph-acme.png" src="project-graph-acme.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-aot.png" src="project-graph-aot.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-aws.png" src="project-graph-aws.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-azure.png" src="project-graph-azure.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-beanvalidation.png" src="project-graph-beanvalidation.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-cache.png" src="project-graph-cache.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-cassandra.png" src="project-graph-cassandra.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-chatbots.png" src="project-graph-chatbots.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-coherence.png" src="project-graph-coherence.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-core.png" src="project-graph-core.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-crac.png" src="project-graph-crac.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-data.png" src="project-graph-data.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-discovery.png" src="project-graph-discovery.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-elasticsearch.png" src="project-graph-elasticsearch.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-email.png" src="project-graph-email.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-flyway.png" src="project-graph-flyway.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-gcp.png" src="project-graph-gcp.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-gradle.png" src="project-graph-gradle.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-graphql.png" src="project-graph-graphql.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-groovy.png" src="project-graph-groovy.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-grpc.png" src="project-graph-grpc.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-jaxrs.png" src="project-graph-jaxrs.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-jms.png" src="project-graph-jms.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-jmx.png" src="project-graph-jmx.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-kafka.png" src="project-graph-kafka.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-kotlin.png" src="project-graph-kotlin.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-kubernetes.png" src="project-graph-kubernetes.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-liquibase.png" src="project-graph-liquibase.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-logging.png" src="project-graph-logging.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-micrometer.png" src="project-graph-micrometer.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-microstream.png" src="project-graph-microstream.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-mongodb.png" src="project-graph-mongodb.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-multitenancy.png" src="project-graph-multitenancy.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-nats.png" src="project-graph-nats.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-neo4j.png" src="project-graph-neo4j.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-objectstorage.png" src="project-graph-objectstorage.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-openapi.png" src="project-graph-openapi.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-oraclecloud.png" src="project-graph-oraclecloud.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-picocli.png" src="project-graph-picocli.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-platform.png" src="project-graph-platform.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-problem.png" src="project-graph-problem.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-pulsar.png" src="project-graph-pulsar.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-r2dbc.png" src="project-graph-r2dbc.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-rabbitmq.png" src="project-graph-rabbitmq.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-reactor.png" src="project-graph-reactor.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-redis.png" src="project-graph-redis.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-rss.png" src="project-graph-rss.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-rxjava2.png" src="project-graph-rxjava2.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-rxjava3.png" src="project-graph-rxjava3.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-security.png" src="project-graph-security.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-serde.png" src="project-graph-serde.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-servlet.png" src="project-graph-servlet.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-session.png" src="project-graph-session.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-spring.png" src="project-graph-spring.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-sql.png" src="project-graph-sql.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-starter.png" src="project-graph-starter.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-test.png" src="project-graph-test.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-testresources.png" src="project-graph-testresources.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-toml.png" src="project-graph-toml.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-tracing.png" src="project-graph-tracing.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-validation.png" src="project-graph-validation.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-views.png" src="project-graph-views.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-xml.png" src="project-graph-xml.png">
+                   </div>
     </div>
 </div>
 <script>
+    var imageZoom = new ImageZoom(document.getElementsByClassName("graph")[0], {
+    });
     function showImage(clicked, imageId) {
+        imageZoom.kill();
         Array.from(document.getElementsByClassName("item")).forEach(i => i.className = "item");
         clicked.className += " active";
         var images = Array.from(document.getElementsByClassName("image-container")[0].getElementsByTagName("img")).forEach(i => i.style.display = "none");
-        document.getElementById(imageId).style.display = "block";
+        var image = document.getElementById(imageId);
+        var graph = image.parentElement;
+        image.style.display = "block";
+        imageZoom = new ImageZoom(graph, {
+            fillContainer: true,
+            zoomPosition: "original"
+        });
     }
     showImage(document.getElementsByClassName("item")[0], "build-order.png");
+
 </script>
 </body>
 </html>
