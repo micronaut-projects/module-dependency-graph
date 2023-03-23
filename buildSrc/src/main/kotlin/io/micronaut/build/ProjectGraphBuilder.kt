@@ -62,7 +62,9 @@ abstract class ProjectGraphBuilder : DefaultTask() {
                 """        <li class="item" onclick="showImage(this, 'project-graph-$project.png')">$project</li>"""
             }.joinToString("\n"))
             templated = templated.replace("{{IMAGES}}", projects.map { project ->
-                """        <img id="project-graph-$project.png" src="project-graph-$project.png">"""
+                """ <div class="graph">       
+                        <img id="project-graph-$project.png" src="project-graph-$project.png">
+                    </div>""".trimIndent()
             }.joinToString("\n"))
             templated = templated.replace("{{GENERATED}}", DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM).format(LocalDateTime.now()))
             File(outputDir, "index.html").writer().use {
