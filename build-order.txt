@@ -1,15 +1,15 @@
-[WARNING] The following modules are not included in the platform: [acme, pulsar, xml, rabbitmq, jms, jmx]
+[WARNING] The following modules are not included in the platform: [logging, acme, pulsar, xml, rabbitmq, jms, jmx]
 [WARNING] Circular dependency between platform and testresources
 [WARNING] Circular dependency between sql and data
 Projects should be buildable in the following order, if tests are not executed:
-  - core, build
-  - toml, elasticsearch, test, groovy, rxjava2, openapi, aot, xml, graphql, kafka, cassandra, reactor, picocli, serde, grpc, rxjava3, views, jmx, micrometer
+  - logging, core, build
+  - toml, elasticsearch, test, groovy, rxjava2, openapi, aot, xml, graphql, crac, kafka, cassandra, reactor, picocli, serde, grpc, rxjava3, views, jmx, micrometer
   - rabbitmq, servlet, validation, kotlin
   - nats, multitenancy, acme, cache, neo4j, discovery, rss, azure, beanvalidation
-  - mongodb, redis, problem, spring, kubernetes
+  - mongodb, redis, session, problem, spring, kubernetes
   - pulsar
-  - security, oraclecloud
-  - aws, gcp
+  - oraclecloud
+  - security, aws, gcp
   - jms
   - data
   - sql
