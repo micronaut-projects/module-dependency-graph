@@ -3,19 +3,13 @@ Projects should be buildable in the following order, if tests are not executed:
   - reactor, serde
   - validation
   - cache, logging
-  - session, acme, toml, aot, spring, elasticsearch, test, groovy, servlet, r2dbc, mongodb, rxjava2
+  - session, acme, toml, aot, spring, test, elasticsearch, servlet, groovy, discovery, r2dbc, mongodb, rxjava2
   - security, openapi
-  - jaxrs, azure, problem
-  - sql, neo4j, multitenancy, discovery
-  - kubernetes, rss, data, xml, rabbitmq, graphql, micrometer, crac
-  - flyway, liquibase, redis, kafka, grpc, cassandra, beanvalidation, microstream, kotlin, picocli, nats
-  - coherence, rxjava3, views, oraclecloud
-  - testresources, pulsar
-  - objectstorage
-  - platform
-  - gcp
-  - starter
-  - tracing
-  - aws
-  - email
-  - jms, jmx, gradle, chatbots
+  - jaxrs, azure, problem, multitenancy
+  - sql, neo4j, aws, kafka, xml, rabbitmq, kubernetes, grpc, rss, micrometer
+  - data, graphql, tracing, views, crac
+  - gcp, jms, flyway, liquibase, redis, oraclecloud, coherence, cassandra, beanvalidation, microstream, pulsar, kotlin, picocli, nats, rxjava3, email
+  - chatbots, objectstorage
+  - platform, jmx
+  - testresources
+  - gradle
