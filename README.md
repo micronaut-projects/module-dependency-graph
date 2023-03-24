@@ -14,7 +14,6 @@ It consists of:
 - a full graph of the dependencies between the projects
 - a simplified graph of the dependencies which excludes `core` (because all projects transitively depend on core)
 - one graph per Micronaut project with its transitive Micronaut dependencies
-- a text file explaining in which order to generate the graphs and validation problems (e.g warnings)
 
 The tool works by looking at the _groupId_ of each project, so if 2 projects share the same _groupId_, the result is going to be wrong.
 This should be considered an error, though.
