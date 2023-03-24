@@ -66,6 +66,7 @@ jobs:
             path: |
               build/graph/build-order.txt
               build/graph/*.png
+              build/reports/**/*
 
       - name: Deploy to GH Pages 🚀
         uses: peaceiris/actions-gh-pages@v3
