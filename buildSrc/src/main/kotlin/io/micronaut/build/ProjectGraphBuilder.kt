@@ -8,6 +8,7 @@ import org.gradle.process.ExecOperations
 import org.gradle.util.GradleVersion
 import java.io.File
 import java.io.PrintWriter
+import java.net.URL
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
@@ -25,6 +26,19 @@ abstract class ProjectGraphBuilder : DefaultTask() {
 
     @get:Input
     abstract val projectsExcludedFromPlatform: SetProperty<String>
+
+    @get:Input
+    val latestBuildPluginsVersion = project.objects.property(String::class.java).value(project.provider {
+        URL("https://repo1.maven.org/maven2/io/micronaut/build/internal/common/io.micronaut.build.internal.common.gradle.plugin/maven-metadata.xml").openStream().use { stream ->
+            val metadata = stream.bufferedReader().readText()
+            val version = metadata.substringAfter("<latest>").substringBefore("</latest>")
+            println("Latest build plugins version: $version")
+            version
+        }
+    }).also {
+        // Cache result in order to avoid multiple requests to Maven Central
+        it.finalizeValueOnRead()
+    }
 
     @get:Inject
     abstract val execOperations: ExecOperations
@@ -287,6 +301,7 @@ abstract class ProjectGraphBuilder : DefaultTask() {
                         props.get("githubSlug").toString(),
                         props.get("gradleVersion").toString(),
                         props.get("settingsPluginVersion").toString(),
+                        latestBuildPluginsVersion.get(),
                         props.get("build-status")?.toString(),
                         dependencies.toList()
                     )
@@ -383,6 +398,7 @@ abstract class ProjectGraphBuilder : DefaultTask() {
         val githubSlug: String,
         val gradleVersion: String,
         val settingsPluginVersion: String,
+        val latestSettingsPluginVersion: String,
         val buildStatus: String?,
         val dependencies: List<String>
     ) {
@@ -405,7 +421,7 @@ abstract class ProjectGraphBuilder : DefaultTask() {
         }
 
         val settingsEmoji = when (settingsPluginVersion) {
-            "6.3.5" -> Quality.GREEN.emoji
+            latestSettingsPluginVersion -> Quality.GREEN.emoji
             else -> Quality.YELLOW.emoji
         }
 
