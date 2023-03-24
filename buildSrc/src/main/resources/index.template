@@ -75,6 +75,7 @@
             max-height: 100%;
         }
     </style>
+    <script src="https://unpkg.com/js-image-zoom@0.7.0/js-image-zoom.js" type="application/javascript"></script>
 </head>
 <body>
 <div class="header">
@@ -88,19 +89,33 @@
 {{ITEMS}}
     </nav>
     <div class="image-container">
-        <img id="build-order.png" src="build-order.png">
-        <img id="project-graph.png" src="project-graph.png">
+        <div class="graph">
+            <img id="build-order.png" src="build-order.png">
+        </div>
+        <div class="graph">
+            <img id="project-graph.png" src="project-graph.png">
+        </div>
 {{IMAGES}}
     </div>
 </div>
 <script>
+    var imageZoom = new ImageZoom(document.getElementsByClassName("graph")[0], {
+    });
     function showImage(clicked, imageId) {
+        imageZoom.kill();
         Array.from(document.getElementsByClassName("item")).forEach(i => i.className = "item");
         clicked.className += " active";
         var images = Array.from(document.getElementsByClassName("image-container")[0].getElementsByTagName("img")).forEach(i => i.style.display = "none");
-        document.getElementById(imageId).style.display = "block";
+        var image = document.getElementById(imageId);
+        var graph = image.parentElement;
+        image.style.display = "block";
+        imageZoom = new ImageZoom(graph, {
+            fillContainer: true,
+            zoomPosition: "original"
+        });
     }
     showImage(document.getElementsByClassName("item")[0], "build-order.png");
+
 </script>
 </body>
 </html>
