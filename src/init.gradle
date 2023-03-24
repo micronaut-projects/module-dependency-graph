@@ -15,77 +15,95 @@ initscript {
     }
 }
 
-rootProject {
-    def settingsPluginVersion = providers.provider {
-        def settingsFile = ["settings.gradle", "settings.gradle.kts"]
-            .collect { layout.projectDirectory.file(it).asFile }
-            .find { it.exists() }
-        if (settingsFile != null) {
-            return findSettingsPluginVersion(settingsFile)
+String detectedMicronautVersion = "unknown"
+gradle.settingsEvaluated {
+    if (detectedMicronautVersion == "unknown") {
+        def micronautBuild = it.extensions.findByName("micronautBuild")
+        if (micronautBuild) {
+            def version = micronautBuild.micronautVersion
+            if (version) {
+                println("Micronaut version: ${version}")
+                detectedMicronautVersion = version
+            }
         }
-        return "unknown"
     }
-    def groupProvider = providers.gradleProperty("projectGroup")
-            .orElse(providers.gradleProperty("projectGroupId"))
-            .orElse(providers.provider { allprojects.collect { it.group }.findAll().first().toString() })
-    def collectingService = gradle.sharedServices.registerIfAbsent("micronautDependenciesService", MicronautDependenciesService) {
-        it.parameters.outputDir.set(file(providers.systemProperty("reportDir").get()))
-        it.parameters.groupId.set(groupProvider)
-        it.parameters.githubSlug.set(providers.gradleProperty("githubSlug"))
-        it.parameters.settingsPluginVersion.set(settingsPluginVersion)
-    }
-    def cachedStatus = null
-    allprojects {
-        pluginManager.withPlugin('maven-publish') {
-            tasks.register("extractMicronautDependencies", ExtractMicronautDependencies) { t ->
-                t.service.set(collectingService)
-                t.usesService(collectingService)
-                t.groupId = groupProvider
-                def moduleName = project.name
-                if (!moduleName.startsWith('micronaut-')) {
-                    moduleName = "micronaut-$moduleName"
-                }
-                t.status = providers.gradleProperty("projectVersion").zip(groupProvider) { version, group ->
-                    if (cachedStatus != null) {
-                        return cachedStatus
+}
+
+
+rootProject {
+    if (name != 'buildSrc') {
+        def settingsPluginVersion = providers.provider {
+            def settingsFile = ["settings.gradle", "settings.gradle.kts"]
+                    .collect { layout.projectDirectory.file(it).asFile }
+                    .find { it.exists() }
+            if (settingsFile != null) {
+                return findSettingsPluginVersion(settingsFile)
+            }
+            return "unknown"
+        }
+        def groupProvider = providers.gradleProperty("projectGroup")
+                .orElse(providers.gradleProperty("projectGroupId"))
+                .orElse(providers.provider { allprojects.collect { it.group }.findAll().first().toString() })
+        def collectingService = gradle.sharedServices.registerIfAbsent("micronautDependenciesService", MicronautDependenciesService) {
+            it.parameters.outputDir.set(file(providers.systemProperty("reportDir").get()))
+            it.parameters.groupId.set(groupProvider)
+            it.parameters.githubSlug.set(providers.gradleProperty("githubSlug"))
+            it.parameters.settingsPluginVersion.set(settingsPluginVersion)
+            it.parameters.micronautVersion.set(detectedMicronautVersion)
+        }
+        def cachedStatus = null
+        allprojects {
+            pluginManager.withPlugin('maven-publish') {
+                tasks.register("extractMicronautDependencies", ExtractMicronautDependencies) { t ->
+                    t.service.set(collectingService)
+                    t.usesService(collectingService)
+                    t.groupId = groupProvider
+                    def moduleName = project.name
+                    if (!moduleName.startsWith('micronaut-')) {
+                        moduleName = "micronaut-$moduleName"
                     }
-                    if (version.endsWith("-SNAPSHOT")) {
-                        def versionWithoutSnapshot = version - '-SNAPSHOT'
-                        String metadataUrl = "https://repo1.maven.org/maven2/${group.replace('.', '/')}/$moduleName/maven-metadata.xml"
-                        println "Metadata URL is $metadataUrl"
-                        try {
-                            new URL(metadataUrl).withInputStream {
-                                def metadata = new groovy.xml.XmlSlurper().parse(it)
-                                def versions = metadata.versioning.versions.version as List
-                                def matchingVersions = versions.findAll { it.text().startsWith(versionWithoutSnapshot) }
-                                if (!matchingVersions.empty) {
-                                    String last = matchingVersions.last()
-                                    if (last.contains('-')) {
-                                        cachedStatus = last.substring(last.lastIndexOf('-') + 1)
-                                    } else {
-                                        cachedStatus = "RELEASE"
-                                    }
-                                } else {
-                                    cachedStatus = "SNAPSHOT"
-                                }
-                            }
-                        } catch (IOException ex) {
-                            cachedStatus = "SNAPSHOT"
+                    t.status = providers.gradleProperty("projectVersion").zip(groupProvider) { version, group ->
+                        if (cachedStatus != null) {
+                            return cachedStatus
                         }
-                    } else {
-                        cachedStatus = "RELEASE"
+                        if (version.endsWith("-SNAPSHOT")) {
+                            def versionWithoutSnapshot = version - '-SNAPSHOT'
+                            String metadataUrl = "https://repo1.maven.org/maven2/${group.replace('.', '/')}/$moduleName/maven-metadata.xml"
+                            println "Metadata URL is $metadataUrl"
+                            try {
+                                new URL(metadataUrl).withInputStream {
+                                    def metadata = new groovy.xml.XmlSlurper().parse(it)
+                                    def versions = metadata.versioning.versions.version as List
+                                    def matchingVersions = versions.findAll { it.text().startsWith(versionWithoutSnapshot) }
+                                    if (!matchingVersions.empty) {
+                                        String last = matchingVersions.last()
+                                        if (last.contains('-')) {
+                                            cachedStatus = last.substring(last.lastIndexOf('-') + 1)
+                                        } else {
+                                            cachedStatus = "RELEASE"
+                                        }
+                                    } else {
+                                        cachedStatus = "SNAPSHOT"
+                                    }
+                                }
+                            } catch (IOException ex) {
+                                cachedStatus = "SNAPSHOT"
+                            }
+                        } else {
+                            cachedStatus = "RELEASE"
+                        }
+                        cachedStatus
                     }
-                    cachedStatus
-                }
-                ['apiElements', 'runtimeElements'].each {
-                    def conf = configurations.findByName(it)
-                    if (conf != null) {
-                        t.dependencies.addAll(providers.provider {
-                            conf.allDependencies.findAll { it instanceof ExternalModuleDependency }
-                                    .collect { (ExternalModuleDependency) it }
-                                    .findAll { it.group.startsWith('io.micronaut') }
-                                    .collect { "${it.group}".toString() }
-                        })
+                    ['apiElements', 'runtimeElements'].each {
+                        def conf = configurations.findByName(it)
+                        if (conf != null) {
+                            t.dependencies.addAll(providers.provider {
+                                conf.allDependencies.findAll { it instanceof ExternalModuleDependency }
+                                        .collect { (ExternalModuleDependency) it }
+                                        .findAll { it.group.startsWith('io.micronaut') }
+                                        .collect { "${it.group}".toString() }
+                            })
+                        }
                     }
                 }
             }
@@ -121,6 +139,7 @@ abstract class MicronautDependenciesService implements BuildService<Params>, Aut
         Property<String> getGroupId()
         Property<String> getGithubSlug()
         Property<String> getSettingsPluginVersion()
+        Property<String> getMicronautVersion()
     }
 
     abstract SetProperty<String> getDependencies()
@@ -143,6 +162,7 @@ abstract class MicronautDependenciesService implements BuildService<Params>, Aut
         props.put("status", status.get())
         props.put("gradleVersion", GradleVersion.current().version)
         props.put("settingsPluginVersion", parameters.settingsPluginVersion.get())
+        props.put("micronautVersion", parameters.micronautVersion.get())
         properties.getOrElse(Collections.emptyMap()).each { k, v ->
             props.put(k, v)
         }

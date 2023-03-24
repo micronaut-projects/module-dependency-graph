@@ -15,6 +15,8 @@ import java.time.format.FormatStyle
 import java.util.*
 import javax.inject.Inject
 
+private const val MICRONAUT_BASELINE_VERSION = "4."
+
 @CacheableTask
 abstract class ProjectGraphBuilder : DefaultTask() {
     @get:InputDirectory
@@ -299,6 +301,7 @@ abstract class ProjectGraphBuilder : DefaultTask() {
                         groupId,
                         props.get("status").toString(),
                         props.get("githubSlug").toString(),
+                        props.get("micronautVersion").toString(),
                         props.get("gradleVersion").toString(),
                         props.get("settingsPluginVersion").toString(),
                         latestBuildPluginsVersion.get(),
@@ -396,6 +399,7 @@ abstract class ProjectGraphBuilder : DefaultTask() {
         val group: String,
         val status: String,
         val githubSlug: String,
+        val micronautVersion: String,
         val gradleVersion: String,
         val settingsPluginVersion: String,
         val latestSettingsPluginVersion: String,
@@ -425,11 +429,18 @@ abstract class ProjectGraphBuilder : DefaultTask() {
             else -> Quality.YELLOW.emoji
         }
 
+        val micronautEmoji = when {
+            micronautVersion.startsWith(MICRONAUT_BASELINE_VERSION) && !micronautVersion.endsWith("-SNAPSHOT") -> Quality.GREEN.emoji
+            micronautVersion.startsWith(MICRONAUT_BASELINE_VERSION) -> Quality.YELLOW.emoji
+            else -> Quality.RED.emoji
+        }
+
         fun asHtml() = """<TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
         |<TR><TD><B>$name</B></TD></TR>
-            |<TR><TD>${statusEmoji} Status: $status</TD></TR>
-            |<TR><TD>${gradleEmoji} Gradle: $gradleVersion</TD></TR>
-            |<TR><TD>${settingsEmoji} Settings: $settingsPluginVersion</TD></TR>
+            |<TR><TD>${statusEmoji} Status $status</TD></TR>
+            |${if (name!="core") {"""<TR><TD>${micronautEmoji} Micronaut $micronautVersion</TD></TR>"""} else {""} }
+            |<TR><TD>${gradleEmoji} Gradle $gradleVersion</TD></TR>
+            |<TR><TD>${settingsEmoji} Settings $settingsPluginVersion</TD></TR>
             |${if (buildStatus != null) """<TR><TD>${buildStatusHtml}</TD></TR>""" else ""}
             |</TABLE>""".trimMargin()
 
