@@ -96,7 +96,10 @@ rootProject {
                         cachedStatus
                     }
                     ['apiElements', 'runtimeElements'].each {
-                        def conf = configurations.findByName(it)
+                        def conf = configurations.findByName("optimized${it.capitalize()}")
+                        if (conf == null) {
+                            conf = configurations.findByName(it)
+                        }
                         if (conf != null) {
                             t.dependencies.addAll(providers.provider {
                                 conf.allDependencies.findAll { it instanceof ExternalModuleDependency }
