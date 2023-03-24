@@ -298,6 +298,7 @@ abstract class ProjectGraphBuilder : DefaultTask() {
                     }
                     projectToMetadata[name] = ModuleMetadata(
                         name,
+                        props.get("version").toString(),
                         groupId,
                         props.get("status").toString(),
                         props.get("githubSlug").toString(),
@@ -396,6 +397,7 @@ abstract class ProjectGraphBuilder : DefaultTask() {
 
     data class ModuleMetadata(
         val name: String,
+        val version: String,
         val group: String,
         val status: String,
         val githubSlug: String,
@@ -436,7 +438,7 @@ abstract class ProjectGraphBuilder : DefaultTask() {
         }
 
         fun asHtml() = """<TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
-        |<TR><TD><B>$name</B></TD></TR>
+        |<TR><TD><B>$name $version</B></TD></TR>
             |<TR><TD>${statusEmoji} Status $status</TD></TR>
             |${if (name!="core") {"""<TR><TD>${micronautEmoji} Micronaut $micronautVersion</TD></TR>"""} else {""} }
             |<TR><TD>${gradleEmoji} Gradle $gradleVersion</TD></TR>

@@ -49,6 +49,7 @@ rootProject {
             it.parameters.groupId.set(groupProvider)
             it.parameters.githubSlug.set(providers.gradleProperty("githubSlug"))
             it.parameters.settingsPluginVersion.set(settingsPluginVersion)
+            it.parameters.version.set(providers.gradleProperty("projectVersion").orElse("unknown"))
             it.parameters.micronautVersion.set(detectedMicronautVersion)
         }
         def cachedStatus = null
@@ -139,6 +140,7 @@ abstract class MicronautDependenciesService implements BuildService<Params>, Aut
         Property<String> getGroupId()
         Property<String> getGithubSlug()
         Property<String> getSettingsPluginVersion()
+        Property<String> getVersion()
         Property<String> getMicronautVersion()
     }
 
@@ -163,6 +165,7 @@ abstract class MicronautDependenciesService implements BuildService<Params>, Aut
         props.put("gradleVersion", GradleVersion.current().version)
         props.put("settingsPluginVersion", parameters.settingsPluginVersion.get())
         props.put("micronautVersion", parameters.micronautVersion.get())
+        props.put("version", parameters.version.get())
         properties.getOrElse(Collections.emptyMap()).each { k, v ->
             props.put(k, v)
         }
