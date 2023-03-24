@@ -74,8 +74,6 @@ abstract class ProjectGraphBuilder : DefaultTask() {
             }
         }
 
-        // Now generate a text file describing in which order we should build the projects
-        val buildOrderFile = File(outputDir, "build-order.txt")
         val warnings = mutableSetOf<String>()
         val platformDependencies = "platform".transitiveDeps(projectToMetadata)
         val allModules = projectToMetadata.keys - "platform" - projectsExcludedFromPlatform.getOrElse(Collections.emptySet())
@@ -84,41 +82,27 @@ abstract class ProjectGraphBuilder : DefaultTask() {
             warnings.add("[WARNING] The following modules are not included in the platform: $missingPlatformDependencies")
         }
         val cycles = mutableSetOf<Pair<String, String>>()
-        buildOrderFile.printWriter(charset("UTF-8")).use { txtWriter ->
-            val projects = sortByDependents(projectToMetadata, cycles)
-            cycles.forEach {
-                val warning = "[WARNING] A cycle exists between ${it.first} and ${it.second}"
-                System.err.println(warning)
-                warnings.add(warning)
-            }
-            File(temporaryDir, "build-order-graph.dot").also {
-                it.printWriter(charset("UTF-8")).use { dotWriter ->
-                    writeBuildOrder(txtWriter, dotWriter, projects, cycles, projectToMetadata, warnings)
-                }
-                invokeGraphviz(outputDir, "build-order", it)
-            }
-            writeBuildErrors(reportsDir, txtWriter)
+        val projects = sortByDependents(projectToMetadata, cycles)
+        cycles.forEach {
+            val warning = "[WARNING] A cycle exists between ${it.first} and ${it.second}"
+            System.err.println(warning)
+            warnings.add(warning)
         }
-    }
-
-    private fun writeBuildErrors(reportsDir: File, writer: PrintWriter) {
-        val errors = collectErrors(reportsDir)
-        if (errors.isNotEmpty()) {
-            writer.println()
-            writer.println("--------------------------------------")
-            errors.forEach(writer::println)
+        File(temporaryDir, "build-order-graph.dot").also {
+            it.printWriter(charset("UTF-8")).use { dotWriter ->
+                writeBuildOrder(dotWriter, projects, cycles, projectToMetadata, warnings)
+            }
+            invokeGraphviz(outputDir, "build-order", it)
         }
     }
 
     private fun writeBuildOrder(
-        textFile: PrintWriter,
         dotFile: PrintWriter,
         projects: List<String>,
         cycles: Set<Pair<String, String>>,
         projectToMetadata: MutableMap<String, ModuleMetadata>,
         warnings: MutableSet<String>
     ) {
-        textFile.println("Projects should be buildable in the following order, if tests are not executed:")
         dotFile.println("digraph build_order {")
         dotFile.println("  compound=true;")
         dotFile.println("  graph [splines=ortho];")
@@ -147,14 +131,12 @@ abstract class ProjectGraphBuilder : DefaultTask() {
             } else {
                 val cluster = registerNewCluster(current, dotFile, projectToMetadata, allClusters, cycles, warnings)
                 allClusters.put(cluster.name, cluster)
-                textFile.println("  - ${current.joinToString(", ")}")
                 current.clear()
                 current.add(project)
             }
         }
         if (current.isNotEmpty()) {
             registerNewCluster(current, dotFile, projectToMetadata, allClusters, cycles, warnings)
-            textFile.println("  - ${current.joinToString(", ")}")
         }
         cycles.forEach { (p1, p2) ->
             dotFile.println("  \"$p1\" -> \"$p2\" [color=red penwidth=3];")
@@ -289,8 +271,11 @@ abstract class ProjectGraphBuilder : DefaultTask() {
                     dependencyFile.inputStream().use { props.load(it) }
                     val groupId = props.get("groupId").toString()
                     val name = groupId.toProjectName()
-                    props.get("dependencies").toString().split(",").forEach { dependency ->
-                        dependencies.add(dependency.toProjectName())
+                    val allDependencies = props.get("dependencies").toString().trim()
+                    if (allDependencies != "") {
+                        allDependencies.split(",").forEach { dependency ->
+                            dependencies.add(dependency.toProjectName())
+                        }
                     }
                     if (projectToMetadata.containsKey(name)) {
                         throw IllegalStateException("Duplicate project name: $name, also found in $dependencyFile")
@@ -311,28 +296,6 @@ abstract class ProjectGraphBuilder : DefaultTask() {
         return projectToMetadata
     }
 
-    private fun collectErrors(reportsDir: File): MutableSet<String> {
-        val errors = mutableSetOf<String>()
-        reportsDir.listFiles().forEach { projectDir ->
-            var project: String? = null
-            var error: String? = null
-            projectDir.listFiles().forEach { dependencyFile ->
-                if (dependencyFile.name.endsWith(".txt")) {
-                    project = dependencyFile.name.substringBeforeLast(".txt").toProjectName()
-                } else if (dependencyFile.name == "ERROR") {
-                    error = dependencyFile.readText(charset("UTF-8"))
-                }
-            }
-            if (error != null && project != null) {
-                errors.add(
-                    """Project $project has an error: 
-                    |$error""".trimMargin()
-                )
-            }
-        }
-        return errors
-    }
-
     private fun generateDependencyGraphImage(
         projectToDependencies: Map<String, ModuleMetadata>,
         outputDir: File,
@@ -342,7 +305,6 @@ abstract class ProjectGraphBuilder : DefaultTask() {
         val dotFile = File(temporaryDir, "${graphName}.dot")
         dotFile.printWriter(charset("UTF-8")).use { writer ->
             writer.println("digraph project_graph {")
-            writer.println("  graph [splines=ortho];")
             projectToDependencies.forEach { (project, metadata) ->
                 metadata.dependencies.forEach { dependency ->
                     writer.println("  \"$project\" -> \"$dependency\";")
@@ -436,13 +398,13 @@ abstract class ProjectGraphBuilder : DefaultTask() {
             else -> Quality.YELLOW.emoji
         }
 
-        val statusEmoji = when(status) {
+        val statusEmoji = when (status) {
             "SNAPSHOT" -> Quality.RED.emoji
             "RELEASE" -> Quality.GREEN.emoji
             else -> Quality.YELLOW.emoji
         }
 
-        val settingsEmoji = when(settingsPluginVersion) {
+        val settingsEmoji = when (settingsPluginVersion) {
             "6.3.5" -> Quality.GREEN.emoji
             else -> Quality.YELLOW.emoji
         }
