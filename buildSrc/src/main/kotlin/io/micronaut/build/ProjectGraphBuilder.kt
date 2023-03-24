@@ -82,33 +82,16 @@ abstract class ProjectGraphBuilder : DefaultTask() {
             warnings.add("[WARNING] The following modules are not included in the platform: $missingPlatformDependencies")
         }
         val cycles = mutableSetOf<Pair<String, String>>()
-        val comparator: (o1: String, o2: String) -> Int = { p1, p2 ->
-            val deps1 = p1.transitiveDeps(projectToMetadata)
-            val deps2 = p2.transitiveDeps(projectToMetadata)
-            if (deps1.contains(p2) && deps2.contains(p1)) {
-                warnings.add("[WARNING] Circular dependency between $p1 and $p2")
-                cycles.add(Pair(p1, p2))
-            }
-            if (deps1.contains(p2)) {
-                1
-            } else if (deps2.contains(p1)) {
-                -1
-            } else {
-                deps1.size.compareTo(deps2.size)
-            }
-        }
         buildOrderFile.printWriter(charset("UTF-8")).use { txtWriter ->
-            val projects = projectToMetadata.keys.sortedWith(comparator)
-            warnings.forEach {
-                System.err.println(it)
-                txtWriter.println(it)
+            val projects = sortByDependents(projectToMetadata, cycles)
+            cycles.forEach {
+                System.err.println("[WARNING] A cycle exists between ${it.first} and ${it.second}")
             }
             File(temporaryDir, "build-order-graph.dot").also {
                 it.printWriter(charset("UTF-8")).use { dotWriter ->
-                    writeBuildOrder(txtWriter, dotWriter, projects, comparator, cycles, projectToMetadata)
+                    writeBuildOrder(txtWriter, dotWriter, projects, cycles, projectToMetadata, warnings)
                 }
                 invokeGraphviz(outputDir, "build-order", it)
-//                it.delete()
             }
             writeBuildErrors(reportsDir, txtWriter)
         }
@@ -127,80 +110,158 @@ abstract class ProjectGraphBuilder : DefaultTask() {
         textFile: PrintWriter,
         dotFile: PrintWriter,
         projects: List<String>,
-        comparator: (o1: String, o2: String) -> Int,
         cycles: Set<Pair<String, String>>,
-        projectToMetadata: MutableMap<String, ModuleMetadata>
+        projectToMetadata: MutableMap<String, ModuleMetadata>,
+        warnings: MutableSet<String>
     ) {
         textFile.println("Projects should be buildable in the following order, if tests are not executed:")
         dotFile.println("digraph build_order {")
         dotFile.println("  compound=true;")
+        dotFile.println("  graph [splines=ortho];")
+        dotFile.println("  rank=sink;")
         dotFile.println("  label = \"Projects should be buildable in the following order, if tests are not executed\";")
         dotFile.println("  labelloc = \"t\";")
         dotFile.println("  node [fontsize=14 fontname=\"Verdana\" style=filled shape=box];")
-        val cluster = mutableListOf<String>()
-        var previous: String? = null
-        var previousNode: String? = null
-        projects.forEach { project ->
-            if (cluster.isEmpty()) {
-                cluster.add(project)
-            } else if (cluster.all { comparator(it, project) == 0 }) {
-                cluster.add(project)
+        val current = mutableListOf<String>()
+        val allClusters = mutableMapOf<String, Cluster>()
+        val comparator: (String, String) -> Int = { p1, p2 ->
+            val deps1 = p1.transitiveDeps(projectToMetadata)
+            val deps2 = p2.transitiveDeps(projectToMetadata)
+            if (deps1.contains(p2)) {
+                1
+            } else if (deps2.contains(p1)) {
+                -1
             } else {
-                val id = writeCluster(cluster, dotFile, projectToMetadata)
-                val middle = cluster[cluster.size / 2]
-                if (previous != null) {
-                    val head = if (id.startsWith("cluster_")) "lhead=$id" else ""
-                    val tail = if (previous!!.startsWith("cluster_")) "ltail=$previous" else ""
-                    if (!cycles.any { (p1, p2) -> (p1 == previousNode && p2 == middle) || (p1 == middle && p2 == previousNode) }) {
-                        dotFile.println("  \"$previousNode\" -> \"$middle\" [$head $tail];")
-                    }
-                }
-                previousNode = middle
-                textFile.println("  - ${cluster.joinToString(", ")}")
-                cluster.clear()
-                cluster.add(project)
-                previous = id
+                0
             }
         }
-        if (cluster.isNotEmpty()) {
-            val id = writeCluster(cluster, dotFile, projectToMetadata)
-            val middle = cluster[cluster.size / 2]
-            if (previous != null) {
-                val head = if (id.startsWith("cluster_")) "lhead=$id" else ""
-                val tail = if (previous!!.startsWith("cluster_")) "ltail=$previous" else ""
-                if (!cycles.any { (p1, p2) -> (p1 == previousNode && p2 == middle) || (p1 == middle && p2 == previousNode) }) {
-
-                    dotFile.println("  \"$previousNode\" -> \"$middle\" [$head $tail];")
-                }
+        projects.forEach { project ->
+            if (current.isEmpty()) {
+                current.add(project)
+            } else if (current.all { comparator(it, project) == 0 }) {
+                current.add(project)
+            } else {
+                val cluster = registerNewCluster(current, dotFile, projectToMetadata, allClusters, cycles, warnings)
+                allClusters.put(cluster.name, cluster)
+                textFile.println("  - ${current.joinToString(", ")}")
+                current.clear()
+                current.add(project)
             }
-            textFile.println("  - ${cluster.joinToString(", ")}")
+        }
+        if (current.isNotEmpty()) {
+            registerNewCluster(current, dotFile, projectToMetadata, allClusters, cycles, warnings)
+            textFile.println("  - ${current.joinToString(", ")}")
         }
         cycles.forEach { (p1, p2) ->
-            dotFile.println("  \"$p1\" -> \"$p2\" [color=red];")
+            dotFile.println("  \"$p1\" -> \"$p2\" [color=red penwidth=3];")
+        }
+        if (!warnings.isEmpty()) {
+            val warningsText = warnings.map { w -> w.removePrefix("[WARNING] ") }
+                .joinToString("\\l")
+            dotFile.println("  subgraph warnings {")
+            dotFile.println("    label = \"Warnings\";")
+            dotFile.println("    node [shape=plaintext];")
+            dotFile.println("    warnings [label=\"${warningsText}\"];")
+            dotFile.println("  }")
         }
         dotFile.println("}")
     }
 
-    private fun writeCluster(cluster: MutableList<String>, dotFile: PrintWriter, projectToMetadata: MutableMap<String, ModuleMetadata>): String {
+    private fun registerNewCluster(
+        current: MutableList<String>,
+        dotFile: PrintWriter,
+        projectToMetadata: Map<String, ModuleMetadata>,
+        allClusters: Map<String, Cluster>,
+        cycles: Set<Pair<String, String>>,
+        warnings: MutableSet<String>
+    ): Cluster {
+        val cluster = writeCluster(current, dotFile, projectToMetadata)
+        val remainingDependencies = (current.flatMap { it.transitiveDeps(projectToMetadata) }.toSet() - current).toMutableSet()
+        val sortedClusters = allClusters.values.reversed().toMutableList()
+        while (sortedClusters.isNotEmpty()) {
+            val previous = sortedClusters.removeFirst()
+            val previousAncestors = previous.transitiveDeps + previous.components()
+            val intersect = remainingDependencies.intersect(previousAncestors)
+            if (intersect.isNotEmpty()) {
+                val head = if (cluster is Cluster.Multi) "lhead=${cluster.name}" else ""
+                val tail = if (previous is Cluster.Multi) "ltail=${previous.name}" else ""
+                if (!cycles.any { (p1, p2) -> (p1 == previous.name && p2 == cluster.middle) || (p1 == cluster.middle && p2 == previous.name) }) {
+                    dotFile.println("  \"${previous.middle}\" -> \"${cluster.middle}\" [$head $tail];")
+                }
+                remainingDependencies.removeAll(intersect)
+                if (remainingDependencies.isEmpty()) {
+                    break
+                }
+            }
+        }
+        if (remainingDependencies.isNotEmpty()) {
+            warnings.add("""[WARNING] Could not find a cluster for $remainingDependencies. 
+                |This can be caused by a project missing in the checkouts list or a failing build.
+                |Using the last cluster as a fallback."""
+                .trimMargin())
+            if (allClusters.isEmpty()) {
+                throw IllegalStateException("No clusters found. This is not expected.")
+            }
+            val previous = allClusters.values.last()
+            val head = if (cluster is Cluster.Multi) "lhead=${cluster.name}" else ""
+            val tail = if (previous is Cluster.Multi) "ltail=${previous.name}" else ""
+            if (!cycles.any { (p1, p2) -> (p1 == previous.name && p2 == cluster.middle) || (p1 == cluster.middle && p2 == previous.name) }) {
+                dotFile.println("  \"${previous.middle}\" -> \"${cluster.middle}\" [$head $tail];")
+            }
+        }
+        return cluster
+    }
+
+    private fun writeCluster(components: List<String>, dotFile: PrintWriter, projectToMetadata: Map<String, ModuleMetadata>): Cluster {
         val id: String
-        if (cluster.size > 1) {
-            id = "cluster_${cluster.first()}"
+        val transitiveDeps = components.flatMap { projectToMetadata[it]?.dependencies ?: emptyList() }.toSet()
+        if (components.size > 1) {
+            id = "cluster_${components.first()}"
             dotFile.println("  subgraph $id {")
             dotFile.println("    label = \"\";")
-            cluster.forEach {
+            components.forEach {
                 val moduleMetadata = projectToMetadata[it]
                 val color = moduleMetadata.color()
                 dotFile.println("    \"$it\" [style=filled fillcolor=$color label=<${moduleMetadata?.asHtml()}>];")
             }
             dotFile.println("    color=blue;")
             dotFile.println("  }")
+            return Cluster.Multi(id, transitiveDeps, components.toList())
         } else {
-            id = cluster.first()
+            id = components.first()
             val moduleMetadata = projectToMetadata[id]
             val color = moduleMetadata.color()
             dotFile.println("    \"$id\" [style=filled fillcolor=$color label=<${moduleMetadata?.asHtml()}>];")
+            return Cluster.Single(id, transitiveDeps)
         }
-        return id
+    }
+
+    private fun sortByDependents(projectToMetadata: Map<String, ModuleMetadata>, cycles: MutableSet<Pair<String, String>>): List<String> {
+        val remaining = projectToMetadata.keys.toTypedArray()
+        var i = 0
+        while (i < remaining.size) {
+            var j = i + 1
+            while (j < remaining.size) {
+                val p1 = remaining[i]
+                val t1 = p1.transitiveDeps(projectToMetadata)
+                val p2 = remaining[j]
+                if (t1.contains(p2)) {
+                    val t2 = p2.transitiveDeps(projectToMetadata)
+                    if (t2.contains(p1)) {
+                        cycles.add(p1 to p2)
+                        j++
+                    } else {
+                        remaining[i] = p2
+                        remaining[j] = p1
+                        j = i + 1
+                    }
+                } else {
+                    j++
+                }
+            }
+            i++
+        }
+        return remaining.toList()
     }
 
     private fun ModuleMetadata?.color() = when (this?.status) {
@@ -272,6 +333,7 @@ abstract class ProjectGraphBuilder : DefaultTask() {
         val dotFile = File(temporaryDir, "${graphName}.dot")
         dotFile.printWriter(charset("UTF-8")).use { writer ->
             writer.println("digraph project_graph {")
+            writer.println("  graph [splines=ortho];")
             projectToDependencies.forEach { (project, metadata) ->
                 metadata.dependencies.forEach { dependency ->
                     writer.println("  \"$project\" -> \"$dependency\";")
@@ -313,6 +375,33 @@ abstract class ProjectGraphBuilder : DefaultTask() {
             dependencies.forEach {
                 it.transitiveDeps(deps, visited)
             }
+        }
+    }
+
+    sealed class Cluster(val name: String, val transitiveDeps: Set<String>) {
+        abstract val size: Int
+        abstract val middle: String
+        abstract fun components(): Set<String>
+
+        class Multi(name: String, transitiveDeps: Set<String>, val nodes: List<String>) : Cluster(name, transitiveDeps) {
+            override val size: Int
+                get() = nodes.size
+            override val middle: String
+                get() = nodes[size / 2]
+
+            override fun components() = nodes.toSet()
+
+            override fun toString() = "Cluster $name : $nodes"
+        }
+
+        class Single(name: String, transitiveDeps: Set<String>) : Cluster(name, transitiveDeps) {
+            override val size: Int
+                get() = 1
+            override val middle: String
+                get() = name
+
+            override fun toString() = "Node $name"
+            override fun components() = setOf(name)
         }
     }
 
