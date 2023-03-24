@@ -5,6 +5,7 @@ import org.gradle.api.file.DirectoryProperty
 import org.gradle.api.provider.SetProperty
 import org.gradle.api.tasks.*
 import org.gradle.process.ExecOperations
+import org.gradle.util.GradleVersion
 import java.io.File
 import java.io.PrintWriter
 import java.time.LocalDateTime
@@ -56,10 +57,11 @@ abstract class ProjectGraphBuilder : DefaultTask() {
         }
 
         // Generate the HTML
-        this::class.java.getResourceAsStream("/index.template")?.bufferedReader()?.readText()?.apply {
+        this::class.java.getResourceAsStream("/template.html")?.bufferedReader()?.readText()?.apply {
             val projects = projectToMetadata.keys.sorted()
             var templated = replace("{{ITEMS}}", projects.map { project ->
-                """        <li class="item" onclick="showImage(this, 'project-graph-$project.png')">$project</li>"""
+                val metadata = projectToMetadata[project]!!
+                """        <li class="item" onclick="showImage(this, 'project-graph-$project.png')">${metadata.asHtml()}</li>"""
             }.joinToString("\n"))
             templated = templated.replace("{{IMAGES}}", projects.map { project ->
                 """ <div class="graph">       
@@ -197,10 +199,12 @@ abstract class ProjectGraphBuilder : DefaultTask() {
             }
         }
         if (remainingDependencies.isNotEmpty()) {
-            warnings.add("""[WARNING] Could not find a cluster for $remainingDependencies. 
+            warnings.add(
+                """[WARNING] Could not find a cluster for $remainingDependencies. 
                 |This can be caused by a project missing in the checkouts list or a failing build.
                 |Using the last cluster as a fallback."""
-                .trimMargin())
+                    .trimMargin()
+            )
             if (allClusters.isEmpty()) {
                 throw IllegalStateException("No clusters found. This is not expected.")
             }
@@ -420,11 +424,34 @@ abstract class ProjectGraphBuilder : DefaultTask() {
         val buildStatus: String?,
         val dependencies: List<String>
     ) {
+
+        val buildStatusEmoji = when (buildStatus) {
+            "passing" -> Quality.GREEN.emoji
+            "failing" -> Quality.RED.emoji
+            else -> Quality.YELLOW.emoji
+        }
+
+        val gradleEmoji = when (gradleVersion) {
+            GradleVersion.current().version -> Quality.GREEN.emoji
+            else -> Quality.YELLOW.emoji
+        }
+
+        val statusEmoji = when(status) {
+            "SNAPSHOT" -> Quality.RED.emoji
+            "RELEASE" -> Quality.GREEN.emoji
+            else -> Quality.YELLOW.emoji
+        }
+
+        val settingsEmoji = when(settingsPluginVersion) {
+            "6.3.5" -> Quality.GREEN.emoji
+            else -> Quality.YELLOW.emoji
+        }
+
         fun asHtml() = """<TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
         |<TR><TD><B>$name</B></TD></TR>
-            |<TR><TD>Status: $status</TD></TR>
-            |<TR><TD>Gradle: $gradleVersion</TD></TR>
-            |<TR><TD>Settings: $settingsPluginVersion</TD></TR>
+            |<TR><TD>${statusEmoji} Status: $status</TD></TR>
+            |<TR><TD>${gradleEmoji} Gradle: $gradleVersion</TD></TR>
+            |<TR><TD>${settingsEmoji} Settings: $settingsPluginVersion</TD></TR>
             |${if (buildStatus != null) """<TR><TD>${buildStatusHtml}</TD></TR>""" else ""}
             |</TABLE>""".trimMargin()
 
@@ -434,9 +461,15 @@ abstract class ProjectGraphBuilder : DefaultTask() {
                 "failing" -> "red"
                 else -> "yellow"
             }
-            """<B>Build: <FONT COLOR="$color">${buildStatus.uppercase(Locale.ENGLISH)}</FONT></B>"""
+            """$buildStatusEmoji <B>Build: <FONT COLOR="$color">${buildStatus.uppercase(Locale.ENGLISH)}</FONT></B>"""
         } else {
             ""
+        }
+
+        enum class Quality(var emoji: String) {
+            RED("&#10060;"),
+            GREEN("&#128154;"),
+            YELLOW("&#128155;")
         }
     }
 }
