@@ -109,7 +109,12 @@ micronautProjects {
         .getOrElse(defaultModules) // Fallback to the default modules if no env var
         .map {
             val (name, branch) = if (it.contains('@')) {
-                it.split('@')
+                val pair = it.split('@')
+                if (pair.first() == "micronaut-starter") {
+                    listOf("micronaut-starter", "4.0.x")
+                } else {
+                    pair
+                }
             } else {
                 listOf(it, "master")
             }

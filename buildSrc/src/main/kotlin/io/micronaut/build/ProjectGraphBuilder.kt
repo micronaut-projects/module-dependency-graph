@@ -85,7 +85,9 @@ abstract class ProjectGraphBuilder : DefaultTask() {
         buildOrderFile.printWriter(charset("UTF-8")).use { txtWriter ->
             val projects = sortByDependents(projectToMetadata, cycles)
             cycles.forEach {
-                System.err.println("[WARNING] A cycle exists between ${it.first} and ${it.second}")
+                val warning = "[WARNING] A cycle exists between ${it.first} and ${it.second}"
+                System.err.println(warning)
+                warnings.add(warning)
             }
             File(temporaryDir, "build-order-graph.dot").also {
                 it.printWriter(charset("UTF-8")).use { dotWriter ->
@@ -247,8 +249,11 @@ abstract class ProjectGraphBuilder : DefaultTask() {
                 val p2 = remaining[j]
                 if (t1.contains(p2)) {
                     val t2 = p2.transitiveDeps(projectToMetadata)
+
                     if (t2.contains(p1)) {
-                        cycles.add(p1 to p2)
+                        if (!cycles.contains(p2 to p1)) {
+                            cycles.add(p1 to p2)
+                        }
                         j++
                     } else {
                         remaining[i] = p2
