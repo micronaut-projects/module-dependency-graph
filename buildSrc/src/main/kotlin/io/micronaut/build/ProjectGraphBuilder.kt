@@ -309,6 +309,21 @@ abstract class ProjectGraphBuilder : DefaultTask() {
                         props.get("build-status")?.toString(),
                         dependencies.toList()
                     )
+                } else if (dependencyFile.name == "ERROR") {
+                    val name = projectDir.name.substring("reportForMicronaut".length).lowercase()
+                    projectToMetadata[name] = ModuleMetadata(
+                        name,
+                        "ERROR",
+                        "ERROR",
+                        "ERROR",
+                        "ERROR",
+                        "ERROR",
+                        "ERROR",
+                        "ERROR",
+                        latestBuildPluginsVersion.get(),
+                        "ERROR",
+                        emptyList()
+                    )
                 }
             }
         }
