@@ -292,6 +292,11 @@ abstract class ProjectGraphBuilder : DefaultTask() {
                         allDependencies.split(",").forEach { dependency ->
                             dependencies.add(dependency.toProjectName())
                         }
+                        if (name == "gradle") {
+                            // Add an implicit dependency to platform, which is not captured by the tool
+                            // because it's added at runtime only by the plugin
+                            dependencies.add("platform")
+                        }
                     }
                     if (projectToMetadata.containsKey(name)) {
                         throw IllegalStateException("Duplicate project name: $name, also found in $dependencyFile")
