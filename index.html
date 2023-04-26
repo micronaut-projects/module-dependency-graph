@@ -80,7 +80,7 @@
 <body>
 <div class="header">
     <img src="https://micronaut.io/wp-content/uploads/2020/11/MIcronautLogo_Horizontal.svg">
-    <div class="right">Generated at Apr 26, 2023, 6:30:09 AM</div>
+    <div class="right">Generated at Apr 26, 2023, 7:45:51 AM</div>
 </div>
 <div class="row">
     <nav>
@@ -162,7 +162,7 @@
 <TR><TD><B>core 4.0.0-SNAPSHOT</B></TD></TR>
 <TR><TD>&#128155; Status M2</TD></TR>
 
-<TR><TD>&#128155; Gradle 8.1</TD></TR>
+<TR><TD>&#128155; Gradle 8.1.1</TD></TR>
 <TR><TD>&#128155; Settings 6.3.5</TD></TR>
 <TR><TD>&#128154; <B>Build: <FONT COLOR="darkgreen">PASSING</FONT></B></TD></TR>
 </TABLE></li>
@@ -492,7 +492,7 @@
 <TR><TD>&#128154; Micronaut 4.0.0-M2</TD></TR>
 <TR><TD>&#128155; Gradle 8.1</TD></TR>
 <TR><TD>&#128154; Settings 6.4.1</TD></TR>
-<TR><TD>&#128155; <B>Build: <FONT COLOR="yellow">INACCESSIBLE</FONT></B></TD></TR>
+<TR><TD>&#128154; <B>Build: <FONT COLOR="darkgreen">PASSING</FONT></B></TD></TR>
 </TABLE></li>
         <li class="item" onclick="showImage(this, 'project-graph-serde.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
 <TR><TD><B>serde 2.0.0-SNAPSHOT</B></TD></TR>
@@ -829,6 +829,29 @@
     }
     showImage(document.getElementsByClassName("item")[0], "build-order.png");
 
+    // Basic filtering with no ui...  just type things
+    let search = '';
+    function filter(text) {
+        Array.from(document.getElementsByClassName("item")).forEach(li => {
+            const cell = li.getElementsByTagName("td");
+            if (cell.length === 0) {
+                // Not a module...
+            } else if (cell[0].innerText.includes(text) || text === null) {
+                // make li visible
+                li.style.display = "block";
+            } else {
+                li.style.display = "none";
+            }
+        });
+    }
+    document.addEventListener("keydown", event => {
+        if (event.keyCode >= 65 && event.keyCode <= 90) {
+            search = (search == null ? '' : search) + event.key;
+        } else {
+            search = null;
+        }
+        filter(search);
+    });
 </script>
 </body>
 </html>
