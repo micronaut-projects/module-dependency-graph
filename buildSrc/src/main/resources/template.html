@@ -116,6 +116,29 @@
     }
     showImage(document.getElementsByClassName("item")[0], "build-order.png");
 
+    // Basic filtering with no ui...  just type things
+    let search = '';
+    function filter(text) {
+        Array.from(document.getElementsByClassName("item")).forEach(li => {
+            const cell = li.getElementsByTagName("td");
+            if (cell.length === 0) {
+                // Not a module...
+            } else if (cell[0].innerText.includes(text) || text === null) {
+                // make li visible
+                li.style.display = "block";
+            } else {
+                li.style.display = "none";
+            }
+        });
+    }
+    document.addEventListener("keydown", event => {
+        if (event.keyCode >= 65 && event.keyCode <= 90) {
+            search = (search == null ? '' : search) + event.key;
+        } else {
+            search = null;
+        }
+        filter(search);
+    });
 </script>
 </body>
 </html>
