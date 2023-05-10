@@ -98,9 +98,10 @@ abstract class ProjectGraphBuilder : DefaultTask() {
             warnings.add("[WARNING] The following modules are not included in the platform: $missingPlatformDependencies")
         }
         val cycles = mutableSetOf<Pair<String, String>>()
-        val projects = sortByDependents(projectToMetadata, cycles)
-        cycles.forEach {
-            val warning = "[WARNING] A cycle exists between ${it.first} and ${it.second}"
+        val cyclePaths = mutableSetOf<String>()
+        val projects = sortByDependents(projectToMetadata, cycles, cyclePaths)
+        cyclePaths.forEach {
+            val warning = "[WARNING] A cycle was detected: $it"
             System.err.println(warning)
             warnings.add(warning)
         }
@@ -240,7 +241,7 @@ abstract class ProjectGraphBuilder : DefaultTask() {
         }
     }
 
-    private fun sortByDependents(projectToMetadata: Map<String, ModuleMetadata>, cycles: MutableSet<Pair<String, String>>): List<String> {
+    private fun sortByDependents(projectToMetadata: Map<String, ModuleMetadata>, cycles: MutableSet<Pair<String, String>>, cyclePaths: MutableSet<String>): List<String> {
         val remaining = projectToMetadata.keys.toTypedArray()
         var i = 0
         while (i < remaining.size) {
@@ -255,6 +256,9 @@ abstract class ProjectGraphBuilder : DefaultTask() {
                     if (t2.contains(p1)) {
                         if (!cycles.contains(p2 to p1)) {
                             cycles.add(p1 to p2)
+                            p1.findPathTo(projectToMetadata, p2)?.also {
+                                cyclePaths.add(it)
+                            }
                         }
                         j++
                     } else {
@@ -377,6 +381,31 @@ abstract class ProjectGraphBuilder : DefaultTask() {
         val transitive = mutableSetOf<String>()
         this.transitiveDeps(deps, transitive)
         return transitive
+    }
+
+    fun String.findPathTo(deps: Map<String, ModuleMetadata>, target: String): String? {
+        val path = findPathTo(deps, target, this, mutableSetOf())
+        if (path != null) {
+            return "$path -> $this"
+        }
+        return null
+    }
+
+    fun String.findPathTo(deps: Map<String, ModuleMetadata>, target: String, currentPath: String, visited: MutableSet<String>): String? {
+        if (visited.add(this)) {
+            val dependencies = deps[this]?.dependencies ?: emptySet()
+            dependencies.forEach {
+                val path = "$currentPath -> $it"
+                if (it == target) {
+                    return path
+                }
+                val candidate = it.findPathTo(deps, target, path, visited)
+                if (candidate != null) {
+                    return candidate
+                }
+            }
+        }
+        return null;
     }
 
     private fun String.transitiveDeps(deps: Map<String, ModuleMetadata>, visited: MutableSet<String>): Unit {
