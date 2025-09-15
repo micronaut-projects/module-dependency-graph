@@ -10,8 +10,8 @@ initscript {
         mavenCentral()
     }
     dependencies {
-        classpath "org.apache.groovy:groovy-xml:4.0.10"
-        classpath "org.apache.groovy:groovy-json:4.0.10"
+        classpath "org.apache.groovy:groovy-xml:5.0.1"
+        classpath "org.apache.groovy:groovy-json:5.0.1"
     }
 }
 
