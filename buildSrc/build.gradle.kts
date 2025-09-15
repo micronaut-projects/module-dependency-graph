@@ -11,6 +11,6 @@ repositories {
 }
 
 dependencies {
-    implementation("org.gradle:gradle-tooling-api:8.2-20230323083057+0000")
-    implementation("org.eclipse.jgit:org.eclipse.jgit:6.5.0.202303070854-r")
+    implementation("org.gradle:gradle-tooling-api:9.0.0")
+    implementation("org.eclipse.jgit:org.eclipse.jgit:7.3.0.202506031305-r")
 }
