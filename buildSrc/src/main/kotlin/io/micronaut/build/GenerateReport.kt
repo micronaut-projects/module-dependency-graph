@@ -7,7 +7,6 @@ import org.gradle.api.file.RegularFileProperty
 import org.gradle.api.provider.Property
 import org.gradle.api.provider.ProviderFactory
 import org.gradle.api.tasks.*
-import org.gradle.tooling.GradleConnector
 import java.io.File
 import java.nio.file.Files
 import javax.inject.Inject
@@ -41,16 +40,24 @@ abstract class GenerateReport : DefaultTask() {
         }
         Files.createDirectories(reportDirectory.get().asFile.toPath())
         try {
-            GradleConnector.newConnector()
-                    .forProjectDirectory(projectDir)
-                    .connect().use {
-                    it.newBuild()
-                        .withArguments("-I", initScriptPath, "-DreportDir=" + reportDirectory.asFile.get().absolutePath)
-                        .forTasks("extractMicronautDependencies")
-                        .setStandardOutput(System.out)
-                        .setStandardError(System.err)
-                        .run()
-                    }
+            val gradlew = if (System.getProperty("os.name").lowercase().contains("win")) "gradlew.bat" else "./gradlew"
+            val reportDirPath = reportDirectory.asFile.get().absolutePath
+            val command = listOf(
+                gradlew,
+                "--no-daemon",
+                "-I", initScriptPath,
+                "-DreportDir=$reportDirPath",
+                "extractMicronautDependencies"
+            )
+            val process = ProcessBuilder(command)
+                .directory(projectDir)
+                .redirectOutput(ProcessBuilder.Redirect.INHERIT)
+                .redirectError(ProcessBuilder.Redirect.INHERIT)
+                .start()
+            val exit = process.waitFor()
+            if (exit != 0) {
+                throw RuntimeException("Gradle build failed with exit code $exit")
+            }
         } catch (e: Exception) {
             // We intentionally ignore the status of the build result
             System.err.println(e.message)
