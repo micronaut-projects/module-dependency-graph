@@ -358,6 +358,8 @@ abstract class ProjectGraphBuilder : DefaultTask() {
         val dotFile = File(temporaryDir, "${graphName}.dot")
         dotFile.printWriter(charset("UTF-8")).use { writer ->
             writer.println("digraph project_graph {")
+            writer.println("  graph [splines=ortho];")
+            writer.println("  rank=sink;")
             projectToDependencies.forEach { (project, metadata) ->
                 metadata.dependencies.forEach { dependency ->
                     writer.println("  \"$project\" -> \"$dependency\";")
