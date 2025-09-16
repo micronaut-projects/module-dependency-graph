@@ -198,20 +198,24 @@ abstract class ProjectGraphBuilder : DefaultTask() {
             }
         }
         if (remainingDependencies.isNotEmpty()) {
-            warnings.add(
-                """[WARNING] Could not find a cluster for $remainingDependencies. 
-                |This can be caused by a project missing in the checkouts list or a failing build.
-                |Using the last cluster as a fallback."""
-                    .trimMargin()
-            )
+            warnings.add("""
+        [WARNING] Could not find a cluster for $remainingDependencies. 
+        This can be caused by a project missing in the checkouts list or a failing build.
+    """.trimIndent())
             if (allClusters.isEmpty()) {
-                throw IllegalStateException("No clusters found. This is not expected.")
-            }
-            val previous = allClusters.values.last()
-            val head = if (cluster is Cluster.Multi) "lhead=${cluster.name}" else ""
-            val tail = if (previous is Cluster.Multi) "ltail=${previous.name}" else ""
-            if (!cycles.any { (p1, p2) -> (p1 == previous.name && p2 == cluster.middle) || (p1 == cluster.middle && p2 == previous.name) }) {
-                dotFile.println("  \"${previous.middle}\" -> \"${cluster.middle}\" [$head $tail];")
+                // Don't throw! Just warn and proceed.
+                warnings.add("""
+            [WARNING] No previous clusters exist when trying to link dependencies for ${current.joinToString()}. 
+            This likely means the build graph is missing some modules, or initial project(s) have unresolved dependencies.
+        """.trimIndent())
+                // Do not attempt to add a fallback edge, just continue.
+            } else {
+                val previous = allClusters.values.last()
+                val head = if (cluster is Cluster.Multi) "lhead=${cluster.name}" else ""
+                val tail = if (previous is Cluster.Multi) "ltail=${previous.name}" else ""
+                if (!cycles.any { (p1, p2) -> (p1 == previous.name && p2 == cluster.middle) || (p1 == cluster.middle && p2 == previous.name) }) {
+                    dotFile.println("  \"${previous.middle}\" -> \"${cluster.middle}\" [$head $tail];")
+                }
             }
         }
         return cluster
@@ -284,7 +288,11 @@ abstract class ProjectGraphBuilder : DefaultTask() {
     private fun buildProjectMetadataMap(reportsDir: File): MutableMap<String, ModuleMetadata> {
         val projectToMetadata = mutableMapOf<String, ModuleMetadata>()
         reportsDir.listFiles().forEach { projectDir ->
-            projectDir.listFiles().forEach { dependencyFile ->
+            projectDir.listFiles()
+                .sortedWith(compareBy<File> {
+                    it.extension != "properties"
+                }.thenBy { it.name })
+                .forEach { dependencyFile ->
                 if (dependencyFile.name.endsWith(".properties")) {
                     val dependencies = mutableSetOf<String>()
                     val props = Properties()
@@ -303,7 +311,7 @@ abstract class ProjectGraphBuilder : DefaultTask() {
                         }
                     }
                     if (projectToMetadata.containsKey(name)) {
-                        throw IllegalStateException("Duplicate project name: $name, also found in $dependencyFile")
+                        throw IllegalStateException("Duplicate project name: $name, found in $dependencyFile and ${projectToMetadata.get(name)?.dependencyFile}")
                     }
                     projectToMetadata[name] = ModuleMetadata(
                         name,
@@ -316,7 +324,8 @@ abstract class ProjectGraphBuilder : DefaultTask() {
                         props.get("settingsPluginVersion").toString(),
                         latestBuildPluginsVersion.get(),
                         props.get("build-status")?.toString(),
-                        dependencies.toList()
+                        dependencies.toList(),
+                        dependencyFile
                     )
                 } else if (dependencyFile.name == "ERROR") {
                     val name = projectDir.name.substring("reportForMicronaut".length).lowercase()
@@ -331,7 +340,8 @@ abstract class ProjectGraphBuilder : DefaultTask() {
                         "ERROR",
                         latestBuildPluginsVersion.get(),
                         "ERROR",
-                        emptyList()
+                        emptyList(),
+                        dependencyFile
                     )
                 }
             }
@@ -455,7 +465,8 @@ abstract class ProjectGraphBuilder : DefaultTask() {
         val settingsPluginVersion: String,
         val latestSettingsPluginVersion: String,
         val buildStatus: String?,
-        val dependencies: List<String>
+        val dependencies: List<String>,
+        val dependencyFile: File
     ) {
 
         val buildStatusEmoji = when (buildStatus) {

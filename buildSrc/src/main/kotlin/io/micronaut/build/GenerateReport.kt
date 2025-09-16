@@ -51,10 +51,21 @@ abstract class GenerateReport : DefaultTask() {
             )
             val process = ProcessBuilder(command)
                 .directory(projectDir)
-                .redirectOutput(ProcessBuilder.Redirect.INHERIT)
-                .redirectError(ProcessBuilder.Redirect.INHERIT)
                 .start()
+
+            val stdoutThread = Thread {
+                process.inputStream.copyTo(System.out)
+            }
+            val stderrThread = Thread {
+                process.errorStream.copyTo(System.err)
+            }
+            stdoutThread.start()
+            stderrThread.start()
+
             val exit = process.waitFor()
+            stdoutThread.join()
+            stderrThread.join()
+
             if (exit != 0) {
                 throw RuntimeException("Gradle build failed with exit code $exit")
             }
