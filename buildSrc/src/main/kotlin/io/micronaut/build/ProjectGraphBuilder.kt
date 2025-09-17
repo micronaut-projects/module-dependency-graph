@@ -15,7 +15,7 @@ import java.time.format.FormatStyle
 import java.util.*
 import javax.inject.Inject
 
-private const val MICRONAUT_BASELINE_VERSION = "4."
+private const val MICRONAUT_BASELINE_VERSION = "5."
 
 @CacheableTask
 abstract class ProjectGraphBuilder : DefaultTask() {
