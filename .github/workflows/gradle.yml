@@ -51,8 +51,11 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
 
+      - name: Cleanup
+        run: ./gradlew clean
+
       - name: Execute Gradle build
-        run: ./gradlew allReports graphBuilder
+        run: ./gradlew allReports graphBuilder --continue
         env:
           MICRONAUT_MODULES: ${{ steps.module-fetch.outputs.MICRONAUT_MODULES }}
           GH_TOKEN_PUBLIC_REPOS_READONLY: ${{ secrets.GH_TOKEN_PUBLIC_REPOS_READONLY }}
