@@ -1,6 +1,8 @@
 import org.gradle.api.services.BuildService
 import org.gradle.api.services.BuildServiceParameters
 import org.gradle.util.GradleVersion
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 initscript {
     repositories {
@@ -138,6 +140,8 @@ abstract class ExtractMicronautDependencies extends DefaultTask {
 }
 
 abstract class MicronautDependenciesService implements BuildService<Params>, AutoCloseable {
+    private final Lock lock = new ReentrantLock()
+
     interface Params extends BuildServiceParameters {
         DirectoryProperty getOutputDir()
         Property<String> getGroupId()
@@ -155,7 +159,12 @@ abstract class MicronautDependenciesService implements BuildService<Params>, Aut
     abstract MapProperty<String, String> getProperties()
 
     void addDependencies(Set<String> dependencies) {
-        this.dependencies.addAll(dependencies)
+        lock.lock();
+        try {
+            this.dependencies.addAll(dependencies)
+        } finally {
+            lock.unlock()
+        }
     }
 
     void close() {
