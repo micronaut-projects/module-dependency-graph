@@ -33,6 +33,10 @@ val blockList = listOf(
     "micronaut-aws-lambda-benchmarks",
     "micronaut-http-benchmarks",
     "micronaut-upgrade",
+    "micronaut-build-plugin-sourcegen",
+    "micronaut-starter-analytics",
+    "micronaut-projectgen",
+    "micronaut-starter"
 )
 
 // For local dev with no env var, these are the modules to pull
