@@ -23,6 +23,16 @@ val blockList = listOf(
     "micronaut-profiles",
     "micronaut-project-template",
     "micronaut-starter-ui",
+    "micronaut-cla",
+    "micronaut-docs-mn1",
+    "micronaut-docs-mn2",
+    "micronaut-docs-mn3",
+    "micronaut-docs-index",
+    "micronaut-docs-deploy",
+    "micronaut-documentation",
+    "micronaut-aws-lambda-benchmarks",
+    "micronaut-http-benchmarks",
+    "micronaut-upgrade",
 )
 
 // For local dev with no env var, these are the modules to pull
