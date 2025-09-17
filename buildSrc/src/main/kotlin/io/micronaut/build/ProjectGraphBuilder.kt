@@ -9,6 +9,7 @@ import org.gradle.util.GradleVersion
 import java.io.File
 import java.io.PrintWriter
 import java.net.URL
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
@@ -124,7 +125,7 @@ abstract class ProjectGraphBuilder : DefaultTask() {
         dotFile.println("  compound=true;")
         dotFile.println("  graph [splines=ortho];")
         dotFile.println("  rank=sink;")
-        dotFile.println("  label = \"Projects should be buildable in the following order, if tests are not executed\";")
+        dotFile.println("  label = \"${LocalDate.now()} - Projects should be buildable in the following order, if tests are not executed\";")
         dotFile.println("  labelloc = \"t\";")
         dotFile.println("  node [fontsize=14 fontname=\"Verdana\" style=filled shape=box];")
         val current = mutableListOf<String>()
@@ -359,6 +360,7 @@ abstract class ProjectGraphBuilder : DefaultTask() {
         dotFile.printWriter(charset("UTF-8")).use { writer ->
             writer.println("digraph project_graph {")
             writer.println("  graph [splines=ortho];")
+            writer.println("  label=\"${LocalDate.now()} - Project graph\"")
             writer.println("  rank=sink;")
             projectToDependencies.forEach { (project, metadata) ->
                 metadata.dependencies.forEach { dependency ->
