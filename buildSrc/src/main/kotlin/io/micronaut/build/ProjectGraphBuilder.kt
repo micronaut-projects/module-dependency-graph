@@ -374,9 +374,12 @@ abstract class ProjectGraphBuilder : DefaultTask() {
     }
 
     private fun invokeGraphviz(outputDir: File, graphName: String, dotFile: File) {
-        execOperations.exec {
+        val result = execOperations.exec {
             executable = "dot"
             args = listOf("-Tpng", "-o", File(outputDir, "${graphName}.png").absolutePath, dotFile.absolutePath)
+        }
+        if (result.exitValue != 0) {
+            result.rethrowFailure()
         }
     }
 
