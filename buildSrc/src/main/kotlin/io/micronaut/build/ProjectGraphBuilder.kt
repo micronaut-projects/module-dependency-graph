@@ -48,6 +48,7 @@ abstract class ProjectGraphBuilder : DefaultTask() {
 
     @TaskAction
     fun buildGraph() {
+        println("[ProjectGraphBuilder] Starting graph build at " + LocalDateTime.now())
         val reportsDir = reportsDirectory.get().asFile
         val outputDir = outputDirectory.get().asFile
         // This algorithm works in 2 steps:
@@ -58,6 +59,7 @@ abstract class ProjectGraphBuilder : DefaultTask() {
         // 2. We build the dependency graph by reconciling the dependencies of each
         // project with the dependencies of the projects it depends on.
         val projectToMetadata = buildProjectMetadataMap(reportsDir)
+        println("[ProjectGraphBuilder] Processed ${projectToMetadata.size} modules")
         // Build a first graph will all modules
         generateDependencyGraphImage(projectToMetadata, outputDir, "project-graph")
         // And a second one filtering out "core"
@@ -92,6 +94,7 @@ abstract class ProjectGraphBuilder : DefaultTask() {
         }
 
         val warnings = mutableSetOf<String>()
+        println("[ProjectGraphBuilder] Finished building dependency graphs at " + LocalDateTime.now())
         val platformDependencies = "platform".transitiveDeps(projectToMetadata)
         val allModules = projectToMetadata.keys - "platform" - projectsExcludedFromPlatform.getOrElse(Collections.emptySet())
         val missingPlatformDependencies = allModules.filter { it !in platformDependencies }
@@ -295,6 +298,7 @@ abstract class ProjectGraphBuilder : DefaultTask() {
                 }.thenBy { it.name })
                 .forEach { dependencyFile ->
                 if (dependencyFile.name.endsWith(".properties")) {
+                    println("[ProjectGraphBuilder] Processing properties file: ${dependencyFile.absolutePath}")
                     val dependencies = mutableSetOf<String>()
                     val props = Properties()
                     dependencyFile.inputStream().use { props.load(it) }
@@ -314,6 +318,7 @@ abstract class ProjectGraphBuilder : DefaultTask() {
                     if (projectToMetadata.containsKey(name)) {
                         throw IllegalStateException("Duplicate project name: $name, found in $dependencyFile and ${projectToMetadata.get(name)?.dependencyFile}")
                     }
+                    println("[ProjectGraphBuilder] -> Loaded project '$name', version: ${props.get("version")}, dependencies: $dependencies")
                     projectToMetadata[name] = ModuleMetadata(
                         name,
                         props.get("version").toString(),
@@ -330,6 +335,11 @@ abstract class ProjectGraphBuilder : DefaultTask() {
                     )
                 } else if (dependencyFile.name == "ERROR") {
                     val name = projectDir.name.substring("reportForMicronaut".length).lowercase()
+                    println("[ProjectGraphBuilder] ERROR: Found build ERROR for project '$name' (file: ${dependencyFile.absolutePath})")
+                    val msg = dependencyFile.readText().trim()
+                    if (msg.isNotEmpty()) {
+                        println("[ProjectGraphBuilder] -> ERROR details: $msg")
+                    }
                     projectToMetadata[name] = ModuleMetadata(
                         name,
                         "ERROR",
