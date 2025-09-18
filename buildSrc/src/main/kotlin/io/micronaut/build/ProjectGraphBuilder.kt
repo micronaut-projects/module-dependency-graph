@@ -202,16 +202,20 @@ abstract class ProjectGraphBuilder : DefaultTask() {
             }
         }
         if (remainingDependencies.isNotEmpty()) {
-            warnings.add("""
+            warnings.add(
+                """
         [WARNING] Could not find a cluster for $remainingDependencies. 
         This can be caused by a project missing in the checkouts list or a failing build.
-    """.trimIndent())
+    """.trimIndent()
+            )
             if (allClusters.isEmpty()) {
                 // Don't throw! Just warn and proceed.
-                warnings.add("""
+                warnings.add(
+                    """
             [WARNING] No previous clusters exist when trying to link dependencies for ${current.joinToString()}. 
             This likely means the build graph is missing some modules, or initial project(s) have unresolved dependencies.
-        """.trimIndent())
+        """.trimIndent()
+                )
                 // Do not attempt to add a fallback edge, just continue.
             } else {
                 val previous = allClusters.values.last()
@@ -286,6 +290,7 @@ abstract class ProjectGraphBuilder : DefaultTask() {
     private fun ModuleMetadata?.color() = when (this?.status) {
         "SNAPSHOT" -> "white"
         "RELEASE" -> "aquamarine"
+        "ERROR" -> "crimson"
         else -> "aquamarine2"
     }
 
@@ -297,65 +302,66 @@ abstract class ProjectGraphBuilder : DefaultTask() {
                     it.extension != "properties"
                 }.thenBy { it.name })
                 .forEach { dependencyFile ->
-                if (dependencyFile.name.endsWith(".properties")) {
-                    println("[ProjectGraphBuilder] Processing properties file: ${dependencyFile.absolutePath}")
-                    val dependencies = mutableSetOf<String>()
-                    val props = Properties()
-                    dependencyFile.inputStream().use { props.load(it) }
-                    val groupId = props.get("groupId").toString()
-                    val name = groupId.toProjectName()
-                    val allDependencies = props.get("dependencies").toString().trim()
-                    if (allDependencies != "") {
-                        allDependencies.split(",").forEach { dependency ->
-                            dependencies.add(dependency.toProjectName())
+                    println(dependencyFile)
+                    if (dependencyFile.name.endsWith(".properties")) {
+                        println("[ProjectGraphBuilder] Processing properties file: ${dependencyFile.absolutePath}")
+                        val dependencies = mutableSetOf<String>()
+                        val props = Properties()
+                        dependencyFile.inputStream().use { props.load(it) }
+                        val groupId = props.get("groupId").toString()
+                        val name = groupId.toProjectName()
+                        val allDependencies = props.get("dependencies").toString().trim()
+                        if (allDependencies != "") {
+                            allDependencies.split(",").forEach { dependency ->
+                                dependencies.add(dependency.toProjectName())
+                            }
+                            if (name == "gradle") {
+                                // Add an implicit dependency to platform, which is not captured by the tool
+                                // because it's added at runtime only by the plugin
+                                dependencies.add("platform")
+                            }
                         }
-                        if (name == "gradle") {
-                            // Add an implicit dependency to platform, which is not captured by the tool
-                            // because it's added at runtime only by the plugin
-                            dependencies.add("platform")
+                        if (projectToMetadata.containsKey(name)) {
+                            throw IllegalStateException("Duplicate project name: $name, found in $dependencyFile and ${projectToMetadata.get(name)?.dependencyFile}")
                         }
+                        println("[ProjectGraphBuilder] -> Loaded project '$name', $props")
+                        projectToMetadata[name] = ModuleMetadata(
+                            name,
+                            props.get("version").toString(),
+                            groupId,
+                            props.get("status").toString(),
+                            props.get("githubSlug").toString(),
+                            props.get("micronautVersion").toString(),
+                            props.get("gradleVersion").toString(),
+                            props.get("settingsPluginVersion").toString(),
+                            latestBuildPluginsVersion.get(),
+                            props.get("build-status")?.toString(),
+                            dependencies.toList(),
+                            dependencyFile
+                        )
+                    } else if (dependencyFile.name == "ERROR") {
+                        val name = projectDir.name.substring("reportForMicronaut".length).lowercase()
+                        println("[ProjectGraphBuilder] ERROR: Found build ERROR for project '$name' (file: ${dependencyFile.absolutePath})")
+                        val msg = dependencyFile.readText().trim()
+                        if (msg.isNotEmpty()) {
+                            println("[ProjectGraphBuilder] -> ERROR details: $msg")
+                        }
+                        projectToMetadata[name] = ModuleMetadata(
+                            name,
+                            "ERROR",
+                            "ERROR",
+                            "ERROR",
+                            "ERROR",
+                            "ERROR",
+                            "ERROR",
+                            "ERROR",
+                            latestBuildPluginsVersion.get(),
+                            "ERROR",
+                            emptyList(),
+                            dependencyFile
+                        )
                     }
-                    if (projectToMetadata.containsKey(name)) {
-                        throw IllegalStateException("Duplicate project name: $name, found in $dependencyFile and ${projectToMetadata.get(name)?.dependencyFile}")
-                    }
-                    println("[ProjectGraphBuilder] -> Loaded project '$name', $props")
-                    projectToMetadata[name] = ModuleMetadata(
-                        name,
-                        props.get("version").toString(),
-                        groupId,
-                        props.get("status").toString(),
-                        props.get("githubSlug").toString(),
-                        props.get("micronautVersion").toString(),
-                        props.get("gradleVersion").toString(),
-                        props.get("settingsPluginVersion").toString(),
-                        latestBuildPluginsVersion.get(),
-                        props.get("build-status")?.toString(),
-                        dependencies.toList(),
-                        dependencyFile
-                    )
-                } else if (dependencyFile.name == "ERROR") {
-                    val name = projectDir.name.substring("reportForMicronaut".length).lowercase()
-                    println("[ProjectGraphBuilder] ERROR: Found build ERROR for project '$name' (file: ${dependencyFile.absolutePath})")
-                    val msg = dependencyFile.readText().trim()
-                    if (msg.isNotEmpty()) {
-                        println("[ProjectGraphBuilder] -> ERROR details: $msg")
-                    }
-                    projectToMetadata[name] = ModuleMetadata(
-                        name,
-                        "ERROR",
-                        "ERROR",
-                        "ERROR",
-                        "ERROR",
-                        "ERROR",
-                        "ERROR",
-                        "ERROR",
-                        latestBuildPluginsVersion.get(),
-                        "ERROR",
-                        emptyList(),
-                        dependencyFile
-                    )
                 }
-            }
         }
         return projectToMetadata
     }
@@ -517,7 +523,13 @@ abstract class ProjectGraphBuilder : DefaultTask() {
         fun asHtml() = """<TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
         |<TR><TD><B>$name $version</B></TD></TR>
             |<TR><TD>${statusEmoji} Status $status</TD></TR>
-            |${if (name!="core") {"""<TR><TD>${micronautEmoji} Micronaut $micronautVersion</TD></TR>"""} else {""} }
+            |${
+            if (name != "core") {
+                """<TR><TD>${micronautEmoji} Micronaut $micronautVersion</TD></TR>"""
+            } else {
+                ""
+            }
+        }
             |<TR><TD>${gradleEmoji} Gradle $gradleVersion</TD></TR>
             |<TR><TD>${settingsEmoji} Settings $settingsPluginVersion</TD></TR>
             |${if (buildStatus != null) """<TR><TD>${buildStatusHtml}</TD></TR>""" else ""}
