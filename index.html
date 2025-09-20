@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        .header {
+            background-color: #333;
+            color: white;
+            padding: 1rem;
+            height: 90px
+        }
+
+        .right {
+            display: block;
+            float: right;
+            line-height: calc(90px - 2em);
+            vertical-align: middle;
+        }
+
+        .right a {
+            color: white;
+        }
+
+        .row {
+            display: flex;
+            height: calc(100% - 90px);
+        }
+
+        nav {
+            flex: 0 100 auto;
+            padding: 1rem;
+            background-color: #333;
+            color: #EEE;
+            overflow-y: scroll;
+        }
+
+        li {
+            list-style-type: none;
+            border-radius: 16px 3px;
+            padding: 12px;
+            font-size: 1.2em;
+            width: 100%;
+            cursor: pointer;
+            margin: 3px;
+            transition: background-color 0.5s ease;
+        }
+
+        li:hover {
+            background-color: #ddd;
+        }
+
+        li.active {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .image-container {
+            flex: 1;
+            padding: 1rem;
+        }
+
+        img {
+            margin: auto;
+            max-width: 100%;
+            max-height: 100%;
+        }
+    </style>
+    <script src="https://unpkg.com/js-image-zoom@0.7.0/js-image-zoom.js" type="application/javascript"></script>
+</head>
+<body>
+<div class="header">
+    <img src="https://micronaut.io/wp-content/uploads/2020/11/MIcronautLogo_Horizontal.svg">
+    <div class="right">Generated at Sep 20, 2025, 12:32:55 PM</div>
+</div>
+<div class="row">
+    <nav>
+        <li class="item" onclick="showImage(this, 'build-order.png')">Build Order</li>
+        <li class="item" onclick="showImage(this, 'project-graph.png')">Project graph</li>
+        <li class="item" onclick="showImage(this, 'project-graph-acme.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>acme 5.5.1-SNAPSHOT</B></TD></TR>
+<TR><TD>&#10060; Status SNAPSHOT</TD></TR>
+<TR><TD>&#10060; Micronaut 4.9.2</TD></TR>
+<TR><TD>&#128155; Gradle 8.14.2</TD></TR>
+<TR><TD>&#128155; Settings 7.6.4</TD></TR>
+<TR><TD>&#10060; <B>Build: <FONT COLOR="red">FAILING</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-aot.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>aot 2.9.1-SNAPSHOT</B></TD></TR>
+<TR><TD>&#10060; Status SNAPSHOT</TD></TR>
+<TR><TD>&#10060; Micronaut 4.9.10</TD></TR>
+<TR><TD>&#128155; Gradle 8.14.3</TD></TR>
+<TR><TD>&#128155; Settings 7.6.4</TD></TR>
+<TR><TD>&#128154; <B>Build: <FONT COLOR="darkgreen">PASSING</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-avro.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>avro 1.0.0-SNAPSHOT</B></TD></TR>
+<TR><TD>&#10060; Status SNAPSHOT</TD></TR>
+<TR><TD>&#10060; Micronaut 4.8.8</TD></TR>
+<TR><TD>&#128155; Gradle 8.13</TD></TR>
+<TR><TD>&#128155; Settings 7.4.0</TD></TR>
+<TR><TD>&#10060; <B>Build: <FONT COLOR="red">FAILING</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-aws.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>aws 4.11.1-SNAPSHOT</B></TD></TR>
+<TR><TD>&#10060; Status SNAPSHOT</TD></TR>
+<TR><TD>&#10060; Micronaut 4.9.4</TD></TR>
+<TR><TD>&#128155; Gradle 8.14.3</TD></TR>
+<TR><TD>&#128155; Settings 7.6.4</TD></TR>
+<TR><TD>&#10060; <B>Build: <FONT COLOR="red">FAILING</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-azure.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>azure 5.11.1-SNAPSHOT</B></TD></TR>
+<TR><TD>&#10060; Status SNAPSHOT</TD></TR>
+<TR><TD>&#10060; Micronaut 4.9.3</TD></TR>
+<TR><TD>&#128155; Gradle 8.14.2</TD></TR>
+<TR><TD>&#128155; Settings 7.6.4</TD></TR>
+<TR><TD>&#10060; <B>Build: <FONT COLOR="red">FAILING</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-beanvalidation.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>beanvalidation 4.8.1-SNAPSHOT</B></TD></TR>
+<TR><TD>&#10060; Status SNAPSHOT</TD></TR>
+<TR><TD>&#10060; Micronaut 4.9.4</TD></TR>
+<TR><TD>&#128155; Gradle 8.14.2</TD></TR>
+<TR><TD>&#128155; Settings 7.6.4</TD></TR>
+<TR><TD>&#128154; <B>Build: <FONT COLOR="darkgreen">PASSING</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-cache.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>cache 5.3.1-SNAPSHOT</B></TD></TR>
+<TR><TD>&#10060; Status SNAPSHOT</TD></TR>
+<TR><TD>&#10060; Micronaut 4.9.4</TD></TR>
+<TR><TD>&#128155; Gradle 8.14.2</TD></TR>
+<TR><TD>&#128155; Settings 7.6.4</TD></TR>
+<TR><TD>&#128154; <B>Build: <FONT COLOR="darkgreen">PASSING</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-cassandra.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>cassandra 6.8.0-SNAPSHOT</B></TD></TR>
+<TR><TD>&#10060; Status SNAPSHOT</TD></TR>
+<TR><TD>&#10060; Micronaut 4.9.4</TD></TR>
+<TR><TD>&#128155; Gradle 8.14.2</TD></TR>
+<TR><TD>&#128155; Settings 7.6.4</TD></TR>
+<TR><TD>&#10060; <B>Build: <FONT COLOR="red">FAILING</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-chatbots.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>chatbots 1.5.1-SNAPSHOT</B></TD></TR>
+<TR><TD>&#10060; Status SNAPSHOT</TD></TR>
+<TR><TD>&#10060; Micronaut 4.9.4</TD></TR>
+<TR><TD>&#128155; Gradle 8.14.2</TD></TR>
+<TR><TD>&#128155; Settings 7.6.4</TD></TR>
+<TR><TD>&#128154; <B>Build: <FONT COLOR="darkgreen">PASSING</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-coherence.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>coherence 5.0.7-SNAPSHOT</B></TD></TR>
+<TR><TD>&#10060; Status SNAPSHOT</TD></TR>
+<TR><TD>&#10060; Micronaut 4.9.11</TD></TR>
+<TR><TD>&#128155; Gradle 8.14.3</TD></TR>
+<TR><TD>&#128155; Settings 7.5.0</TD></TR>
+<TR><TD>&#128154; <B>Build: <FONT COLOR="darkgreen">PASSING</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-controlpanel.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>controlpanel 1.8.1-SNAPSHOT</B></TD></TR>
+<TR><TD>&#10060; Status SNAPSHOT</TD></TR>
+<TR><TD>&#10060; Micronaut 4.9.10</TD></TR>
+<TR><TD>&#128155; Gradle 8.14.3</TD></TR>
+<TR><TD>&#128155; Settings 7.6.4</TD></TR>
+<TR><TD>&#128154; <B>Build: <FONT COLOR="darkgreen">PASSING</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-core.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>core 4.10.0-SNAPSHOT</B></TD></TR>
+<TR><TD>&#10060; Status SNAPSHOT</TD></TR>
+
+<TR><TD>&#128155; Gradle 8.14.3</TD></TR>
+<TR><TD>&#128155; Settings 7.5.0</TD></TR>
+<TR><TD>&#10060; <B>Build: <FONT COLOR="red">FAILING</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-crac.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>crac 2.7.1-SNAPSHOT</B></TD></TR>
+<TR><TD>&#10060; Status SNAPSHOT</TD></TR>
+<TR><TD>&#10060; Micronaut 4.9.4</TD></TR>
+<TR><TD>&#128155; Gradle 8.14.2</TD></TR>
+<TR><TD>&#128155; Settings 7.6.4</TD></TR>
+<TR><TD>&#10060; <B>Build: <FONT COLOR="red">FAILING</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-data.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>data 4.13.5-SNAPSHOT</B></TD></TR>
+<TR><TD>&#10060; Status SNAPSHOT</TD></TR>
+<TR><TD>&#10060; Micronaut 4.9.11</TD></TR>
+<TR><TD>&#128155; Gradle 8.14.3</TD></TR>
+<TR><TD>&#128155; Settings 7.6.4</TD></TR>
+<TR><TD>&#128154; <B>Build: <FONT COLOR="darkgreen">PASSING</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-discovery.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>discovery 4.7.2-SNAPSHOT</B></TD></TR>
+<TR><TD>&#10060; Status SNAPSHOT</TD></TR>
+<TR><TD>&#10060; Micronaut 4.9.5</TD></TR>
+<TR><TD>&#128155; Gradle 8.14.2</TD></TR>
+<TR><TD>&#128155; Settings 7.6.4</TD></TR>
+<TR><TD>&#128154; <B>Build: <FONT COLOR="darkgreen">PASSING</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-eclipsestore.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>eclipsestore 1.10.1-SNAPSHOT</B></TD></TR>
+<TR><TD>&#10060; Status SNAPSHOT</TD></TR>
+<TR><TD>&#10060; Micronaut 4.9.3</TD></TR>
+<TR><TD>&#128155; Gradle 8.14.2</TD></TR>
+<TR><TD>&#128155; Settings 7.6.4</TD></TR>
+<TR><TD>&#10060; <B>Build: <FONT COLOR="red">FAILING</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-elasticsearch.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>elasticsearch 5.9.1-SNAPSHOT</B></TD></TR>
+<TR><TD>&#10060; Status SNAPSHOT</TD></TR>
+<TR><TD>&#10060; Micronaut 4.9.4</TD></TR>
+<TR><TD>&#128155; Gradle 8.14.2</TD></TR>
+<TR><TD>&#128155; Settings 7.6.4</TD></TR>
+<TR><TD>&#128154; <B>Build: <FONT COLOR="darkgreen">PASSING</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-email.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>email 2.9.1-SNAPSHOT</B></TD></TR>
+<TR><TD>&#10060; Status SNAPSHOT</TD></TR>
+<TR><TD>&#10060; Micronaut 4.9.4</TD></TR>
+<TR><TD>&#128155; Gradle 8.14.2</TD></TR>
+<TR><TD>&#128155; Settings 7.6.4</TD></TR>
+<TR><TD>&#10060; <B>Build: <FONT COLOR="red">FAILING</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-flyway.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>flyway 7.8.1-SNAPSHOT</B></TD></TR>
+<TR><TD>&#10060; Status SNAPSHOT</TD></TR>
+<TR><TD>&#10060; Micronaut 4.9.11</TD></TR>
+<TR><TD>&#128155; Gradle 8.14.3</TD></TR>
+<TR><TD>&#128155; Settings 7.6.4</TD></TR>
+<TR><TD>&#128154; <B>Build: <FONT COLOR="darkgreen">PASSING</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-gcp.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>gcp 5.12.1-SNAPSHOT</B></TD></TR>
+<TR><TD>&#10060; Status SNAPSHOT</TD></TR>
+<TR><TD>&#10060; Micronaut 4.9.3</TD></TR>
+<TR><TD>&#128155; Gradle 8.14.2</TD></TR>
+<TR><TD>&#128155; Settings 7.6.4</TD></TR>
+<TR><TD>&#10060; <B>Build: <FONT COLOR="red">FAILING</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-graal-languages.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>graal-languages 1.2.1-SNAPSHOT</B></TD></TR>
+<TR><TD>&#10060; Status SNAPSHOT</TD></TR>
+<TR><TD>&#10060; Micronaut 4.9.4</TD></TR>
+<TR><TD>&#128155; Gradle 8.14.3</TD></TR>
+<TR><TD>&#128155; Settings 7.6.4</TD></TR>
+<TR><TD>&#10060; <B>Build: <FONT COLOR="red">FAILING</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-gradle.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>gradle 4.5.5-SNAPSHOT</B></TD></TR>
+<TR><TD>&#10060; Status SNAPSHOT</TD></TR>
+<TR><TD>&#10060; Micronaut unknown</TD></TR>
+<TR><TD>&#128155; Gradle 8.13</TD></TR>
+<TR><TD>&#128155; Settings 7.5.0</TD></TR>
+<TR><TD>&#128154; <B>Build: <FONT COLOR="darkgreen">PASSING</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-graphql.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>graphql 4.8.1-SNAPSHOT</B></TD></TR>
+<TR><TD>&#10060; Status SNAPSHOT</TD></TR>
+<TR><TD>&#10060; Micronaut 4.9.4</TD></TR>
+<TR><TD>&#128155; Gradle 8.14.2</TD></TR>
+<TR><TD>&#128155; Settings 7.6.4</TD></TR>
+<TR><TD>&#128154; <B>Build: <FONT COLOR="darkgreen">PASSING</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-groovy.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>groovy 4.7.1-SNAPSHOT</B></TD></TR>
+<TR><TD>&#10060; Status SNAPSHOT</TD></TR>
+<TR><TD>&#10060; Micronaut 4.9.4</TD></TR>
+<TR><TD>&#128155; Gradle 8.14.2</TD></TR>
+<TR><TD>&#128155; Settings 7.6.4</TD></TR>
+<TR><TD>&#128154; <B>Build: <FONT COLOR="darkgreen">PASSING</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-grpc.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>grpc 4.11.1-SNAPSHOT</B></TD></TR>
+<TR><TD>&#10060; Status SNAPSHOT</TD></TR>
+<TR><TD>&#10060; Micronaut 4.9.4</TD></TR>
+<TR><TD>&#128155; Gradle 8.14.2</TD></TR>
+<TR><TD>&#128155; Settings 7.6.4</TD></TR>
+<TR><TD>&#10060; <B>Build: <FONT COLOR="red">FAILING</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-guice.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>guice 1.2.1-SNAPSHOT</B></TD></TR>
+<TR><TD>&#10060; Status SNAPSHOT</TD></TR>
+<TR><TD>&#10060; Micronaut 4.9.4</TD></TR>
+<TR><TD>&#128155; Gradle 8.14.2</TD></TR>
+<TR><TD>&#128155; Settings 7.6.4</TD></TR>
+<TR><TD>&#128154; <B>Build: <FONT COLOR="darkgreen">PASSING</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-jaxrs.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>jaxrs 4.9.3-SNAPSHOT</B></TD></TR>
+<TR><TD>&#10060; Status SNAPSHOT</TD></TR>
+<TR><TD>&#10060; Micronaut 4.9.4</TD></TR>
+<TR><TD>&#128155; Gradle 8.14.2</TD></TR>
+<TR><TD>&#128155; Settings 7.6.4</TD></TR>
+<TR><TD>&#10060; <B>Build: <FONT COLOR="red">FAILING</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-jms.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>jms 4.3.1-SNAPSHOT</B></TD></TR>
+<TR><TD>&#10060; Status SNAPSHOT</TD></TR>
+<TR><TD>&#10060; Micronaut 4.9.4</TD></TR>
+<TR><TD>&#128155; Gradle 8.14.2</TD></TR>
+<TR><TD>&#128155; Settings 7.6.4</TD></TR>
+<TR><TD>&#10060; <B>Build: <FONT COLOR="red">FAILING</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-jmx.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>jmx 4.7.1-SNAPSHOT</B></TD></TR>
+<TR><TD>&#10060; Status SNAPSHOT</TD></TR>
+<TR><TD>&#10060; Micronaut 4.9.4</TD></TR>
+<TR><TD>&#128155; Gradle 8.14.2</TD></TR>
+<TR><TD>&#128155; Settings 7.6.4</TD></TR>
+<TR><TD>&#128154; <B>Build: <FONT COLOR="darkgreen">PASSING</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-jsonschema.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>jsonschema 1.7.2-SNAPSHOT</B></TD></TR>
+<TR><TD>&#10060; Status SNAPSHOT</TD></TR>
+<TR><TD>&#10060; Micronaut 4.9.11</TD></TR>
+<TR><TD>&#128155; Gradle 8.14.3</TD></TR>
+<TR><TD>&#128155; Settings 7.6.4</TD></TR>
+<TR><TD>&#128154; <B>Build: <FONT COLOR="darkgreen">PASSING</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-kafka.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>kafka 5.9.1-SNAPSHOT</B></TD></TR>
+<TR><TD>&#10060; Status SNAPSHOT</TD></TR>
+<TR><TD>&#10060; Micronaut 4.9.11</TD></TR>
+<TR><TD>&#128155; Gradle 8.14.2</TD></TR>
+<TR><TD>&#128155; Settings 7.6.4</TD></TR>
+<TR><TD>&#128154; <B>Build: <FONT COLOR="darkgreen">PASSING</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-kotlin.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>kotlin 4.7.1-SNAPSHOT</B></TD></TR>
+<TR><TD>&#10060; Status SNAPSHOT</TD></TR>
+<TR><TD>&#10060; Micronaut 4.9.4</TD></TR>
+<TR><TD>&#128155; Gradle 8.14.2</TD></TR>
+<TR><TD>&#128155; Settings 7.6.4</TD></TR>
+<TR><TD>&#10060; <B>Build: <FONT COLOR="red">FAILING</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-kubernetes.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>kubernetes 7.1.2-SNAPSHOT</B></TD></TR>
+<TR><TD>&#10060; Status SNAPSHOT</TD></TR>
+<TR><TD>&#10060; Micronaut 4.9.7</TD></TR>
+<TR><TD>&#128155; Gradle 8.14.3</TD></TR>
+<TR><TD>&#128155; Settings 7.6.4</TD></TR>
+<TR><TD>&#10060; <B>Build: <FONT COLOR="red">FAILING</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-langchain4j.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>langchain4j 1.3.1-SNAPSHOT</B></TD></TR>
+<TR><TD>&#10060; Status SNAPSHOT</TD></TR>
+<TR><TD>&#10060; Micronaut 4.9.11</TD></TR>
+<TR><TD>&#128155; Gradle 8.14.3</TD></TR>
+<TR><TD>&#128155; Settings 7.6.4</TD></TR>
+<TR><TD>&#128154; <B>Build: <FONT COLOR="darkgreen">PASSING</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-liquibase.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>liquibase 7.0.0-SNAPSHOT</B></TD></TR>
+<TR><TD>&#10060; Status SNAPSHOT</TD></TR>
+<TR><TD>&#10060; Micronaut 4.9.10</TD></TR>
+<TR><TD>&#128155; Gradle 8.14.3</TD></TR>
+<TR><TD>&#128155; Settings 7.6.4</TD></TR>
+<TR><TD>&#128154; <B>Build: <FONT COLOR="darkgreen">PASSING</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-logging.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>logging ERROR</B></TD></TR>
+<TR><TD>&#128155; Status ERROR</TD></TR>
+<TR><TD>&#10060; Micronaut ERROR</TD></TR>
+<TR><TD>&#128155; Gradle ERROR</TD></TR>
+<TR><TD>&#128155; Settings ERROR</TD></TR>
+<TR><TD>&#128155; <B>Build: <FONT COLOR="yellow">ERROR</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-mcp.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>mcp 0.0.6-SNAPSHOT</B></TD></TR>
+<TR><TD>&#10060; Status SNAPSHOT</TD></TR>
+<TR><TD>&#10060; Micronaut 4.9.11</TD></TR>
+<TR><TD>&#128155; Gradle 8.14.3</TD></TR>
+<TR><TD>&#128155; Settings 7.6.4</TD></TR>
+<TR><TD>&#128154; <B>Build: <FONT COLOR="darkgreen">PASSING</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-micrometer.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>micrometer 5.12.1-SNAPSHOT</B></TD></TR>
+<TR><TD>&#10060; Status SNAPSHOT</TD></TR>
+<TR><TD>&#10060; Micronaut 4.9.4</TD></TR>
+<TR><TD>&#128155; Gradle 8.14.2</TD></TR>
+<TR><TD>&#128155; Settings 7.6.4</TD></TR>
+<TR><TD>&#10060; <B>Build: <FONT COLOR="red">FAILING</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-microstream.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>microstream 2.9.1-SNAPSHOT</B></TD></TR>
+<TR><TD>&#10060; Status SNAPSHOT</TD></TR>
+<TR><TD>&#10060; Micronaut 4.9.3</TD></TR>
+<TR><TD>&#128155; Gradle 8.14.2</TD></TR>
+<TR><TD>&#128155; Settings 7.6.4</TD></TR>
+<TR><TD>&#128154; <B>Build: <FONT COLOR="darkgreen">PASSING</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-mongodb.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>mongodb 5.7.1-SNAPSHOT</B></TD></TR>
+<TR><TD>&#10060; Status SNAPSHOT</TD></TR>
+<TR><TD>&#10060; Micronaut 4.9.11</TD></TR>
+<TR><TD>&#128155; Gradle 8.14.3</TD></TR>
+<TR><TD>&#128155; Settings 7.6.4</TD></TR>
+<TR><TD>&#128154; <B>Build: <FONT COLOR="darkgreen">PASSING</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-mqtt.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>mqtt 3.7.1-SNAPSHOT</B></TD></TR>
+<TR><TD>&#10060; Status SNAPSHOT</TD></TR>
+<TR><TD>&#10060; Micronaut 4.9.4</TD></TR>
+<TR><TD>&#128155; Gradle 8.14.2</TD></TR>
+<TR><TD>&#128155; Settings 7.6.4</TD></TR>
+<TR><TD>&#10060; <B>Build: <FONT COLOR="red">FAILING</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-multitenancy.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>multitenancy 5.6.1-SNAPSHOT</B></TD></TR>
+<TR><TD>&#10060; Status SNAPSHOT</TD></TR>
+<TR><TD>&#10060; Micronaut 4.8.18</TD></TR>
+<TR><TD>&#128155; Gradle 8.14.2</TD></TR>
+<TR><TD>&#128155; Settings 7.6.4</TD></TR>
+<TR><TD>&#10060; <B>Build: <FONT COLOR="red">FAILING</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-nats.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>nats 4.8.1-SNAPSHOT</B></TD></TR>
+<TR><TD>&#10060; Status SNAPSHOT</TD></TR>
+<TR><TD>&#10060; Micronaut 4.9.4</TD></TR>
+<TR><TD>&#128155; Gradle 8.14.2</TD></TR>
+<TR><TD>&#128155; Settings 7.6.4</TD></TR>
+<TR><TD>&#128154; <B>Build: <FONT COLOR="darkgreen">PASSING</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-neo4j.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>neo4j 6.10.1-SNAPSHOT</B></TD></TR>
+<TR><TD>&#10060; Status SNAPSHOT</TD></TR>
+<TR><TD>&#10060; Micronaut 4.9.3</TD></TR>
+<TR><TD>&#128155; Gradle 8.14.2</TD></TR>
+<TR><TD>&#128155; Settings 7.6.4</TD></TR>
+<TR><TD>&#10060; <B>Build: <FONT COLOR="red">FAILING</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-objectstorage.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>objectstorage 2.10.0-SNAPSHOT</B></TD></TR>
+<TR><TD>&#10060; Status SNAPSHOT</TD></TR>
+<TR><TD>&#10060; Micronaut 4.9.11</TD></TR>
+<TR><TD>&#128155; Gradle 8.14.2</TD></TR>
+<TR><TD>&#128155; Settings 7.6.4</TD></TR>
+<TR><TD>&#128154; <B>Build: <FONT COLOR="darkgreen">PASSING</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-openapi.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>openapi 6.18.2-SNAPSHOT</B></TD></TR>
+<TR><TD>&#10060; Status SNAPSHOT</TD></TR>
+<TR><TD>&#10060; Micronaut 4.9.11</TD></TR>
+<TR><TD>&#128155; Gradle 8.14.3</TD></TR>
+<TR><TD>&#128155; Settings 7.6.4</TD></TR>
+<TR><TD>&#128154; <B>Build: <FONT COLOR="darkgreen">PASSING</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-opensearch.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>opensearch 1.6.1-SNAPSHOT</B></TD></TR>
+<TR><TD>&#10060; Status SNAPSHOT</TD></TR>
+<TR><TD>&#10060; Micronaut 4.9.4</TD></TR>
+<TR><TD>&#128154; Gradle 9.0.0</TD></TR>
+<TR><TD>&#128155; Settings 7.6.4</TD></TR>
+<TR><TD>&#10060; <B>Build: <FONT COLOR="red">FAILING</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-oraclecloud.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>oraclecloud 5.4.0-SNAPSHOT</B></TD></TR>
+<TR><TD>&#10060; Status SNAPSHOT</TD></TR>
+<TR><TD>&#10060; Micronaut 4.9.10</TD></TR>
+<TR><TD>&#128155; Gradle 8.14.3</TD></TR>
+<TR><TD>&#128155; Settings 7.5.0</TD></TR>
+<TR><TD>&#10060; <B>Build: <FONT COLOR="red">FAILING</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-picocli.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>picocli 5.8.1-SNAPSHOT</B></TD></TR>
+<TR><TD>&#10060; Status SNAPSHOT</TD></TR>
+<TR><TD>&#10060; Micronaut 4.9.4</TD></TR>
+<TR><TD>&#128155; Gradle 8.14.2</TD></TR>
+<TR><TD>&#128155; Settings 7.6.4</TD></TR>
+<TR><TD>&#128154; <B>Build: <FONT COLOR="darkgreen">PASSING</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-platform.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>platform 4.10.0-SNAPSHOT</B></TD></TR>
+<TR><TD>&#10060; Status SNAPSHOT</TD></TR>
+<TR><TD>&#10060; Micronaut unknown</TD></TR>
+<TR><TD>&#128155; Gradle 8.14.3</TD></TR>
+<TR><TD>&#128155; Settings 7.5.0</TD></TR>
+<TR><TD>&#128154; <B>Build: <FONT COLOR="darkgreen">PASSING</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-problem.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>problem 3.8.1-SNAPSHOT</B></TD></TR>
+<TR><TD>&#10060; Status SNAPSHOT</TD></TR>
+<TR><TD>&#10060; Micronaut 4.9.4</TD></TR>
+<TR><TD>&#128155; Gradle 8.14.2</TD></TR>
+<TR><TD>&#128155; Settings 7.6.4</TD></TR>
+<TR><TD>&#128154; <B>Build: <FONT COLOR="darkgreen">PASSING</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-pulsar.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>pulsar 2.7.0-SNAPSHOT</B></TD></TR>
+<TR><TD>&#10060; Status SNAPSHOT</TD></TR>
+<TR><TD>&#10060; Micronaut 4.9.7</TD></TR>
+<TR><TD>&#128155; Gradle 8.14.3</TD></TR>
+<TR><TD>&#128155; Settings 7.6.4</TD></TR>
+<TR><TD>&#10060; <B>Build: <FONT COLOR="red">FAILING</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-r2dbc.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>r2dbc 6.1.1-SNAPSHOT</B></TD></TR>
+<TR><TD>&#10060; Status SNAPSHOT</TD></TR>
+<TR><TD>&#10060; Micronaut 4.9.4</TD></TR>
+<TR><TD>&#128155; Gradle 8.14.2</TD></TR>
+<TR><TD>&#128155; Settings 7.6.4</TD></TR>
+<TR><TD>&#128154; <B>Build: <FONT COLOR="darkgreen">PASSING</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-rabbitmq.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>rabbitmq 4.8.1-SNAPSHOT</B></TD></TR>
+<TR><TD>&#10060; Status SNAPSHOT</TD></TR>
+<TR><TD>&#10060; Micronaut 4.9.4</TD></TR>
+<TR><TD>&#128155; Gradle 8.14.2</TD></TR>
+<TR><TD>&#128155; Settings 7.6.4</TD></TR>
+<TR><TD>&#128154; <B>Build: <FONT COLOR="darkgreen">PASSING</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-reactor.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>reactor 3.8.1-SNAPSHOT</B></TD></TR>
+<TR><TD>&#10060; Status SNAPSHOT</TD></TR>
+<TR><TD>&#10060; Micronaut 4.9.11</TD></TR>
+<TR><TD>&#128155; Gradle 8.14.3</TD></TR>
+<TR><TD>&#128155; Settings 7.6.4</TD></TR>
+<TR><TD>&#128154; <B>Build: <FONT COLOR="darkgreen">PASSING</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-redis.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>redis 6.9.1-SNAPSHOT</B></TD></TR>
+<TR><TD>&#10060; Status SNAPSHOT</TD></TR>
+<TR><TD>&#10060; Micronaut 4.9.11</TD></TR>
+<TR><TD>&#128155; Gradle 8.14.3</TD></TR>
+<TR><TD>&#128155; Settings 7.6.4</TD></TR>
+<TR><TD>&#128154; <B>Build: <FONT COLOR="darkgreen">PASSING</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-rss.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>rss 4.7.1-SNAPSHOT</B></TD></TR>
+<TR><TD>&#10060; Status SNAPSHOT</TD></TR>
+<TR><TD>&#10060; Micronaut 4.9.7</TD></TR>
+<TR><TD>&#128155; Gradle 8.14.3</TD></TR>
+<TR><TD>&#128155; Settings 7.6.4</TD></TR>
+<TR><TD>&#128154; <B>Build: <FONT COLOR="darkgreen">PASSING</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-rxjava2.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>rxjava2 2.8.1-SNAPSHOT</B></TD></TR>
+<TR><TD>&#10060; Status SNAPSHOT</TD></TR>
+<TR><TD>&#10060; Micronaut 4.9.0</TD></TR>
+<TR><TD>&#128155; Gradle 8.14.2</TD></TR>
+<TR><TD>&#128155; Settings 7.6.4</TD></TR>
+<TR><TD>&#10060; <B>Build: <FONT COLOR="red">FAILING</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-rxjava3.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>rxjava3 3.8.1-SNAPSHOT</B></TD></TR>
+<TR><TD>&#10060; Status SNAPSHOT</TD></TR>
+<TR><TD>&#10060; Micronaut 4.9.4</TD></TR>
+<TR><TD>&#128155; Gradle 8.14.2</TD></TR>
+<TR><TD>&#128155; Settings 7.6.4</TD></TR>
+<TR><TD>&#10060; <B>Build: <FONT COLOR="red">FAILING</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-security.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>security 4.15.1-SNAPSHOT</B></TD></TR>
+<TR><TD>&#10060; Status SNAPSHOT</TD></TR>
+<TR><TD>&#10060; Micronaut 4.9.11</TD></TR>
+<TR><TD>&#128155; Gradle 8.14.3</TD></TR>
+<TR><TD>&#128155; Settings 7.6.4</TD></TR>
+<TR><TD>&#128154; <B>Build: <FONT COLOR="darkgreen">PASSING</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-serde.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>serde 2.15.2-SNAPSHOT</B></TD></TR>
+<TR><TD>&#10060; Status SNAPSHOT</TD></TR>
+<TR><TD>&#10060; Micronaut 4.9.11</TD></TR>
+<TR><TD>&#128155; Gradle 8.14.3</TD></TR>
+<TR><TD>&#128155; Settings 7.6.4</TD></TR>
+<TR><TD>&#128154; <B>Build: <FONT COLOR="darkgreen">PASSING</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-servlet.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>servlet 5.5.1-SNAPSHOT</B></TD></TR>
+<TR><TD>&#10060; Status SNAPSHOT</TD></TR>
+<TR><TD>&#10060; Micronaut 4.9.5</TD></TR>
+<TR><TD>&#128155; Gradle 8.14.3</TD></TR>
+<TR><TD>&#128155; Settings 7.6.4</TD></TR>
+<TR><TD>&#10060; <B>Build: <FONT COLOR="red">FAILING</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-session.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>session 4.7.1-SNAPSHOT</B></TD></TR>
+<TR><TD>&#10060; Status SNAPSHOT</TD></TR>
+<TR><TD>&#10060; Micronaut 4.9.4</TD></TR>
+<TR><TD>&#128155; Gradle 8.14.2</TD></TR>
+<TR><TD>&#128155; Settings 7.6.4</TD></TR>
+<TR><TD>&#10060; <B>Build: <FONT COLOR="red">FAILING</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-sourcegen.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>sourcegen 1.9.0-SNAPSHOT</B></TD></TR>
+<TR><TD>&#10060; Status SNAPSHOT</TD></TR>
+<TR><TD>&#10060; Micronaut 4.9.7</TD></TR>
+<TR><TD>&#128155; Gradle 8.14.2</TD></TR>
+<TR><TD>&#128155; Settings 7.4.0</TD></TR>
+<TR><TD>&#10060; <B>Build: <FONT COLOR="red">FAILING</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-spring.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>spring 5.11.3-SNAPSHOT</B></TD></TR>
+<TR><TD>&#10060; Status SNAPSHOT</TD></TR>
+<TR><TD>&#10060; Micronaut 4.9.11</TD></TR>
+<TR><TD>&#128155; Gradle 8.14.3</TD></TR>
+<TR><TD>&#128155; Settings 7.6.4</TD></TR>
+<TR><TD>&#128154; <B>Build: <FONT COLOR="darkgreen">PASSING</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-sql.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>sql 6.2.2-SNAPSHOT</B></TD></TR>
+<TR><TD>&#10060; Status SNAPSHOT</TD></TR>
+<TR><TD>&#10060; Micronaut 4.9.9</TD></TR>
+<TR><TD>&#128155; Gradle 8.14.3</TD></TR>
+<TR><TD>&#128155; Settings 7.6.4</TD></TR>
+<TR><TD>&#10060; <B>Build: <FONT COLOR="red">FAILING</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-test.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>test 4.8.2-SNAPSHOT</B></TD></TR>
+<TR><TD>&#10060; Status SNAPSHOT</TD></TR>
+<TR><TD>&#10060; Micronaut 4.9.10</TD></TR>
+<TR><TD>&#128155; Gradle 8.14.3</TD></TR>
+<TR><TD>&#128155; Settings 7.6.4</TD></TR>
+<TR><TD>&#128154; <B>Build: <FONT COLOR="darkgreen">PASSING</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-testresources.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>testresources 2.10.2-SNAPSHOT</B></TD></TR>
+<TR><TD>&#10060; Status SNAPSHOT</TD></TR>
+<TR><TD>&#10060; Micronaut 4.9.10</TD></TR>
+<TR><TD>&#128155; Gradle 8.14.3</TD></TR>
+<TR><TD>&#128155; Settings 7.6.4</TD></TR>
+<TR><TD>&#128154; <B>Build: <FONT COLOR="darkgreen">PASSING</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-toml.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>toml 2.7.1-SNAPSHOT</B></TD></TR>
+<TR><TD>&#10060; Status SNAPSHOT</TD></TR>
+<TR><TD>&#10060; Micronaut 4.9.4</TD></TR>
+<TR><TD>&#128155; Gradle 8.14.2</TD></TR>
+<TR><TD>&#128155; Settings 7.6.4</TD></TR>
+<TR><TD>&#128154; <B>Build: <FONT COLOR="darkgreen">PASSING</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-tracing.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>tracing 7.1.5-SNAPSHOT</B></TD></TR>
+<TR><TD>&#10060; Status SNAPSHOT</TD></TR>
+<TR><TD>&#10060; Micronaut 4.9.8</TD></TR>
+<TR><TD>&#128155; Gradle 8.14.3</TD></TR>
+<TR><TD>&#128155; Settings 7.6.4</TD></TR>
+<TR><TD>&#10060; <B>Build: <FONT COLOR="red">FAILING</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-validation.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>validation 4.10.1-SNAPSHOT</B></TD></TR>
+<TR><TD>&#10060; Status SNAPSHOT</TD></TR>
+<TR><TD>&#10060; Micronaut 4.9.10</TD></TR>
+<TR><TD>&#128155; Gradle 8.14.3</TD></TR>
+<TR><TD>&#128155; Settings 7.6.4</TD></TR>
+<TR><TD>&#128154; <B>Build: <FONT COLOR="darkgreen">PASSING</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-views.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>views 5.9.0-SNAPSHOT</B></TD></TR>
+<TR><TD>&#10060; Status SNAPSHOT</TD></TR>
+<TR><TD>&#10060; Micronaut 4.9.7</TD></TR>
+<TR><TD>&#128155; Gradle 8.14.3</TD></TR>
+<TR><TD>&#128155; Settings 7.6.4</TD></TR>
+<TR><TD>&#10060; <B>Build: <FONT COLOR="red">FAILING</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-xml.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>xml 4.7.1-SNAPSHOT</B></TD></TR>
+<TR><TD>&#10060; Status SNAPSHOT</TD></TR>
+<TR><TD>&#10060; Micronaut 4.9.4</TD></TR>
+<TR><TD>&#128155; Gradle 8.14.2</TD></TR>
+<TR><TD>&#128155; Settings 7.6.4</TD></TR>
+<TR><TD>&#10060; <B>Build: <FONT COLOR="red">FAILING</FONT></B></TD></TR>
+</TABLE></li>
+    </nav>
+    <div class="image-container">
+        <div class="graph">
+            <img id="build-order.png" src="build-order.png">
+        </div>
+        <div class="graph">
+            <img id="project-graph.png" src="project-graph.png">
+        </div>
+<div class="graph">       
+                       <img id="project-graph-acme.png" src="project-graph-acme.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-aot.png" src="project-graph-aot.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-avro.png" src="project-graph-avro.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-aws.png" src="project-graph-aws.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-azure.png" src="project-graph-azure.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-beanvalidation.png" src="project-graph-beanvalidation.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-cache.png" src="project-graph-cache.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-cassandra.png" src="project-graph-cassandra.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-chatbots.png" src="project-graph-chatbots.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-coherence.png" src="project-graph-coherence.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-controlpanel.png" src="project-graph-controlpanel.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-core.png" src="project-graph-core.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-crac.png" src="project-graph-crac.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-data.png" src="project-graph-data.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-discovery.png" src="project-graph-discovery.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-eclipsestore.png" src="project-graph-eclipsestore.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-elasticsearch.png" src="project-graph-elasticsearch.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-email.png" src="project-graph-email.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-flyway.png" src="project-graph-flyway.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-gcp.png" src="project-graph-gcp.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-graal-languages.png" src="project-graph-graal-languages.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-gradle.png" src="project-graph-gradle.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-graphql.png" src="project-graph-graphql.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-groovy.png" src="project-graph-groovy.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-grpc.png" src="project-graph-grpc.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-guice.png" src="project-graph-guice.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-jaxrs.png" src="project-graph-jaxrs.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-jms.png" src="project-graph-jms.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-jmx.png" src="project-graph-jmx.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-jsonschema.png" src="project-graph-jsonschema.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-kafka.png" src="project-graph-kafka.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-kotlin.png" src="project-graph-kotlin.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-kubernetes.png" src="project-graph-kubernetes.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-langchain4j.png" src="project-graph-langchain4j.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-liquibase.png" src="project-graph-liquibase.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-logging.png" src="project-graph-logging.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-mcp.png" src="project-graph-mcp.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-micrometer.png" src="project-graph-micrometer.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-microstream.png" src="project-graph-microstream.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-mongodb.png" src="project-graph-mongodb.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-mqtt.png" src="project-graph-mqtt.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-multitenancy.png" src="project-graph-multitenancy.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-nats.png" src="project-graph-nats.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-neo4j.png" src="project-graph-neo4j.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-objectstorage.png" src="project-graph-objectstorage.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-openapi.png" src="project-graph-openapi.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-opensearch.png" src="project-graph-opensearch.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-oraclecloud.png" src="project-graph-oraclecloud.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-picocli.png" src="project-graph-picocli.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-platform.png" src="project-graph-platform.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-problem.png" src="project-graph-problem.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-pulsar.png" src="project-graph-pulsar.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-r2dbc.png" src="project-graph-r2dbc.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-rabbitmq.png" src="project-graph-rabbitmq.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-reactor.png" src="project-graph-reactor.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-redis.png" src="project-graph-redis.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-rss.png" src="project-graph-rss.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-rxjava2.png" src="project-graph-rxjava2.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-rxjava3.png" src="project-graph-rxjava3.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-security.png" src="project-graph-security.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-serde.png" src="project-graph-serde.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-servlet.png" src="project-graph-servlet.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-session.png" src="project-graph-session.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-sourcegen.png" src="project-graph-sourcegen.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-spring.png" src="project-graph-spring.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-sql.png" src="project-graph-sql.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-test.png" src="project-graph-test.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-testresources.png" src="project-graph-testresources.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-toml.png" src="project-graph-toml.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-tracing.png" src="project-graph-tracing.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-validation.png" src="project-graph-validation.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-views.png" src="project-graph-views.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-xml.png" src="project-graph-xml.png">
+                   </div>
+    </div>
+</div>
+<script>
+    var imageZoom = new ImageZoom(document.getElementsByClassName("graph")[0], {
+    });
+    function showImage(clicked, imageId) {
+        imageZoom.kill();
+        Array.from(document.getElementsByClassName("item")).forEach(i => i.className = "item");
+        clicked.className += " active";
+        var images = Array.from(document.getElementsByClassName("image-container")[0].getElementsByTagName("img")).forEach(i => i.style.display = "none");
+        var image = document.getElementById(imageId);
+        var graph = image.parentElement;
+        image.style.display = "block";
+        imageZoom = new ImageZoom(graph, {
+            fillContainer: true,
+            zoomPosition: "original"
+        });
+    }
+    showImage(document.getElementsByClassName("item")[0], "build-order.png");
+
+    // Basic filtering with no ui...  just type things
+    let search = '';
+    function filter(text) {
+        Array.from(document.getElementsByClassName("item")).forEach(li => {
+            const cell = li.getElementsByTagName("td");
+            if (cell.length === 0) {
+                // Not a module...
+            } else if (cell[0].innerText.includes(text) || text === null) {
+                // make li visible
+                li.style.display = "block";
+            } else {
+                li.style.display = "none";
+            }
+        });
+    }
+    document.addEventListener("keydown", event => {
+        if (event.keyCode >= 65 && event.keyCode <= 90) {
+            search = (search == null ? '' : search) + event.key;
+        } else {
+            search = null;
+        }
+        filter(search);
+    });
+</script>
+</body>
+</html>
