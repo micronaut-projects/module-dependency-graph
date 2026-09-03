@@ -1,0 +1,1000 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        .header {
+            background-color: #333;
+            color: white;
+            padding: 1rem;
+            height: 90px
+        }
+
+        .right {
+            display: block;
+            float: right;
+            line-height: calc(90px - 2em);
+            vertical-align: middle;
+        }
+
+        .right a {
+            color: white;
+        }
+
+        .row {
+            display: flex;
+            height: calc(100% - 90px);
+        }
+
+        nav {
+            flex: 0 100 auto;
+            padding: 1rem;
+            background-color: #333;
+            color: #EEE;
+            overflow-y: scroll;
+        }
+
+        li {
+            list-style-type: none;
+            border-radius: 16px 3px;
+            padding: 12px;
+            font-size: 1.2em;
+            width: 100%;
+            cursor: pointer;
+            margin: 3px;
+            transition: background-color 0.5s ease;
+        }
+
+        li:hover {
+            background-color: #ddd;
+        }
+
+        li.active {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .image-container {
+            flex: 1;
+            padding: 1rem;
+        }
+
+        img {
+            margin: auto;
+            max-width: 100%;
+            max-height: 100%;
+        }
+    </style>
+    <script src="https://unpkg.com/js-image-zoom@0.7.0/js-image-zoom.js" type="application/javascript"></script>
+</head>
+<body>
+<div class="header">
+    <img src="https://micronaut.io/wp-content/uploads/2020/11/MIcronautLogo_Horizontal.svg">
+    <div class="right">Generated at Sep 3, 2026, 11:56:01 AM</div>
+</div>
+<div class="row">
+    <nav>
+        <li class="item" onclick="showImage(this, 'build-order.png')">Build Order</li>
+        <li class="item" onclick="showImage(this, 'project-graph.png')">Project graph</li>
+        <li class="item" onclick="showImage(this, 'project-graph-acme.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>acme ERROR</B></TD></TR>
+<TR><TD>&#128155; Status ERROR</TD></TR>
+<TR><TD>&#10060; Micronaut ERROR</TD></TR>
+<TR><TD>&#128155; Gradle ERROR</TD></TR>
+<TR><TD>&#128155; Settings ERROR</TD></TR>
+<TR><TD>&#128155; <B>Build: <FONT COLOR="yellow">ERROR</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-aot.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>aot ERROR</B></TD></TR>
+<TR><TD>&#128155; Status ERROR</TD></TR>
+<TR><TD>&#10060; Micronaut ERROR</TD></TR>
+<TR><TD>&#128155; Gradle ERROR</TD></TR>
+<TR><TD>&#128155; Settings ERROR</TD></TR>
+<TR><TD>&#128155; <B>Build: <FONT COLOR="yellow">ERROR</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-aws.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>aws ERROR</B></TD></TR>
+<TR><TD>&#128155; Status ERROR</TD></TR>
+<TR><TD>&#10060; Micronaut ERROR</TD></TR>
+<TR><TD>&#128155; Gradle ERROR</TD></TR>
+<TR><TD>&#128155; Settings ERROR</TD></TR>
+<TR><TD>&#128155; <B>Build: <FONT COLOR="yellow">ERROR</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-azure.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>azure ERROR</B></TD></TR>
+<TR><TD>&#128155; Status ERROR</TD></TR>
+<TR><TD>&#10060; Micronaut ERROR</TD></TR>
+<TR><TD>&#128155; Gradle ERROR</TD></TR>
+<TR><TD>&#128155; Settings ERROR</TD></TR>
+<TR><TD>&#128155; <B>Build: <FONT COLOR="yellow">ERROR</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-cache.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>cache ERROR</B></TD></TR>
+<TR><TD>&#128155; Status ERROR</TD></TR>
+<TR><TD>&#10060; Micronaut ERROR</TD></TR>
+<TR><TD>&#128155; Gradle ERROR</TD></TR>
+<TR><TD>&#128155; Settings ERROR</TD></TR>
+<TR><TD>&#128155; <B>Build: <FONT COLOR="yellow">ERROR</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-cassandra.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>cassandra ERROR</B></TD></TR>
+<TR><TD>&#128155; Status ERROR</TD></TR>
+<TR><TD>&#10060; Micronaut ERROR</TD></TR>
+<TR><TD>&#128155; Gradle ERROR</TD></TR>
+<TR><TD>&#128155; Settings ERROR</TD></TR>
+<TR><TD>&#128155; <B>Build: <FONT COLOR="yellow">ERROR</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-chatbots.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>chatbots ERROR</B></TD></TR>
+<TR><TD>&#128155; Status ERROR</TD></TR>
+<TR><TD>&#10060; Micronaut ERROR</TD></TR>
+<TR><TD>&#128155; Gradle ERROR</TD></TR>
+<TR><TD>&#128155; Settings ERROR</TD></TR>
+<TR><TD>&#128155; <B>Build: <FONT COLOR="yellow">ERROR</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-coherence.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>coherence ERROR</B></TD></TR>
+<TR><TD>&#128155; Status ERROR</TD></TR>
+<TR><TD>&#10060; Micronaut ERROR</TD></TR>
+<TR><TD>&#128155; Gradle ERROR</TD></TR>
+<TR><TD>&#128155; Settings ERROR</TD></TR>
+<TR><TD>&#128155; <B>Build: <FONT COLOR="yellow">ERROR</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-controlpanel.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>controlpanel ERROR</B></TD></TR>
+<TR><TD>&#128155; Status ERROR</TD></TR>
+<TR><TD>&#10060; Micronaut ERROR</TD></TR>
+<TR><TD>&#128155; Gradle ERROR</TD></TR>
+<TR><TD>&#128155; Settings ERROR</TD></TR>
+<TR><TD>&#128155; <B>Build: <FONT COLOR="yellow">ERROR</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-core.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>core ERROR</B></TD></TR>
+<TR><TD>&#128155; Status ERROR</TD></TR>
+
+<TR><TD>&#128155; Gradle ERROR</TD></TR>
+<TR><TD>&#128155; Settings ERROR</TD></TR>
+<TR><TD>&#128155; <B>Build: <FONT COLOR="yellow">ERROR</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-crac.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>crac ERROR</B></TD></TR>
+<TR><TD>&#128155; Status ERROR</TD></TR>
+<TR><TD>&#10060; Micronaut ERROR</TD></TR>
+<TR><TD>&#128155; Gradle ERROR</TD></TR>
+<TR><TD>&#128155; Settings ERROR</TD></TR>
+<TR><TD>&#128155; <B>Build: <FONT COLOR="yellow">ERROR</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-data.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>data ERROR</B></TD></TR>
+<TR><TD>&#128155; Status ERROR</TD></TR>
+<TR><TD>&#10060; Micronaut ERROR</TD></TR>
+<TR><TD>&#128155; Gradle ERROR</TD></TR>
+<TR><TD>&#128155; Settings ERROR</TD></TR>
+<TR><TD>&#128155; <B>Build: <FONT COLOR="yellow">ERROR</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-discoveryclient.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>discoveryclient ERROR</B></TD></TR>
+<TR><TD>&#128155; Status ERROR</TD></TR>
+<TR><TD>&#10060; Micronaut ERROR</TD></TR>
+<TR><TD>&#128155; Gradle ERROR</TD></TR>
+<TR><TD>&#128155; Settings ERROR</TD></TR>
+<TR><TD>&#128155; <B>Build: <FONT COLOR="yellow">ERROR</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-eclipsestore.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>eclipsestore ERROR</B></TD></TR>
+<TR><TD>&#128155; Status ERROR</TD></TR>
+<TR><TD>&#10060; Micronaut ERROR</TD></TR>
+<TR><TD>&#128155; Gradle ERROR</TD></TR>
+<TR><TD>&#128155; Settings ERROR</TD></TR>
+<TR><TD>&#128155; <B>Build: <FONT COLOR="yellow">ERROR</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-elasticsearch.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>elasticsearch ERROR</B></TD></TR>
+<TR><TD>&#128155; Status ERROR</TD></TR>
+<TR><TD>&#10060; Micronaut ERROR</TD></TR>
+<TR><TD>&#128155; Gradle ERROR</TD></TR>
+<TR><TD>&#128155; Settings ERROR</TD></TR>
+<TR><TD>&#128155; <B>Build: <FONT COLOR="yellow">ERROR</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-email.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>email ERROR</B></TD></TR>
+<TR><TD>&#128155; Status ERROR</TD></TR>
+<TR><TD>&#10060; Micronaut ERROR</TD></TR>
+<TR><TD>&#128155; Gradle ERROR</TD></TR>
+<TR><TD>&#128155; Settings ERROR</TD></TR>
+<TR><TD>&#128155; <B>Build: <FONT COLOR="yellow">ERROR</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-flyway.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>flyway ERROR</B></TD></TR>
+<TR><TD>&#128155; Status ERROR</TD></TR>
+<TR><TD>&#10060; Micronaut ERROR</TD></TR>
+<TR><TD>&#128155; Gradle ERROR</TD></TR>
+<TR><TD>&#128155; Settings ERROR</TD></TR>
+<TR><TD>&#128155; <B>Build: <FONT COLOR="yellow">ERROR</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-fun.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>fun ERROR</B></TD></TR>
+<TR><TD>&#128155; Status ERROR</TD></TR>
+<TR><TD>&#10060; Micronaut ERROR</TD></TR>
+<TR><TD>&#128155; Gradle ERROR</TD></TR>
+<TR><TD>&#128155; Settings ERROR</TD></TR>
+<TR><TD>&#128155; <B>Build: <FONT COLOR="yellow">ERROR</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-gcp.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>gcp ERROR</B></TD></TR>
+<TR><TD>&#128155; Status ERROR</TD></TR>
+<TR><TD>&#10060; Micronaut ERROR</TD></TR>
+<TR><TD>&#128155; Gradle ERROR</TD></TR>
+<TR><TD>&#128155; Settings ERROR</TD></TR>
+<TR><TD>&#128155; <B>Build: <FONT COLOR="yellow">ERROR</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-graallanguages.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>graallanguages ERROR</B></TD></TR>
+<TR><TD>&#128155; Status ERROR</TD></TR>
+<TR><TD>&#10060; Micronaut ERROR</TD></TR>
+<TR><TD>&#128155; Gradle ERROR</TD></TR>
+<TR><TD>&#128155; Settings ERROR</TD></TR>
+<TR><TD>&#128155; <B>Build: <FONT COLOR="yellow">ERROR</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-gradle.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>gradle 5.0.3-SNAPSHOT</B></TD></TR>
+<TR><TD>&#10060; Status SNAPSHOT</TD></TR>
+<TR><TD>&#10060; Micronaut unknown</TD></TR>
+<TR><TD>&#128155; Gradle 9.3.0</TD></TR>
+<TR><TD>&#128155; Settings 8.0.0</TD></TR>
+<TR><TD>&#128154; <B>Build: <FONT COLOR="darkgreen">PASSING</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-graphql.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>graphql ERROR</B></TD></TR>
+<TR><TD>&#128155; Status ERROR</TD></TR>
+<TR><TD>&#10060; Micronaut ERROR</TD></TR>
+<TR><TD>&#128155; Gradle ERROR</TD></TR>
+<TR><TD>&#128155; Settings ERROR</TD></TR>
+<TR><TD>&#128155; <B>Build: <FONT COLOR="yellow">ERROR</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-groovy.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>groovy ERROR</B></TD></TR>
+<TR><TD>&#128155; Status ERROR</TD></TR>
+<TR><TD>&#10060; Micronaut ERROR</TD></TR>
+<TR><TD>&#128155; Gradle ERROR</TD></TR>
+<TR><TD>&#128155; Settings ERROR</TD></TR>
+<TR><TD>&#128155; <B>Build: <FONT COLOR="yellow">ERROR</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-grpc.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>grpc ERROR</B></TD></TR>
+<TR><TD>&#128155; Status ERROR</TD></TR>
+<TR><TD>&#10060; Micronaut ERROR</TD></TR>
+<TR><TD>&#128155; Gradle ERROR</TD></TR>
+<TR><TD>&#128155; Settings ERROR</TD></TR>
+<TR><TD>&#128155; <B>Build: <FONT COLOR="yellow">ERROR</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-guice.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>guice ERROR</B></TD></TR>
+<TR><TD>&#128155; Status ERROR</TD></TR>
+<TR><TD>&#10060; Micronaut ERROR</TD></TR>
+<TR><TD>&#128155; Gradle ERROR</TD></TR>
+<TR><TD>&#128155; Settings ERROR</TD></TR>
+<TR><TD>&#128155; <B>Build: <FONT COLOR="yellow">ERROR</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-guidessdk.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>guidessdk ERROR</B></TD></TR>
+<TR><TD>&#128155; Status ERROR</TD></TR>
+<TR><TD>&#10060; Micronaut ERROR</TD></TR>
+<TR><TD>&#128155; Gradle ERROR</TD></TR>
+<TR><TD>&#128155; Settings ERROR</TD></TR>
+<TR><TD>&#128155; <B>Build: <FONT COLOR="yellow">ERROR</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-hibernatevalidator.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>hibernatevalidator ERROR</B></TD></TR>
+<TR><TD>&#128155; Status ERROR</TD></TR>
+<TR><TD>&#10060; Micronaut ERROR</TD></TR>
+<TR><TD>&#128155; Gradle ERROR</TD></TR>
+<TR><TD>&#128155; Settings ERROR</TD></TR>
+<TR><TD>&#128155; <B>Build: <FONT COLOR="yellow">ERROR</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-jacksonxml.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>jacksonxml ERROR</B></TD></TR>
+<TR><TD>&#128155; Status ERROR</TD></TR>
+<TR><TD>&#10060; Micronaut ERROR</TD></TR>
+<TR><TD>&#128155; Gradle ERROR</TD></TR>
+<TR><TD>&#128155; Settings ERROR</TD></TR>
+<TR><TD>&#128155; <B>Build: <FONT COLOR="yellow">ERROR</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-jakartael.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>jakartael ERROR</B></TD></TR>
+<TR><TD>&#128155; Status ERROR</TD></TR>
+<TR><TD>&#10060; Micronaut ERROR</TD></TR>
+<TR><TD>&#128155; Gradle ERROR</TD></TR>
+<TR><TD>&#128155; Settings ERROR</TD></TR>
+<TR><TD>&#128155; <B>Build: <FONT COLOR="yellow">ERROR</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-jaxrs.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>jaxrs ERROR</B></TD></TR>
+<TR><TD>&#128155; Status ERROR</TD></TR>
+<TR><TD>&#10060; Micronaut ERROR</TD></TR>
+<TR><TD>&#128155; Gradle ERROR</TD></TR>
+<TR><TD>&#128155; Settings ERROR</TD></TR>
+<TR><TD>&#128155; <B>Build: <FONT COLOR="yellow">ERROR</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-jms.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>jms ERROR</B></TD></TR>
+<TR><TD>&#128155; Status ERROR</TD></TR>
+<TR><TD>&#10060; Micronaut ERROR</TD></TR>
+<TR><TD>&#128155; Gradle ERROR</TD></TR>
+<TR><TD>&#128155; Settings ERROR</TD></TR>
+<TR><TD>&#128155; <B>Build: <FONT COLOR="yellow">ERROR</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-jmx.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>jmx ERROR</B></TD></TR>
+<TR><TD>&#128155; Status ERROR</TD></TR>
+<TR><TD>&#10060; Micronaut ERROR</TD></TR>
+<TR><TD>&#128155; Gradle ERROR</TD></TR>
+<TR><TD>&#128155; Settings ERROR</TD></TR>
+<TR><TD>&#128155; <B>Build: <FONT COLOR="yellow">ERROR</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-jsonschema.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>jsonschema ERROR</B></TD></TR>
+<TR><TD>&#128155; Status ERROR</TD></TR>
+<TR><TD>&#10060; Micronaut ERROR</TD></TR>
+<TR><TD>&#128155; Gradle ERROR</TD></TR>
+<TR><TD>&#128155; Settings ERROR</TD></TR>
+<TR><TD>&#128155; <B>Build: <FONT COLOR="yellow">ERROR</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-kafka.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>kafka ERROR</B></TD></TR>
+<TR><TD>&#128155; Status ERROR</TD></TR>
+<TR><TD>&#10060; Micronaut ERROR</TD></TR>
+<TR><TD>&#128155; Gradle ERROR</TD></TR>
+<TR><TD>&#128155; Settings ERROR</TD></TR>
+<TR><TD>&#128155; <B>Build: <FONT COLOR="yellow">ERROR</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-kotlin.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>kotlin ERROR</B></TD></TR>
+<TR><TD>&#128155; Status ERROR</TD></TR>
+<TR><TD>&#10060; Micronaut ERROR</TD></TR>
+<TR><TD>&#128155; Gradle ERROR</TD></TR>
+<TR><TD>&#128155; Settings ERROR</TD></TR>
+<TR><TD>&#128155; <B>Build: <FONT COLOR="yellow">ERROR</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-kubernetes.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>kubernetes ERROR</B></TD></TR>
+<TR><TD>&#128155; Status ERROR</TD></TR>
+<TR><TD>&#10060; Micronaut ERROR</TD></TR>
+<TR><TD>&#128155; Gradle ERROR</TD></TR>
+<TR><TD>&#128155; Settings ERROR</TD></TR>
+<TR><TD>&#128155; <B>Build: <FONT COLOR="yellow">ERROR</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-langchain4j.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>langchain4j ERROR</B></TD></TR>
+<TR><TD>&#128155; Status ERROR</TD></TR>
+<TR><TD>&#10060; Micronaut ERROR</TD></TR>
+<TR><TD>&#128155; Gradle ERROR</TD></TR>
+<TR><TD>&#128155; Settings ERROR</TD></TR>
+<TR><TD>&#128155; <B>Build: <FONT COLOR="yellow">ERROR</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-liquibase.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>liquibase ERROR</B></TD></TR>
+<TR><TD>&#128155; Status ERROR</TD></TR>
+<TR><TD>&#10060; Micronaut ERROR</TD></TR>
+<TR><TD>&#128155; Gradle ERROR</TD></TR>
+<TR><TD>&#128155; Settings ERROR</TD></TR>
+<TR><TD>&#128155; <B>Build: <FONT COLOR="yellow">ERROR</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-logging.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>logging ERROR</B></TD></TR>
+<TR><TD>&#128155; Status ERROR</TD></TR>
+<TR><TD>&#10060; Micronaut ERROR</TD></TR>
+<TR><TD>&#128155; Gradle ERROR</TD></TR>
+<TR><TD>&#128155; Settings ERROR</TD></TR>
+<TR><TD>&#128155; <B>Build: <FONT COLOR="yellow">ERROR</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-mcp.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>mcp ERROR</B></TD></TR>
+<TR><TD>&#128155; Status ERROR</TD></TR>
+<TR><TD>&#10060; Micronaut ERROR</TD></TR>
+<TR><TD>&#128155; Gradle ERROR</TD></TR>
+<TR><TD>&#128155; Settings ERROR</TD></TR>
+<TR><TD>&#128155; <B>Build: <FONT COLOR="yellow">ERROR</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-micrometer.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>micrometer ERROR</B></TD></TR>
+<TR><TD>&#128155; Status ERROR</TD></TR>
+<TR><TD>&#10060; Micronaut ERROR</TD></TR>
+<TR><TD>&#128155; Gradle ERROR</TD></TR>
+<TR><TD>&#128155; Settings ERROR</TD></TR>
+<TR><TD>&#128155; <B>Build: <FONT COLOR="yellow">ERROR</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-microstream.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>microstream 2.9.1-SNAPSHOT</B></TD></TR>
+<TR><TD>&#10060; Status SNAPSHOT</TD></TR>
+<TR><TD>&#10060; Micronaut 4.9.3</TD></TR>
+<TR><TD>&#128155; Gradle 9.1.0</TD></TR>
+<TR><TD>&#128155; Settings 7.6.4</TD></TR>
+<TR><TD>&#10060; <B>Build: <FONT COLOR="red">FAILING</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-mongodb.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>mongodb ERROR</B></TD></TR>
+<TR><TD>&#128155; Status ERROR</TD></TR>
+<TR><TD>&#10060; Micronaut ERROR</TD></TR>
+<TR><TD>&#128155; Gradle ERROR</TD></TR>
+<TR><TD>&#128155; Settings ERROR</TD></TR>
+<TR><TD>&#128155; <B>Build: <FONT COLOR="yellow">ERROR</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-mqtt.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>mqtt ERROR</B></TD></TR>
+<TR><TD>&#128155; Status ERROR</TD></TR>
+<TR><TD>&#10060; Micronaut ERROR</TD></TR>
+<TR><TD>&#128155; Gradle ERROR</TD></TR>
+<TR><TD>&#128155; Settings ERROR</TD></TR>
+<TR><TD>&#128155; <B>Build: <FONT COLOR="yellow">ERROR</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-multitenancy.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>multitenancy ERROR</B></TD></TR>
+<TR><TD>&#128155; Status ERROR</TD></TR>
+<TR><TD>&#10060; Micronaut ERROR</TD></TR>
+<TR><TD>&#128155; Gradle ERROR</TD></TR>
+<TR><TD>&#128155; Settings ERROR</TD></TR>
+<TR><TD>&#128155; <B>Build: <FONT COLOR="yellow">ERROR</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-mutiny.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>mutiny ERROR</B></TD></TR>
+<TR><TD>&#128155; Status ERROR</TD></TR>
+<TR><TD>&#10060; Micronaut ERROR</TD></TR>
+<TR><TD>&#128155; Gradle ERROR</TD></TR>
+<TR><TD>&#128155; Settings ERROR</TD></TR>
+<TR><TD>&#128155; <B>Build: <FONT COLOR="yellow">ERROR</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-nats.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>nats ERROR</B></TD></TR>
+<TR><TD>&#128155; Status ERROR</TD></TR>
+<TR><TD>&#10060; Micronaut ERROR</TD></TR>
+<TR><TD>&#128155; Gradle ERROR</TD></TR>
+<TR><TD>&#128155; Settings ERROR</TD></TR>
+<TR><TD>&#128155; <B>Build: <FONT COLOR="yellow">ERROR</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-neo4j.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>neo4j ERROR</B></TD></TR>
+<TR><TD>&#128155; Status ERROR</TD></TR>
+<TR><TD>&#10060; Micronaut ERROR</TD></TR>
+<TR><TD>&#128155; Gradle ERROR</TD></TR>
+<TR><TD>&#128155; Settings ERROR</TD></TR>
+<TR><TD>&#128155; <B>Build: <FONT COLOR="yellow">ERROR</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-objectstorage.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>objectstorage ERROR</B></TD></TR>
+<TR><TD>&#128155; Status ERROR</TD></TR>
+<TR><TD>&#10060; Micronaut ERROR</TD></TR>
+<TR><TD>&#128155; Gradle ERROR</TD></TR>
+<TR><TD>&#128155; Settings ERROR</TD></TR>
+<TR><TD>&#128155; <B>Build: <FONT COLOR="yellow">ERROR</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-openapi.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>openapi ERROR</B></TD></TR>
+<TR><TD>&#128155; Status ERROR</TD></TR>
+<TR><TD>&#10060; Micronaut ERROR</TD></TR>
+<TR><TD>&#128155; Gradle ERROR</TD></TR>
+<TR><TD>&#128155; Settings ERROR</TD></TR>
+<TR><TD>&#128155; <B>Build: <FONT COLOR="yellow">ERROR</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-openrewrite.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>openrewrite ERROR</B></TD></TR>
+<TR><TD>&#128155; Status ERROR</TD></TR>
+<TR><TD>&#10060; Micronaut ERROR</TD></TR>
+<TR><TD>&#128155; Gradle ERROR</TD></TR>
+<TR><TD>&#128155; Settings ERROR</TD></TR>
+<TR><TD>&#128155; <B>Build: <FONT COLOR="yellow">ERROR</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-opensearch.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>opensearch ERROR</B></TD></TR>
+<TR><TD>&#128155; Status ERROR</TD></TR>
+<TR><TD>&#10060; Micronaut ERROR</TD></TR>
+<TR><TD>&#128155; Gradle ERROR</TD></TR>
+<TR><TD>&#128155; Settings ERROR</TD></TR>
+<TR><TD>&#128155; <B>Build: <FONT COLOR="yellow">ERROR</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-oraclecloud.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>oraclecloud ERROR</B></TD></TR>
+<TR><TD>&#128155; Status ERROR</TD></TR>
+<TR><TD>&#10060; Micronaut ERROR</TD></TR>
+<TR><TD>&#128155; Gradle ERROR</TD></TR>
+<TR><TD>&#128155; Settings ERROR</TD></TR>
+<TR><TD>&#128155; <B>Build: <FONT COLOR="yellow">ERROR</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-petclinic.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>petclinic ERROR</B></TD></TR>
+<TR><TD>&#128155; Status ERROR</TD></TR>
+<TR><TD>&#10060; Micronaut ERROR</TD></TR>
+<TR><TD>&#128155; Gradle ERROR</TD></TR>
+<TR><TD>&#128155; Settings ERROR</TD></TR>
+<TR><TD>&#128155; <B>Build: <FONT COLOR="yellow">ERROR</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-picocli.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>picocli ERROR</B></TD></TR>
+<TR><TD>&#128155; Status ERROR</TD></TR>
+<TR><TD>&#10060; Micronaut ERROR</TD></TR>
+<TR><TD>&#128155; Gradle ERROR</TD></TR>
+<TR><TD>&#128155; Settings ERROR</TD></TR>
+<TR><TD>&#128155; <B>Build: <FONT COLOR="yellow">ERROR</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-platform.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>platform ERROR</B></TD></TR>
+<TR><TD>&#128155; Status ERROR</TD></TR>
+<TR><TD>&#10060; Micronaut ERROR</TD></TR>
+<TR><TD>&#128155; Gradle ERROR</TD></TR>
+<TR><TD>&#128155; Settings ERROR</TD></TR>
+<TR><TD>&#128155; <B>Build: <FONT COLOR="yellow">ERROR</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-problemjson.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>problemjson ERROR</B></TD></TR>
+<TR><TD>&#128155; Status ERROR</TD></TR>
+<TR><TD>&#10060; Micronaut ERROR</TD></TR>
+<TR><TD>&#128155; Gradle ERROR</TD></TR>
+<TR><TD>&#128155; Settings ERROR</TD></TR>
+<TR><TD>&#128155; <B>Build: <FONT COLOR="yellow">ERROR</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-pulsar.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>pulsar ERROR</B></TD></TR>
+<TR><TD>&#128155; Status ERROR</TD></TR>
+<TR><TD>&#10060; Micronaut ERROR</TD></TR>
+<TR><TD>&#128155; Gradle ERROR</TD></TR>
+<TR><TD>&#128155; Settings ERROR</TD></TR>
+<TR><TD>&#128155; <B>Build: <FONT COLOR="yellow">ERROR</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-r2dbc.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>r2dbc ERROR</B></TD></TR>
+<TR><TD>&#128155; Status ERROR</TD></TR>
+<TR><TD>&#10060; Micronaut ERROR</TD></TR>
+<TR><TD>&#128155; Gradle ERROR</TD></TR>
+<TR><TD>&#128155; Settings ERROR</TD></TR>
+<TR><TD>&#128155; <B>Build: <FONT COLOR="yellow">ERROR</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-rabbitmq.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>rabbitmq ERROR</B></TD></TR>
+<TR><TD>&#128155; Status ERROR</TD></TR>
+<TR><TD>&#10060; Micronaut ERROR</TD></TR>
+<TR><TD>&#128155; Gradle ERROR</TD></TR>
+<TR><TD>&#128155; Settings ERROR</TD></TR>
+<TR><TD>&#128155; <B>Build: <FONT COLOR="yellow">ERROR</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-reactor.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>reactor ERROR</B></TD></TR>
+<TR><TD>&#128155; Status ERROR</TD></TR>
+<TR><TD>&#10060; Micronaut ERROR</TD></TR>
+<TR><TD>&#128155; Gradle ERROR</TD></TR>
+<TR><TD>&#128155; Settings ERROR</TD></TR>
+<TR><TD>&#128155; <B>Build: <FONT COLOR="yellow">ERROR</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-redis.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>redis ERROR</B></TD></TR>
+<TR><TD>&#128155; Status ERROR</TD></TR>
+<TR><TD>&#10060; Micronaut ERROR</TD></TR>
+<TR><TD>&#128155; Gradle ERROR</TD></TR>
+<TR><TD>&#128155; Settings ERROR</TD></TR>
+<TR><TD>&#128155; <B>Build: <FONT COLOR="yellow">ERROR</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-rss.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>rss ERROR</B></TD></TR>
+<TR><TD>&#128155; Status ERROR</TD></TR>
+<TR><TD>&#10060; Micronaut ERROR</TD></TR>
+<TR><TD>&#128155; Gradle ERROR</TD></TR>
+<TR><TD>&#128155; Settings ERROR</TD></TR>
+<TR><TD>&#128155; <B>Build: <FONT COLOR="yellow">ERROR</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-rxjava2.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>rxjava2 2.9.1-SNAPSHOT</B></TD></TR>
+<TR><TD>&#10060; Status SNAPSHOT</TD></TR>
+<TR><TD>&#10060; Micronaut 4.10.8</TD></TR>
+<TR><TD>&#128155; Gradle 9.1.0</TD></TR>
+<TR><TD>&#128155; Settings 7.6.6</TD></TR>
+<TR><TD>&#10060; <B>Build: <FONT COLOR="red">FAILING</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-rxjava3.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>rxjava3 ERROR</B></TD></TR>
+<TR><TD>&#128155; Status ERROR</TD></TR>
+<TR><TD>&#10060; Micronaut ERROR</TD></TR>
+<TR><TD>&#128155; Gradle ERROR</TD></TR>
+<TR><TD>&#128155; Settings ERROR</TD></TR>
+<TR><TD>&#128155; <B>Build: <FONT COLOR="yellow">ERROR</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-scala.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>scala ERROR</B></TD></TR>
+<TR><TD>&#128155; Status ERROR</TD></TR>
+<TR><TD>&#10060; Micronaut ERROR</TD></TR>
+<TR><TD>&#128155; Gradle ERROR</TD></TR>
+<TR><TD>&#128155; Settings ERROR</TD></TR>
+<TR><TD>&#128155; <B>Build: <FONT COLOR="yellow">ERROR</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-security.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>security ERROR</B></TD></TR>
+<TR><TD>&#128155; Status ERROR</TD></TR>
+<TR><TD>&#10060; Micronaut ERROR</TD></TR>
+<TR><TD>&#128155; Gradle ERROR</TD></TR>
+<TR><TD>&#128155; Settings ERROR</TD></TR>
+<TR><TD>&#128155; <B>Build: <FONT COLOR="yellow">ERROR</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-serialization.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>serialization ERROR</B></TD></TR>
+<TR><TD>&#128155; Status ERROR</TD></TR>
+<TR><TD>&#10060; Micronaut ERROR</TD></TR>
+<TR><TD>&#128155; Gradle ERROR</TD></TR>
+<TR><TD>&#128155; Settings ERROR</TD></TR>
+<TR><TD>&#128155; <B>Build: <FONT COLOR="yellow">ERROR</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-servlet.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>servlet ERROR</B></TD></TR>
+<TR><TD>&#128155; Status ERROR</TD></TR>
+<TR><TD>&#10060; Micronaut ERROR</TD></TR>
+<TR><TD>&#128155; Gradle ERROR</TD></TR>
+<TR><TD>&#128155; Settings ERROR</TD></TR>
+<TR><TD>&#128155; <B>Build: <FONT COLOR="yellow">ERROR</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-sourcegen.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>sourcegen ERROR</B></TD></TR>
+<TR><TD>&#128155; Status ERROR</TD></TR>
+<TR><TD>&#10060; Micronaut ERROR</TD></TR>
+<TR><TD>&#128155; Gradle ERROR</TD></TR>
+<TR><TD>&#128155; Settings ERROR</TD></TR>
+<TR><TD>&#128155; <B>Build: <FONT COLOR="yellow">ERROR</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-spring.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>spring ERROR</B></TD></TR>
+<TR><TD>&#128155; Status ERROR</TD></TR>
+<TR><TD>&#10060; Micronaut ERROR</TD></TR>
+<TR><TD>&#128155; Gradle ERROR</TD></TR>
+<TR><TD>&#128155; Settings ERROR</TD></TR>
+<TR><TD>&#128155; <B>Build: <FONT COLOR="yellow">ERROR</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-sql.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>sql ERROR</B></TD></TR>
+<TR><TD>&#128155; Status ERROR</TD></TR>
+<TR><TD>&#10060; Micronaut ERROR</TD></TR>
+<TR><TD>&#128155; Gradle ERROR</TD></TR>
+<TR><TD>&#128155; Settings ERROR</TD></TR>
+<TR><TD>&#128155; <B>Build: <FONT COLOR="yellow">ERROR</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-test.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>test ERROR</B></TD></TR>
+<TR><TD>&#128155; Status ERROR</TD></TR>
+<TR><TD>&#10060; Micronaut ERROR</TD></TR>
+<TR><TD>&#128155; Gradle ERROR</TD></TR>
+<TR><TD>&#128155; Settings ERROR</TD></TR>
+<TR><TD>&#128155; <B>Build: <FONT COLOR="yellow">ERROR</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-testresources.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>testresources ERROR</B></TD></TR>
+<TR><TD>&#128155; Status ERROR</TD></TR>
+<TR><TD>&#10060; Micronaut ERROR</TD></TR>
+<TR><TD>&#128155; Gradle ERROR</TD></TR>
+<TR><TD>&#128155; Settings ERROR</TD></TR>
+<TR><TD>&#128155; <B>Build: <FONT COLOR="yellow">ERROR</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-toml.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>toml ERROR</B></TD></TR>
+<TR><TD>&#128155; Status ERROR</TD></TR>
+<TR><TD>&#10060; Micronaut ERROR</TD></TR>
+<TR><TD>&#128155; Gradle ERROR</TD></TR>
+<TR><TD>&#128155; Settings ERROR</TD></TR>
+<TR><TD>&#128155; <B>Build: <FONT COLOR="yellow">ERROR</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-tracing.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>tracing ERROR</B></TD></TR>
+<TR><TD>&#128155; Status ERROR</TD></TR>
+<TR><TD>&#10060; Micronaut ERROR</TD></TR>
+<TR><TD>&#128155; Gradle ERROR</TD></TR>
+<TR><TD>&#128155; Settings ERROR</TD></TR>
+<TR><TD>&#128155; <B>Build: <FONT COLOR="yellow">ERROR</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-validation.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>validation ERROR</B></TD></TR>
+<TR><TD>&#128155; Status ERROR</TD></TR>
+<TR><TD>&#10060; Micronaut ERROR</TD></TR>
+<TR><TD>&#128155; Gradle ERROR</TD></TR>
+<TR><TD>&#128155; Settings ERROR</TD></TR>
+<TR><TD>&#128155; <B>Build: <FONT COLOR="yellow">ERROR</FONT></B></TD></TR>
+</TABLE></li>
+        <li class="item" onclick="showImage(this, 'project-graph-views.png')"><TABLE BORDER="0" CELLSPACING="1" CELLPADDING="1" STYLE="rounded">
+<TR><TD><B>views ERROR</B></TD></TR>
+<TR><TD>&#128155; Status ERROR</TD></TR>
+<TR><TD>&#10060; Micronaut ERROR</TD></TR>
+<TR><TD>&#128155; Gradle ERROR</TD></TR>
+<TR><TD>&#128155; Settings ERROR</TD></TR>
+<TR><TD>&#128155; <B>Build: <FONT COLOR="yellow">ERROR</FONT></B></TD></TR>
+</TABLE></li>
+    </nav>
+    <div class="image-container">
+        <div class="graph">
+            <img id="build-order.png" src="build-order.png">
+        </div>
+        <div class="graph">
+            <img id="project-graph.png" src="project-graph.png">
+        </div>
+<div class="graph">       
+                       <img id="project-graph-acme.png" src="project-graph-acme.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-aot.png" src="project-graph-aot.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-aws.png" src="project-graph-aws.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-azure.png" src="project-graph-azure.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-cache.png" src="project-graph-cache.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-cassandra.png" src="project-graph-cassandra.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-chatbots.png" src="project-graph-chatbots.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-coherence.png" src="project-graph-coherence.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-controlpanel.png" src="project-graph-controlpanel.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-core.png" src="project-graph-core.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-crac.png" src="project-graph-crac.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-data.png" src="project-graph-data.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-discoveryclient.png" src="project-graph-discoveryclient.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-eclipsestore.png" src="project-graph-eclipsestore.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-elasticsearch.png" src="project-graph-elasticsearch.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-email.png" src="project-graph-email.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-flyway.png" src="project-graph-flyway.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-fun.png" src="project-graph-fun.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-gcp.png" src="project-graph-gcp.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-graallanguages.png" src="project-graph-graallanguages.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-gradle.png" src="project-graph-gradle.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-graphql.png" src="project-graph-graphql.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-groovy.png" src="project-graph-groovy.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-grpc.png" src="project-graph-grpc.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-guice.png" src="project-graph-guice.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-guidessdk.png" src="project-graph-guidessdk.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-hibernatevalidator.png" src="project-graph-hibernatevalidator.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-jacksonxml.png" src="project-graph-jacksonxml.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-jakartael.png" src="project-graph-jakartael.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-jaxrs.png" src="project-graph-jaxrs.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-jms.png" src="project-graph-jms.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-jmx.png" src="project-graph-jmx.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-jsonschema.png" src="project-graph-jsonschema.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-kafka.png" src="project-graph-kafka.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-kotlin.png" src="project-graph-kotlin.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-kubernetes.png" src="project-graph-kubernetes.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-langchain4j.png" src="project-graph-langchain4j.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-liquibase.png" src="project-graph-liquibase.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-logging.png" src="project-graph-logging.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-mcp.png" src="project-graph-mcp.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-micrometer.png" src="project-graph-micrometer.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-microstream.png" src="project-graph-microstream.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-mongodb.png" src="project-graph-mongodb.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-mqtt.png" src="project-graph-mqtt.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-multitenancy.png" src="project-graph-multitenancy.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-mutiny.png" src="project-graph-mutiny.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-nats.png" src="project-graph-nats.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-neo4j.png" src="project-graph-neo4j.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-objectstorage.png" src="project-graph-objectstorage.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-openapi.png" src="project-graph-openapi.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-openrewrite.png" src="project-graph-openrewrite.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-opensearch.png" src="project-graph-opensearch.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-oraclecloud.png" src="project-graph-oraclecloud.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-petclinic.png" src="project-graph-petclinic.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-picocli.png" src="project-graph-picocli.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-platform.png" src="project-graph-platform.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-problemjson.png" src="project-graph-problemjson.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-pulsar.png" src="project-graph-pulsar.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-r2dbc.png" src="project-graph-r2dbc.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-rabbitmq.png" src="project-graph-rabbitmq.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-reactor.png" src="project-graph-reactor.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-redis.png" src="project-graph-redis.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-rss.png" src="project-graph-rss.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-rxjava2.png" src="project-graph-rxjava2.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-rxjava3.png" src="project-graph-rxjava3.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-scala.png" src="project-graph-scala.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-security.png" src="project-graph-security.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-serialization.png" src="project-graph-serialization.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-servlet.png" src="project-graph-servlet.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-sourcegen.png" src="project-graph-sourcegen.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-spring.png" src="project-graph-spring.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-sql.png" src="project-graph-sql.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-test.png" src="project-graph-test.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-testresources.png" src="project-graph-testresources.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-toml.png" src="project-graph-toml.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-tracing.png" src="project-graph-tracing.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-validation.png" src="project-graph-validation.png">
+                   </div>
+<div class="graph">       
+                       <img id="project-graph-views.png" src="project-graph-views.png">
+                   </div>
+    </div>
+</div>
+<script>
+    var imageZoom = new ImageZoom(document.getElementsByClassName("graph")[0], {
+    });
+    function showImage(clicked, imageId) {
+        imageZoom.kill();
+        Array.from(document.getElementsByClassName("item")).forEach(i => i.className = "item");
+        clicked.className += " active";
+        var images = Array.from(document.getElementsByClassName("image-container")[0].getElementsByTagName("img")).forEach(i => i.style.display = "none");
+        var image = document.getElementById(imageId);
+        var graph = image.parentElement;
+        image.style.display = "block";
+        imageZoom = new ImageZoom(graph, {
+            fillContainer: true,
+            zoomPosition: "original"
+        });
+    }
+    showImage(document.getElementsByClassName("item")[0], "build-order.png");
+
+    // Basic filtering with no ui...  just type things
+    let search = '';
+    function filter(text) {
+        Array.from(document.getElementsByClassName("item")).forEach(li => {
+            const cell = li.getElementsByTagName("td");
+            if (cell.length === 0) {
+                // Not a module...
+            } else if (cell[0].innerText.includes(text) || text === null) {
+                // make li visible
+                li.style.display = "block";
+            } else {
+                li.style.display = "none";
+            }
+        });
+    }
+    document.addEventListener("keydown", event => {
+        if (event.keyCode >= 65 && event.keyCode <= 90) {
+            search = (search == null ? '' : search) + event.key;
+        } else {
+            search = null;
+        }
+        filter(search);
+    });
+</script>
+</body>
+</html>
